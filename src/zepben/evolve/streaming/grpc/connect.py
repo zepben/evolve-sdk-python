@@ -13,7 +13,7 @@ import grpc
 import requests
 import json
 from jose import jwt
-from datetime import datetime
+from datetime import datetime, date
 from zepben.evolve.streaming.exceptions import AuthException
 
 __all__ = ["connect", "connect_async"]
@@ -22,35 +22,50 @@ _AUTH_HEADER_KEY = 'authorization'
 
 class AuthTokenPlugin(grpc.AuthMetadataPlugin):
 
-    def __init__(self, host, conf_address, client_id, client_secret):
-        self.host = host
+    def __init__(self, conf_address, client_id, client_secret):
         self.conf_address = conf_address
         self.client_id = client_id
         self.client_secret = client_secret
         self.token = ""
-        self.token_expiry = 0
+        self.token_expiry = datetime.min
         self._refresh_token()
 
     def __call__(self, context, callback):
-        if datetime.utcnow().timestamp() > self.token_expiry:
+        if datetime.utcnow() > self.token_expiry:
             self._refresh_token()
         callback(((_AUTH_HEADER_KEY, self.token),), None)
 
     def _refresh_token(self):
-        parts = get_token(self.host, self.conf_address, self.client_id, self.client_secret)
+        parts = get_token(self.conf_address, self.client_id, self.client_secret)
+        if parts is None:
+            self.token = ""
+            self.token_expiry = datetime.max
+            return
         self.token = f"{parts['token_type']} {parts['access_token']}"
-        self.token_expiry = jwt.get_unverified_claims(parts['access_token'])['exp']
+        self.token_expiry = datetime.fromtimestamp(jwt.get_unverified_claims(parts['access_token'])['exp'])
 
 
-def get_token(addr, conf_address, client_id, client_secret):
+def get_token(conf_address, client_id, client_secret):
+    """
+    'conf_address` The address of the auth config endpoint to fetch auth details
+    `client_id` The client ID for requesting authentication
+    `client_secret` The corresponding secret for `client_id`
+    Raises `AuthException` if a JWT couldn't be retrieved.
+    Returns The JWT if auth is enabled, otherwise None
+    """
     # Get the configuration TODO: this probably needs to be OAuth2 compliant or something
-    with requests.session() as session:
-        with session.get(conf_address) as resp:
-            result = json.loads(resp.text)
-            domain = result["dom"]
-            aud = result["aud"]
-        with session.post(domain, data={'client_id': client_id, 'client_secret': client_secret, 'audience': aud, 'grant_type': 'client_credentials'}) as resp:
-            token = json.loads(resp.text)
+    try:
+        with requests.session() as session:
+            with session.get(conf_address) as resp:
+                result = json.loads(resp.text)
+                if result["authType"] == "NONE":
+                    return None
+                domain = result["issuer"]
+                aud = result["audience"]
+            with session.post(domain, data={'client_id': client_id, 'client_secret': client_secret, 'audience': aud, 'grant_type': 'client_credentials'}) as resp:
+                token = json.loads(resp.text)
+    except Exception as e:
+        raise AuthException(e)
     if 'error' in token:
         raise AuthException(f"{token['error']}: {token['error_description']}")
     return token
@@ -73,7 +88,7 @@ def _conn(host: str = "localhost", rpc_port: int = 50051, conf_address: str = "h
     """
     # TODO: make this more robust so it can handle SSL without client verification
     if pkey and cert and client_id and client_secret:
-        call_credentials = grpc.metadata_call_credentials(AuthTokenPlugin(host, conf_address, client_id, client_secret))
+        call_credentials = grpc.metadata_call_credentials(AuthTokenPlugin(conf_address, client_id, client_secret))
         # Channel credential will be valid for the entire channel
         channel_credentials = grpc.ssl_channel_credentials(ca, pkey, cert)
         # Combining channel credentials and call credentials together
