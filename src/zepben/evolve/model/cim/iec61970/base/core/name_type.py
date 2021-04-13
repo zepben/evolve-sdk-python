@@ -48,18 +48,18 @@ class NameType(name):
     ## Get all the [Name] instances for the provided [name].
     ## @return A list of [Name]
 
-    def _get_names(self, name: str) -> Collection:
+    def _get_names(self, name: str):
 
         names_list = []
 
         try:
             names_list.append(__names_index[name])
-            return names_list
-        except None:
+            print(names_list)
+
+        except (TypeError, KeyError):
             names_list.append(__names_multi_index[name])
             names_tuple = tuple(names_list)
-            return names_tuple
-
+            print(names_tuple)
 
     ## Ask Kurt - Use list or tuple for immutability?
     ## :? essentially if statement (left statement not null (return), else return right)
