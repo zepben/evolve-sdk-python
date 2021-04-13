@@ -10,7 +10,10 @@ from collections.abc import MutableMapping
 
 from zepben.evolve.model.cim.iec61970.base.core.identified_object import IdentifiedObject
 
-class NameType(IdentifiedObject):
+## @property name Name of the name type.
+## @property description Description of the name type.
+
+class NameType(name):
     """
     Type of name. Possible values for attribute 'name' are implementation dependent but standard profiles may specify types. An enterprise may have multiple
     IT systems each having its own local name for the same object, e.g. a planning system may have different names from an EMS. An object may also have
@@ -19,26 +22,34 @@ class NameType(IdentifiedObject):
     A power system related naming hierarchy may be: Substation, VoltageLevel, Equipment etc. Children of the same parent in such a hierarchy have names that
     typically are unique among them.
     """
-
-
-
     def __init__(self):
 
-        self.__namesIndex = {}
-        self.__namesMultiIndex = {}
+        self.names_index = {}
+        self.names_multi_index = {}
+        self.description = ""
 
+    names_index = __names_index
+    names_multi_index = __names_multi_index
+    names_index_values = __names_index.values()
+    names_multi_index_values = sorted({x for value in __names_multi_index.values() for x in value})
+    names = list(names_index_values)
+    names = names.append(names_multi_index_values)
 
-    def _has_name(self, name: str, __namesIndex, __namesMultiIndex) -> bool:
-        if name in __namesIndex or name in __namesMultiIndex:
-            pass
+    ##  The names for this name type.
+
+    def _has_name(self):
+        if name in __namesIndex or name in __names_multi_index:
+            return True
         else:
-            print("Name does not exist")
+            return False
 
+    ## Get all the [Name] instances for the provided [name].
+    ## @return A list of [Name]
 
+    def _get_names(name):
+        __names_index[name]
 
-
-
-
-
-
+    def _get_or_add_name(name):
+        if __names_index.has_key() == True:
+        existing = __names_index[name]
 

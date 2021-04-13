@@ -21,7 +21,8 @@ class Name():
     @property identifiedObject [IdentifiedObject] for the object
     """
 
-    def __init__(self, name: str, type: NameType, identifiedObject: IdentifiedObject)
+    name : str
 
+    type: NameType
 
-
+    identifiedObject : IdentifiedObject
