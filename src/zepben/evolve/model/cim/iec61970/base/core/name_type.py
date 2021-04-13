@@ -28,16 +28,18 @@ class NameType(name):
         self.names_multi_index = {}
         self.description = ""
 
-    names_index = __names_index
-    names_multi_index = __names_multi_index
+    __names_index = names_index
+    __names_multi_index = names_multi_index
+
     names_index_values = __names_index.values()
     names_multi_index_values = sorted({x for value in __names_multi_index.values() for x in value})
+
     names = list(names_index_values)
     names = names.append(names_multi_index_values)
 
     ##  The names for this name type.
 
-    def _has_name(self):
+    def _has_name(self, name: str) -> bool:
         if name in __namesIndex or name in __names_multi_index:
             return True
         else:
@@ -46,10 +48,28 @@ class NameType(name):
     ## Get all the [Name] instances for the provided [name].
     ## @return A list of [Name]
 
-    def _get_names(name):
-        __names_index[name]
+    def _get_names(self, name: str) -> Collection:
 
-    def _get_or_add_name(name):
-        if __names_index.has_key() == True:
-        existing = __names_index[name]
+        names_list = []
+
+        try:
+            names_list.append(__names_index[name])
+            return names_list
+        except None:
+            names_list.append(__names_multi_index[name])
+            names_tuple = tuple(names_list)
+            return names_tuple
+
+
+    ## Ask Kurt - Use list or tuple for immutability?
+    ## :? essentially if statement (left statement not null (return), else return right)
+    ## Returns mutable list or immutable tuple
+
+
+    def _get_or_add_name(self, name:str, identifiedObject: IdentifiedObject):
+
+        if name in __namesIndex:
+            existing = __names_index[name]
+            if existing.identifiedObject == identifiedObject:
+
 

@@ -21,7 +21,7 @@ class Name():
     @property identifiedObject [IdentifiedObject] for the object
     """
 
-    name : str
+    name : str = ""
 
     type: NameType
 
