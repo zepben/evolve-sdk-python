@@ -7,13 +7,16 @@
 from __future__ import annotations
 
 from collections.abc import MutableMapping
+from typing import Dict, List, Generator
+
+from dataclassy import dataclass
 
 from zepben.evolve.model.cim.iec61970.base.core.identified_object import IdentifiedObject
+from zepben.evolve.model.cim.iec61970.base.core.name import Name
 
-## @property name Name of the name type.
-## @property description Description of the name type.
 
-class NameType(name):
+@dataclass()
+class NameType():
     """
     Type of name. Possible values for attribute 'name' are implementation dependent but standard profiles may specify types. An enterprise may have multiple
     IT systems each having its own local name for the same object, e.g. a planning system may have different names from an EMS. An object may also have
@@ -22,54 +25,119 @@ class NameType(name):
     A power system related naming hierarchy may be: Substation, VoltageLevel, Equipment etc. Children of the same parent in such a hierarchy have names that
     typically are unique among them.
     """
-    def __init__(self):
 
-        self.names_index = {}
-        self.names_multi_index = {}
-        self.description = ""
+    name : str
+    """name of the NameType"""
 
-    __names_index = names_index
-    __names_multi_index = names_multi_index
+    description: str
+    """Description of NameType"""
 
-    names_index_values = __names_index.values()
-    names_multi_index_values = sorted({x for value in __names_multi_index.values() for x in value})
+    _names_index: Dict[str, Name] = dict()
+    _names_multi_index: Dict[str, List[Name]] = dict()
 
-    names = list(names_index_values)
-    names = names.append(names_multi_index_values)
 
-    ##  The names for this name type.
+    @property
+    def names(self) -> Generator[str, None, None]:
+        """The names for this name type."""
 
-    def _has_name(self, name: str) -> bool:
-        if name in __namesIndex or name in __names_multi_index:
+        for names_ in self._names_multi_index.values():
+            for name in names_:
+                yield name
+        for name_ in self._names_index.values():
+            yield name_
+
+
+    def has_name(self, name):
+
+        return name in self._names_index or name in self._names_multi_index
+
+
+    def get_names(self, name):
+        """Get all the [Name] instances for the provided [name]. @return A list of [Name]"""
+
+        names_list = []
+        try:
+            names_list.append(self._names_index[name])
+            print(names_list)
+
+        except (KeyError):
+            names_list.append(self._names_multi_index[name])
+            print(names_list)
+
+        return names_list
+
+
+    def get_or_add_name(self, name, identified_object):
+        """
+            Gets a [Name] for the given [name] and [identifiedObject] combination or adds a new [Name]
+            to this name type with the combination and returns the new instance.
+        """
+
+        if name in self._names_index:
+            existing = self._names_index[name]
+            if existing.identified_object == identified_object:
+                return existing
+
+            else:
+                name_obj = Name(name, self, identified_object)
+                self._names_multi_index[name] = [existing, name_obj]
+                del self._names_index[name]
+                return name_obj
+
+        elif name in self._names_multi_index:
+            for n in self._names_multi_index[name]:
+                if n.identified_object == identified_object:
+                    return n
+
+            else:
+                name_obj = Name(name, self, identified_object)
+                self._names_multi_index[name].append(name_obj)
+        else:
+            name_obj = Name(name, self, identified_object)
+            self._names_index[name] = name_obj
+            return name_obj
+
+
+    def remove_name(self, name: Name):
+        """Removes the [name] from this name type. return true if the name instance was successfully removed"""
+
+        if name.type is not self:
+            return False
+
+        if name.name in self._names_index:
+            del self._names_index[name.name]
+
+            if name.name in self._names_multi_index:
+                names = self._names_multi_index[name.name]
+                names.remove(name)
+
+                if not names:
+                    del self._names_multi_index[name.name]
             return True
         else:
             return False
 
-    ## Get all the [Name] instances for the provided [name].
-    ## @return A list of [Name]
 
-    def _get_names(self, name: str):
-
-        names_list = []
+    def remove_names(self, name: str):
+        """Removes all [Name] instances associated with name [name]. return true if a matching name was removed."""
 
         try:
-            names_list.append(__names_index[name])
-            print(names_list)
-
-        except (TypeError, KeyError):
-            names_list.append(__names_multi_index[name])
-            names_tuple = tuple(names_list)
-            print(names_tuple)
-
-    ## Ask Kurt - Use list or tuple for immutability?
-    ## :? essentially if statement (left statement not null (return), else return right)
-    ## Returns mutable list or immutable tuple
+            del self._names_index[name]
+            return True
+        except KeyError:
+            if name in self._names_multi_index:
+                del self._names_multi_index[name]
+                return True
+            else:
+                return False
 
 
-    def _get_or_add_name(self, name:str, identifiedObject: IdentifiedObject):
+    def clear_names(self) -> NameType:
+        self._names_index = dict()
+        self._names_multi_index = dict()
+        return self
 
-        if name in __namesIndex:
-            existing = __names_index[name]
-            if existing.identifiedObject == identifiedObject:
+
+
 
 

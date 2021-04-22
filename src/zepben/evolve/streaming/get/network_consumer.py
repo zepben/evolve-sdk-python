@@ -246,17 +246,17 @@ class NetworkConsumerClient(CimConsumerClient):
     async def _process_equipment_container(self, service: NetworkService, mrid: str) -> AsyncGenerator[IdentifiedObject, None]:
         responses = self._stub.getEquipmentForContainer(GetEquipmentForContainerRequest(mrid=mrid))
         for response in responses:
-            yield extract_identified_object(service, response.identifiedObject)
+            yield extract_identified_object(service, response.identified_object)
 
     async def _process_feeder(self, service: NetworkService, mrid: str) -> AsyncGenerator[IdentifiedObject, None]:
         responses = self._stub.getCurrentEquipmentForFeeder(GetCurrentEquipmentForFeederRequest(mrid=mrid))
         for response in responses:
-            yield extract_identified_object(service, response.identifiedObject)
+            yield extract_identified_object(service, response.identified_object)
 
     async def _process_restriction(self, service: NetworkService, mrid: str) -> AsyncGenerator[IdentifiedObject, None]:
         responses = self._stub.getEquipmentForRestriction(GetEquipmentForRestrictionRequest(mrid=mrid))
         for response in responses:
-            yield extract_identified_object(service, response.identifiedObject)
+            yield extract_identified_object(service, response.identified_object)
 
     async def _process_connectivitynode(self, service: NetworkService, mrid: str) -> AsyncGenerator[IdentifiedObject, None]:
         responses = self._stub.getTerminalsForNode(GetTerminalsForNodeRequest(mrid=mrid))
@@ -279,7 +279,7 @@ class NetworkConsumerClient(CimConsumerClient):
         if to_fetch:
             responses = self._stub.getIdentifiedObjects(GetIdentifiedObjectsRequest(mrids=to_fetch))
             for response in responses:
-                yield extract_identified_object(service, response.identifiedObject, check_presence=False)  # Already checked presence above
+                yield extract_identified_object(service, response.identified_object, check_presence=False)  # Already checked presence above
         for io in existing:
             yield io
 

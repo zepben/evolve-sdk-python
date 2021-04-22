@@ -12,6 +12,8 @@ from typing import Dict, Generator, Callable, Optional, List, Union, Sized, Set
 
 from zepben.evolve.model.cim.iec61970.base.core.identified_object import IdentifiedObject
 from zepben.evolve.services.common.reference_resolvers import BoundReferenceResolver, UnresolvedReference
+from zepben.evolve.model.cim.iec61970.base.core.name import Name
+from zepben.evolve.model.cim.iec61970.base.core.name_type import NameType
 
 __all__ = ["BaseService"]
 
@@ -52,6 +54,10 @@ class BaseService(object, metaclass=ABCMeta):
         ]
     }
     """
+
+    _name_types: Dict[str, NameType] = dict()
+    name_types: List[NameType] = list()
+
 
     def __contains__(self, mrid: str) -> bool:
         """
@@ -329,3 +335,6 @@ class BaseService(object, metaclass=ABCMeta):
                     if issubclass(_type, obj_type):
                         for obj in object_map.values():
                             yield obj
+
+
+

@@ -93,7 +93,7 @@ class DiagramConsumerClient(CimConsumerClient):
         responses = self._stub.getIdentifiedObjects(GetIdentifiedObjectsRequest(mrids=to_fetch))
         for response in responses:
             og = response.objectGroup
-            io, mrid = extract_identified_object(service, og.identifiedObject)
+            io, mrid = extract_identified_object(service, og.identified_object)
             if io:
                 yield io, mrid
             else:
