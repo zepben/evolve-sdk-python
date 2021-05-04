@@ -10,7 +10,11 @@
 
 from zepben.protobuf.cim.iec61970.base.core.IdentifiedObject_pb2 import IdentifiedObject as PBIdentifiedObject
 from zepben.protobuf.cim.iec61968.common.Document_pb2 import Document as PBDocument
+from zepben.protobuf.cim.iec61970.base.core.Name_pb2 import Name as PBName
+from zepben.protobuf.cim.iec61970.base.core.NameType_pb2 import NameType as PBNameType
 
+from zepben.evolve.model.cim.iec61970.base.core.name import Name
+from zepben.evolve.model.cim.iec61970.base.core.name_type import NameType
 from zepben.evolve.services.common.translator.util import mrid_or_empty
 from zepben.evolve.model.cim.iec61968.common.document import Document
 from zepben.evolve.model.cim.iec61968.common.organisation import Organisation
@@ -41,15 +45,29 @@ def organisationrole_to_pb(cim: OrganisationRole) -> PBOrganisationRole:
     return PBOrganisationRole(io=identifiedobject_to_pb(cim),
                               organisationMRID=mrid_or_empty(cim.organisation.mrid))
 
-
 # IEC61970 CORE #
 def identifiedobject_to_pb(cim: IdentifiedObject) -> PBIdentifiedObject:
     return PBIdentifiedObject(mRID=str(cim.mrid),
                               name=cim.name,
                               description=cim.description)
 
+def name_to_pb(cim: Name) -> PBName:
+    return PBName(io=identifiedobject_to_pb(cim),
+                  name=cim.name,
+                  type=cim.type,
+                  identified_object=cim.identified_object)
+
+def name_type_to_pb(cim: NameType) -> PBNameType:
+    return PBNameType(io=identifiedobject_to_pb(cim),
+                      name=cim.name,
+                      description=cim.description)
+
+
+
 
 Document.to_pb = document_to_pb
 Organisation.to_pb = organisation_to_pb
 OrganisationRole.to_pb = organisationrole_to_pb
 IdentifiedObject.to_pb = identifiedobject_to_pb
+Name.to_pb = name_to_pb
+NameType.to_pb = name_type_to_pb

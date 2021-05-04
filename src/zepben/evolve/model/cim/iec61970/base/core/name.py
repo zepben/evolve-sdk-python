@@ -8,7 +8,9 @@ from __future__ import annotations
 from dataclassy import dataclass
 
 from zepben.evolve.model.cim.iec61970.base.core.identified_object import IdentifiedObject
+
 from zepben.evolve.model.cim.iec61970.base.core.name_type import NameType
+
 
 @dataclass()
 class Name():

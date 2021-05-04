@@ -12,6 +12,8 @@ from dataclassy import dataclass
 from zepben.evolve.services.common.base_service import BaseService
 from zepben.protobuf.cim.iec61970.base.core.IdentifiedObject_pb2 import IdentifiedObject as PBIdentifiedObject
 from zepben.protobuf.cim.iec61968.common.Document_pb2 import Document as PBDocument
+from zepben.protobuf.cim.iec61970.base.core.Name_pb2 import Name as PBName
+from zepben.protobuf.cim.iec61970.base.core.NameType_pb2 import NameType as PBNameType
 
 from zepben.evolve.model.cim.iec61968.common.document import Document
 from zepben.evolve.model.cim.iec61968.common.organisation import Organisation
@@ -20,6 +22,8 @@ from zepben.protobuf.cim.iec61968.common.Organisation_pb2 import Organisation as
 from zepben.protobuf.cim.iec61968.common.OrganisationRole_pb2 import OrganisationRole as PBOrganisationRole
 from zepben.evolve.model.cim.iec61970.base.core.identified_object import IdentifiedObject
 from zepben.evolve.services.common import resolver
+from zepben.evolve.model.cim.iec61970.base.core.name import Name
+from zepben.evolve.model.cim.iec61970.base.core.name_type import NameType
 
 __all__ = ["identifiedobject_to_cim", "document_to_cim", "organisation_to_cim", "organisationrole_to_cim", "BaseProtoToCim"]
 
@@ -52,11 +56,22 @@ def organisationrole_to_cim(pb: PBOrganisationRole, cim: OrganisationRole, servi
     cim.organisation = service.resolve_or_defer_reference(resolver.organisation(cim), pb.organisationMRID)
     identifiedobject_to_cim(pb.io, cim, service)
 
+def name_to_cim(pb: PBName, cim: Name, service: BaseService):
+    cim.name = pb.name
+    cim.type = pb.type
+    identifiedobject_to_cim(pb.io, cim, service)
+
+def name_type_to_cim(pb : PBNameType, cim: Name, service: BaseService):
+    cim.name = pb.name
+    cim.description = pb.description
+    identifiedobject_to_cim(pb.io, cim, service)
 
 PBDocument.to_cim = document_to_cim
 PBOrganisation.to_cim = organisation_to_cim
 PBOrganisationRole.to_cim = organisationrole_to_cim
 PBIdentifiedObject.to_cim = identifiedobject_to_cim
+PBName.to_cim = name_to_cim
+PBNameType.to_cim = name_type_to_cim
 
 
 @dataclass(slots=True)
