@@ -7,12 +7,12 @@
 from __future__ import annotations
 
 from collections.abc import MutableMapping
-from typing import Dict, List, Generator
+from typing import Dict, List, Generator, TYPE_CHECKING
 
 from dataclassy import dataclass
 
-from zepben.evolve.model.cim.iec61970.base.core.identified_object import IdentifiedObject
-from zepben.evolve.model.cim.iec61970.base.core.name import Name
+if TYPE_CHECKING:
+    from zepben.evolve.model.cim.iec61970.base.core.name import Name
 
 
 @dataclass()

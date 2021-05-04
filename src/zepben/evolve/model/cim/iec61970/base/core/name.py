@@ -5,9 +5,12 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 from __future__ import annotations
-from dataclassy import dataclass
 
-from zepben.evolve.model.cim.iec61970.base.core.identified_object import IdentifiedObject
+from typing import TYPE_CHECKING
+
+from dataclassy import dataclass
+if TYPE_CHECKING:
+    from zepben.evolve.model.cim.iec61970.base.core.identified_object import IdentifiedObject
 
 from zepben.evolve.model.cim.iec61970.base.core.name_type import NameType
 

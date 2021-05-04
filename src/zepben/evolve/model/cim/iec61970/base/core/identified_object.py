@@ -121,7 +121,7 @@ class IdentifiedObject(object, metaclass=ABCMeta):
         return self
 
 
-    def remove_name(self, name: Name):
+    def remove_name(self, name: Name) -> Bool:
         """
         Disassociate `name` from this `Name`.
 
@@ -129,8 +129,16 @@ class IdentifiedObject(object, metaclass=ABCMeta):
         Returns A reference to this `Name` to allow fluent use.
         Raises `ValueError` if `name` was not associated with this `Name`.
         """
-        self._names = safe_remove(self._names, name)
-        return self
+
+        if name in self._names:
+            safe_remove(self._names, name)
+            return True
+        else:
+            return False
+
+        #safe_remove(self._names, name)
+        #return self
+        #check with kurt return self is not needed
 
 
     def clear_names(self):
