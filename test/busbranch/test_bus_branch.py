@@ -3,441 +3,161 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-from typing import Set, Union, FrozenSet, Tuple
+from typing import Set, Union, FrozenSet
 
 import pytest
 
-from zepben.evolve import ConnectivityNode, Junction, Disconnector, BusbarSection, Switch, Terminal, NetworkService, AcLineSegment, PerLengthSequenceImpedance, \
-    WireInfo, PowerTransformer, EnergySource, EnergyConsumer, ConductingEquipment, create_bus_branch_model, PowerElectronicsConnection
+from busbranch.test_bus_branch_creator import TestBusBranchCreator, create_terminal_based_id
+from zepben.evolve import ConnectivityNode, Junction, Disconnector, BusbarSection, Switch, BusBranchNetworkCreationLogger
 from zepben.evolve.model.busbranch.bus_branch import _group_negligible_impedance_terminals, _group_common_ac_line_segment_terminals
 
 
 def test_create_bus_branch_model_callbacks(simple_node_breaker_network):
-    assert simple_node_breaker_network is not None
+    nb_network = simple_node_breaker_network
+    assert nb_network is not None
 
-    plsi = simple_node_breaker_network.get("plsi")
+    plsi = nb_network.get("plsi")
     assert plsi is not None
 
-    wire_info = simple_node_breaker_network.get("wire_info")
+    wire_info = nb_network.get("wire_info")
     assert wire_info is not None
 
-    pt_info = simple_node_breaker_network.get("pt_info")
+    pt_info = nb_network.get("pt_info")
     assert pt_info is not None
 
-    es = simple_node_breaker_network.get("grid_connection")
+    es = nb_network.get("grid_connection")
     assert es is not None
 
-    pt = simple_node_breaker_network.get("transformer")
+    pt = nb_network.get("transformer")
     assert pt is not None
 
-    line = simple_node_breaker_network.get("line")
+    line = nb_network.get("line")
     assert line is not None
 
-    ec = simple_node_breaker_network.get("load")
+    ec = nb_network.get("load")
     assert ec is not None
 
-    bus_args = set()
-    branch_args = set()
-    branch_type_args = set()
-    transformer_args = set()
-    transformer_type_args = set()
-    source_args = set()
-    consumer_args = set()
-    pec_args = set()
-
-    bb_model_network = "bb_model_network"
-
-    def create_terminal_based_id(terminals: Union[Set[Terminal], FrozenSet[Terminal]]) -> str:
-        return "_".join(sorted([t.mrid for t in terminals]))
-
-    def create_bus_branch_network(n: NetworkService):
-        return bb_model_network
-
-    def create_bus(
-            bus_branch_model: str,
-            base_voltage: int,
-            closed_switches: FrozenSet[ConductingEquipment],
-            border_terminals: FrozenSet[Terminal],
-            inner_terminals: FrozenSet[Terminal],
-            node_breaker_model: NetworkService
-    ) -> str:
-        bus_args.add((bus_branch_model, base_voltage, closed_switches, border_terminals, inner_terminals, node_breaker_model))
-        return create_terminal_based_id(border_terminals)
-
-    def create_branch(
-            bus_branch_model: str,
-            line_busses: Tuple[str, str],
-            length: float,
-            line_type: str,
-            common_lines: FrozenSet[AcLineSegment],
-            border_terminals: FrozenSet[Terminal],
-            inner_terminals: FrozenSet[Terminal],
-            node_breaker_model: NetworkService
-    ):
-        branch_args.add((bus_branch_model, line_busses, length, line_type, common_lines, border_terminals, inner_terminals, node_breaker_model))
-
-    def get_branch_type_id(per_length_sequence_impedance: PerLengthSequenceImpedance, wi: WireInfo, voltage: int) -> str:
-        return wi.mrid + ":" + per_length_sequence_impedance.mrid
-
-    def create_branch_type(bus_branch_model: str, per_length_sequence_impedance: PerLengthSequenceImpedance,
-                           wi: WireInfo, voltage: int) -> str:
-        branch_type_args.add((bus_branch_model, per_length_sequence_impedance, wire_info))
-        return get_branch_type_id(per_length_sequence_impedance, wi, voltage)
-
-    def create_transformer(bus_branch_model: str, pt: PowerTransformer, busses: Tuple[str, str],
-                           pt_type: str, node_breaker_model: NetworkService):
-        transformer_args.add((bus_branch_model, pt, busses, pt_type, node_breaker_model))
-
-    def get_transformer_type_id(transformer: PowerTransformer) -> str:
-        return transformer.mrid + "_type"
-
-    def create_transformer_type(bus_branch_model: str, transformer: PowerTransformer) -> str:
-        transformer_type_args.add((bus_branch_model, transformer))
-        return get_transformer_type_id(transformer)
-
-    def create_source(bus_branch_model: str, source: EnergySource, bus, node_breaker_model: NetworkService):
-        source_args.add((bus_branch_model, source, bus, node_breaker_model))
-
-    def create_consumer(bus_branch_model: str, consumer: EnergyConsumer, bus, node_breaker_model: NetworkService):
-        consumer_args.add((bus_branch_model, consumer, bus, node_breaker_model))
-
-    def create_power_electronics(bus_branch_model: str, power_electronics_connection: PowerElectronicsConnection, bus, node_breaker_model: NetworkService):
-        pec_args.add((bus_branch_model, power_electronics_connection, bus, node_breaker_model))
-
-    result = create_bus_branch_model(
-        lambda: simple_node_breaker_network,
-        create_bus_branch_network,
-        create_bus,
-        create_branch,
-        create_branch_type,
-        get_branch_type_id,
-        create_transformer,
-        create_transformer_type,
-        get_transformer_type_id,
-        create_source,
-        create_consumer,
-        create_power_electronics
-    )
-
-    assert result.was_successful is True
-
-    # Validation
-    # Bus
-    _assert_are_equal(
-        bus_args,
-        {
-            (bb_model_network, 400, frozenset(), frozenset({list(line.terminals)[0], list(pt.terminals)[1]}), frozenset(), simple_node_breaker_network),
-            (bb_model_network, 400, frozenset(), frozenset({list(ec.terminals)[0], list(line.terminals)[1]}), frozenset(), simple_node_breaker_network),
-            (bb_model_network, 20000, frozenset(), frozenset({list(es.terminals)[0], list(pt.terminals)[0]}), frozenset(), simple_node_breaker_network)
-        }
-    )
-
-    # Branch
-    _assert_are_equal(
-        branch_args,
-        {
-            (
-                bb_model_network,
-                tuple((create_terminal_based_id(t.connectivity_node) for t in line.terminals)),
-                100,
-                "wire_info:plsi",
-                frozenset({line}),
-                frozenset({*line.terminals}),
-                frozenset(),
-                simple_node_breaker_network
-            )
-        }
-    )
-
-    # Branch Type
-    _assert_are_equal(
-        branch_type_args,
-        {
-            (bb_model_network, plsi, wire_info)
-        }
-    )
-
-    # Transformer
-    _assert_are_equal(
-        transformer_args,
-        {
-            (
-                bb_model_network,
-                pt,
-                tuple((create_terminal_based_id(t.connectivity_node) for t in pt.terminals)),
-                "transformer_type",
-                simple_node_breaker_network
-            )
-        }
-    )
-
-    # Transformer Type
-    _assert_are_equal(
-        transformer_type_args,
-        {
-            (bb_model_network, pt)
-        }
-    )
-
-    # Source
-    _assert_are_equal(
-        source_args,
-        {
-            (
-                bb_model_network,
-                es,
-                create_terminal_based_id(list(es.terminals)[0].connectivity_node),
-                simple_node_breaker_network
-            )
-        }
-    )
-
-    # Consumer
-    _assert_are_equal(
-        consumer_args,
-        {
-            (
-                bb_model_network,
-                ec,
-                create_terminal_based_id(list(ec.terminals)[0].connectivity_node),
-                simple_node_breaker_network
-            )
-        }
-    )
-
-    # PowerElectronicsConnection
-    _assert_are_equal(pec_args, set())
-
-
-def test_create_bus_branch_model_callbacks_with_pec(simple_node_breaker_network_with_pec):
-    assert simple_node_breaker_network_with_pec is not None
-
-    plsi = simple_node_breaker_network_with_pec.get("plsi")
-    assert plsi is not None
-
-    wire_info = simple_node_breaker_network_with_pec.get("wire_info")
-    assert wire_info is not None
-
-    pt_info = simple_node_breaker_network_with_pec.get("pt_info")
-    assert pt_info is not None
-
-    es = simple_node_breaker_network_with_pec.get("grid_connection")
-    assert es is not None
-
-    pt = simple_node_breaker_network_with_pec.get("transformer")
-    assert pt is not None
-
-    line = simple_node_breaker_network_with_pec.get("line")
-    assert line is not None
-
-    ec = simple_node_breaker_network_with_pec.get("load")
-    assert ec is not None
-
-    pec = simple_node_breaker_network_with_pec.get("pec")
+    pec = nb_network.get("pec")
     assert pec is not None
 
-    bus_args = set()
-    branch_args = set()
-    branch_type_args = set()
-    transformer_args = set()
-    transformer_type_args = set()
-    source_args = set()
-    consumer_args = set()
-    pec_args = set()
+    # noinspection PyTypeChecker
+    logger_mock: BusBranchNetworkCreationLogger = "logger"  # This is an int because we are not interested in the logger functionality in this test
+    creator = TestBusBranchCreator()
+    result = creator.create(nb_network, logger=logger_mock)
+    bb_network = result.network
 
-    bb_model_network = "bb_model_network"
-
-    def create_terminal_based_id(terminals: Union[Set[Terminal], FrozenSet[Terminal]]) -> str:
-        return "_".join(sorted([t.mrid for t in terminals]))
-
-    def create_bus_branch_network(n: NetworkService):
-        return bb_model_network
-
-    def create_bus(
-            bus_branch_model: str,
-            base_voltage: int,
-            closed_switches: FrozenSet[ConductingEquipment],
-            border_terminals: FrozenSet[Terminal],
-            inner_terminals: FrozenSet[Terminal],
-            node_breaker_model: NetworkService
-    ) -> str:
-        bus_args.add((bus_branch_model, base_voltage, closed_switches, border_terminals, inner_terminals, node_breaker_model))
-        return create_terminal_based_id(border_terminals)
-
-    def create_branch(
-            bus_branch_model: str,
-            line_busses: Tuple[str, str],
-            length: float,
-            line_type: str,
-            common_lines: FrozenSet[AcLineSegment],
-            border_terminals: FrozenSet[Terminal],
-            inner_terminals: FrozenSet[Terminal],
-            node_breaker_model: NetworkService
-    ):
-        branch_args.add((bus_branch_model, line_busses, length, line_type, common_lines, border_terminals, inner_terminals, node_breaker_model))
-
-    def get_branch_type_id(per_length_sequence_impedance: PerLengthSequenceImpedance, wi: WireInfo, voltage: int) -> str:
-        return wi.mrid + ":" + per_length_sequence_impedance.mrid
-
-    def create_branch_type(bus_branch_model: str, per_length_sequence_impedance: PerLengthSequenceImpedance,
-                           wi: WireInfo, voltage: int) -> str:
-        branch_type_args.add((bus_branch_model, per_length_sequence_impedance, wire_info))
-        return get_branch_type_id(per_length_sequence_impedance, wi, voltage)
-
-    def create_transformer(bus_branch_model: str, pt: PowerTransformer, busses: Tuple[str, str],
-                           pt_type: str, node_breaker_model: NetworkService):
-        transformer_args.add((bus_branch_model, pt, busses, pt_type, node_breaker_model))
-
-    def get_transformer_type_id(transformer: PowerTransformer) -> str:
-        return transformer.mrid + "_type"
-
-    def create_transformer_type(bus_branch_model: str, transformer: PowerTransformer) -> str:
-        transformer_type_args.add((bus_branch_model, transformer))
-        return get_transformer_type_id(transformer)
-
-    def create_source(bus_branch_model: str, source: EnergySource, bus, node_breaker_model: NetworkService):
-        source_args.add((bus_branch_model, source, bus, node_breaker_model))
-
-    def create_consumer(bus_branch_model: str, consumer: EnergyConsumer, bus, node_breaker_model: NetworkService):
-        consumer_args.add((bus_branch_model, consumer, bus, node_breaker_model))
-
-    def create_power_electronics(bus_branch_model: str, power_electronics_connection: PowerElectronicsConnection, bus, node_breaker_model: NetworkService):
-        pec_args.add((bus_branch_model, power_electronics_connection, bus, node_breaker_model))
-
-    result = create_bus_branch_model(
-        lambda: simple_node_breaker_network_with_pec,
-        create_bus_branch_network,
-        create_bus,
-        create_branch,
-        create_branch_type,
-        get_branch_type_id,
-        create_transformer,
-        create_transformer_type,
-        get_transformer_type_id,
-        create_source,
-        create_consumer,
-        create_power_electronics
-    )
-
-    assert result.was_successful is True
+    assert bb_network is not None
 
     # Validation
     # Bus
-    _assert_are_equal(
-        bus_args,
-        {
-            (
-                bb_model_network,
-                400,
-                frozenset(),
-                frozenset({list(line.terminals)[0], list(pt.terminals)[1]}),
-                frozenset(),
-                simple_node_breaker_network_with_pec
-            ),
-            (
-                bb_model_network,
-                400,
-                frozenset(),
-                frozenset({list(ec.terminals)[0], list(line.terminals)[1], list(pec.terminals)[0]}),
-                frozenset(),
-                simple_node_breaker_network_with_pec
-            ),
-            (
-                bb_model_network,
-                20000,
-                frozenset(),
-                frozenset({list(es.terminals)[0], list(pt.terminals)[0]}),
-                frozenset(),
-                simple_node_breaker_network_with_pec
-            )
-        }
+    expected_bus_0 = (
+        create_terminal_based_id({next(es.terminals), list(pt.terminals)[0]}),
+        (
+            20000,
+            frozenset(),
+            frozenset({list(es.terminals)[0], list(pt.terminals)[0]}),
+            frozenset(),
+            nb_network,
+            logger_mock
+        )
     )
-
-    # Branch
-    _assert_are_equal(
-        branch_args,
-        {
-            (
-                bb_model_network,
-                tuple((create_terminal_based_id(t.connectivity_node) for t in line.terminals)),
-                100,
-                "wire_info:plsi",
-                frozenset({line}),
-                frozenset({*line.terminals}),
-                frozenset(),
-                simple_node_breaker_network_with_pec
-            )
-        }
+    expected_bus_1 = (
+        create_terminal_based_id({list(pt.terminals)[1], list(line.terminals)[0]}),
+        (
+            400,
+            frozenset(),
+            frozenset({list(line.terminals)[0], list(pt.terminals)[1]}),
+            frozenset(),
+            nb_network,
+            logger_mock
+        )
     )
+    expected_bus_2 = (
+        create_terminal_based_id({list(line.terminals)[1], next(ec.terminals), next(pec.terminals)}),
+        (
+            400,
+            frozenset(),
+            frozenset({list(ec.terminals)[0], list(line.terminals)[1], list(pec.terminals)[0]}),
+            frozenset(),
+            nb_network,
+            logger_mock
+        )
+    )
+    _assert_are_equal(bb_network.bus, {expected_bus_0, expected_bus_1, expected_bus_2})
 
     # Branch Type
-    _assert_are_equal(
-        branch_type_args,
-        {
-            (bb_model_network, plsi, wire_info)
-        }
-    )
+    expected_branch_type = (f"tbt_{wire_info.mrid}", (plsi, wire_info, 400, nb_network, logger_mock))
+    _assert_are_equal(bb_network.branch_type, {expected_branch_type})
 
-    # Transformer
-    _assert_are_equal(
-        transformer_args,
-        {
-            (
-                bb_model_network,
-                pt,
-                tuple((create_terminal_based_id(t.connectivity_node) for t in pt.terminals)),
-                "transformer_type",
-                simple_node_breaker_network_with_pec
-            )
-        }
+    # Branch
+    expected_branch = (
+        f"tb_{line.mrid}",
+        (
+            (expected_bus_1[1], expected_bus_2[1]),
+            100,
+            expected_branch_type[1],
+            frozenset({line}),
+            frozenset({*line.terminals}),
+            frozenset(),
+            nb_network,
+            logger_mock
+        )
     )
+    _assert_are_equal(bb_network.branch, {expected_branch})
 
     # Transformer Type
-    _assert_are_equal(
-        transformer_type_args,
-        {
-            (bb_model_network, pt)
-        }
+    expected_transformer_type = (f"ptt_{pt_info.mrid}", (pt, nb_network, logger_mock))
+    _assert_are_equal(bb_network.transformer_type, {expected_transformer_type})
+
+    # Transformer
+    expected_end_to_bus_pairs = ((list(pt.ends)[0], expected_bus_0[1]), (list(pt.ends)[1], expected_bus_1[1]))
+    expected_transformer = (
+        f"pt_{pt.mrid}",
+        (
+            pt,
+            expected_end_to_bus_pairs,
+            expected_transformer_type[1],
+            nb_network,
+            logger_mock
+        )
     )
+    _assert_are_equal(bb_network.transformer, {expected_transformer})
 
     # Source
-    _assert_are_equal(
-        source_args,
-        {
-            (
-                bb_model_network,
-                es,
-                create_terminal_based_id(list(es.terminals)[0].connectivity_node),
-                simple_node_breaker_network_with_pec
-            )
-        }
+    expected_energy_source = (
+        f"es_{es.mrid}",
+        (
+            es,
+            expected_bus_0[1],
+            nb_network,
+            logger_mock
+        )
     )
+    _assert_are_equal(bb_network.energy_source, {expected_energy_source})
 
     # Consumer
-    _assert_are_equal(
-        consumer_args,
-        {
-            (
-                bb_model_network,
-                ec,
-                create_terminal_based_id(list(ec.terminals)[0].connectivity_node),
-                simple_node_breaker_network_with_pec
-            )
-        }
+    expected_energy_consumer = (
+        f"ec_{ec.mrid}",
+        (
+            ec,
+            expected_bus_2[1],
+            nb_network,
+            logger_mock
+        )
     )
+    _assert_are_equal(bb_network.energy_consumer, {expected_energy_consumer})
 
     # PowerElectronicsConnection
-    _assert_are_equal(
-        pec_args,
-        {
-            (
-                bb_model_network,
-                pec,
-                create_terminal_based_id(list(pec.terminals)[0].connectivity_node),
-                simple_node_breaker_network_with_pec
-            )
-        }
+    expected_power_electronics_connection = (
+        f"pec_{pec.mrid}",
+        (
+            pec,
+            expected_bus_2[1],
+            nb_network,
+            logger_mock
+        )
     )
+    _assert_are_equal(bb_network.power_electronics_connection, {expected_power_electronics_connection})
 
 
 @pytest.mark.parametrize(
