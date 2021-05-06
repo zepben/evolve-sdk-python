@@ -11,8 +11,7 @@ from typing import Dict, List, Generator, TYPE_CHECKING
 
 from dataclassy import dataclass
 
-if TYPE_CHECKING:
-    from zepben.evolve.model.cim.iec61970.base.core.name import Name
+from zepben.evolve.model.cim.iec61970.base.core.name import Name
 
 
 @dataclass()
@@ -26,10 +25,10 @@ class NameType():
     typically are unique among them.
     """
 
-    name : str
+    name: str
     """name of the NameType"""
 
-    description: str
+    description: str = ""
     """Description of NameType"""
 
     _names_index: Dict[str, Name] = dict()
@@ -92,6 +91,7 @@ class NameType():
             else:
                 name_obj = Name(name, self, identified_object)
                 self._names_multi_index[name].append(name_obj)
+
         else:
             name_obj = Name(name, self, identified_object)
             self._names_index[name] = name_obj
