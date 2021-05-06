@@ -12,6 +12,8 @@ from zepben.evolve import ConnectivityNode, Junction, Disconnector, BusbarSectio
 from zepben.evolve.model.busbranch.bus_branch import _group_negligible_impedance_terminals, _group_common_ac_line_segment_terminals
 
 
+# TODO: Need to add test for the mappings in the result of creating a bus-branch network
+
 def test_create_bus_branch_model_callbacks(simple_node_breaker_network):
     nb_network = simple_node_breaker_network
     assert nb_network is not None
