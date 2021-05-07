@@ -133,7 +133,7 @@ class BusBranchNetworkCreator(Generic[BBN, TN, TB, TBT, PT, PTT, ES, EC, PEC], m
         inner_terminals: FrozenSet[Terminal],
         node_breaker_network: NetworkService,
         logger: BusBranchNetworkCreationLogger
-    ) -> (Any, TN):
+    ) -> Tuple[Any, TN]:
         """
         Callback used to create a topological node instance of type TN.
         :param bus_branch_network: Instance of type BBN being used as a target bus-branch network.
@@ -159,7 +159,7 @@ class BusBranchNetworkCreator(Generic[BBN, TN, TB, TBT, PT, PTT, ES, EC, PEC], m
         inner_terminals: FrozenSet[Terminal],
         node_breaker_network: NetworkService,
         logger: BusBranchNetworkCreationLogger
-    ) -> (Any, TB):
+    ) -> Tuple[Any, TB]:
         """
         Callback used to create a topological branch instance in target bus-branch network.
         :param bus_branch_network: Instance of type BBN being used as a target bus-branch network.
@@ -184,7 +184,7 @@ class BusBranchNetworkCreator(Generic[BBN, TN, TB, TBT, PT, PTT, ES, EC, PEC], m
         base_voltage: int,
         node_breaker_network: NetworkService,
         logger: BusBranchNetworkCreationLogger
-    ) -> (Any, TBT):
+    ) -> Tuple[Any, TBT]:
         """
         Callback used to create a topological branch type in target bus-branch network.
         :param bus_branch_network: Instance of type BBN being used as a target bus-branch network.
@@ -206,7 +206,7 @@ class BusBranchNetworkCreator(Generic[BBN, TN, TB, TBT, PT, PTT, ES, EC, PEC], m
         power_transformer_type: PTT,
         node_breaker_network: NetworkService,
         logger: BusBranchNetworkCreationLogger
-    ) -> (Any, PT):
+    ) -> Tuple[Any, PT]:
         """
         Callback used to create a power transformer instance in target bus-branch network.
         :param bus_branch_network: Instance of type BBN being used as a target bus-branch network.
@@ -226,7 +226,7 @@ class BusBranchNetworkCreator(Generic[BBN, TN, TB, TBT, PT, PTT, ES, EC, PEC], m
         power_transformer: PowerTransformer,
         node_breaker_network: NetworkService,
         logger: BusBranchNetworkCreationLogger
-    ) -> (Any, PTT):
+    ) -> Tuple[Any, PTT]:
         """
         Callback used to create a power transformer type in target bus-branch network.
         :param bus_branch_network: Instance of type BBN being used as a target bus-branch network.
@@ -245,7 +245,7 @@ class BusBranchNetworkCreator(Generic[BBN, TN, TB, TBT, PT, PTT, ES, EC, PEC], m
         connected_topological_node: TN,
         node_breaker_network: NetworkService,
         logger: BusBranchNetworkCreationLogger
-    ) -> (Any, ES):
+    ) -> Tuple[Any, ES]:
         """
         Callback used to create an energy source instance in target bus-branch network.
         :param bus_branch_network: Instance of type BBN being used as a target bus-branch network.
@@ -265,7 +265,7 @@ class BusBranchNetworkCreator(Generic[BBN, TN, TB, TBT, PT, PTT, ES, EC, PEC], m
         connected_topological_node: TN,
         node_breaker_network: NetworkService,
         logger: BusBranchNetworkCreationLogger
-    ) -> (Any, EC):
+    ) -> Tuple[Any, EC]:
         """
         Callback used to pass all the required values to generate an energy consumer object.
         :param bus_branch_network: Instance of type BBN being used as a target bus-branch network.
@@ -285,7 +285,7 @@ class BusBranchNetworkCreator(Generic[BBN, TN, TB, TBT, PT, PTT, ES, EC, PEC], m
         connected_topological_node: TN,
         node_breaker_network: NetworkService,
         logger: BusBranchNetworkCreationLogger
-    ) -> (Any, PEC):
+    ) -> Tuple[Any, PEC]:
         """
         Callback used to pass all the required values to generate a power electronics connection object.
         :param bus_branch_network: Instance of type BBN being used as a target bus-branch network.
