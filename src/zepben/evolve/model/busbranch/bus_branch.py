@@ -603,11 +603,11 @@ def _create_energy_sources(
 ):
     for es in node_breaker_network.objects(EnergySource):
         es_tn = terminals_to_tns[next((t for t in es.terminals)).mrid]
-    bb_es_id, bb_es = bus_branch_network_creator.energy_source_creator(bus_branch_network, es, es_tn, node_breaker_network, logger)
+        bb_es_id, bb_es = bus_branch_network_creator.energy_source_creator(bus_branch_network, es, es_tn, node_breaker_network, logger)
 
-    # populate result mappings
-    result.mappings.energy_sources[bb_es_id] = es
-    result.mappings.from_identified_object[es.mrid] = bb_es
+        # populate result mappings
+        result.mappings.energy_sources[bb_es_id] = es
+        result.mappings.from_identified_object[es.mrid] = bb_es
 
 
 BBN_7 = TypeVar('BBN_7')  # Bus-Branch Network
@@ -631,11 +631,11 @@ def _create_energy_consumers(
 ):
     for ec in node_breaker_network.objects(EnergyConsumer):
         ec_tn = terminals_to_tns[next((t for t in ec.terminals)).mrid]
-    bb_ec_id, bb_ec = bus_branch_network_creator.energy_consumer_creator(bus_branch_network, ec, ec_tn, node_breaker_network, logger)
+        bb_ec_id, bb_ec = bus_branch_network_creator.energy_consumer_creator(bus_branch_network, ec, ec_tn, node_breaker_network, logger)
 
-    # populate result mappings
-    result.mappings.energy_consumers[bb_ec_id] = ec
-    result.mappings.from_identified_object[ec.mrid] = bb_ec
+        # populate result mappings
+        result.mappings.energy_consumers[bb_ec_id] = ec
+        result.mappings.from_identified_object[ec.mrid] = bb_ec
 
 
 BBN_8 = TypeVar('BBN_8')  # Bus-Branch Network
@@ -659,11 +659,11 @@ def _create_power_electronics_connections(
 ):
     for pec in node_breaker_network.objects(PowerElectronicsConnection):
         pec_tn = terminals_to_tns[next((t for t in pec.terminals)).mrid]
-    bb_pec_id, bb_pec = bus_branch_network_creator.power_electronics_connection_creator(bus_branch_network, pec, pec_tn, node_breaker_network, logger)
+        bb_pec_id, bb_pec = bus_branch_network_creator.power_electronics_connection_creator(bus_branch_network, pec, pec_tn, node_breaker_network, logger)
 
-    # populate result mappings
-    result.mappings.energy_consumers[bb_pec_id] = pec
-    result.mappings.from_identified_object[pec.mrid] = bb_pec
+        # populate result mappings
+        result.mappings.energy_consumers[bb_pec_id] = pec
+        result.mappings.from_identified_object[pec.mrid] = bb_pec
 
 
 def _get_base_voltage(ce: ConductingEquipment, t: Terminal) -> Union[int, None]:
