@@ -19,6 +19,8 @@ from zepben.evolve.streaming.grpc.auth_token_plugin import AuthTokenPlugin
 
 __all__ = ["GrpcChannelBuilder"]
 
+_TWENTY_MEGABYTES = 1024 * 1024 * 20
+
 
 class GrpcChannelBuilder(ABC):
     """
@@ -29,13 +31,14 @@ class GrpcChannelBuilder(ABC):
         self._socket_address: str = "localhost:50051"
         self._channel_credentials: Optional[grpc.ChannelCredentials] = None
 
-    def build(self, skip_connection_test: bool = False, debug: bool = False) -> grpc.aio.Channel:
+    def build(self, skip_connection_test: bool = False, debug: bool = False, max_message_size: int = _TWENTY_MEGABYTES) -> grpc.aio.Channel:
         """
         Get the resulting :class:`grpc.aio.Channel` from this builder.
 
         :param skip_connection_test: Skip confirming a connection can be established to the server. This is not recommended, but provided as a safety
         mechanism if for any reason the connection test fails unexpectedly even though the connection is fine.
         :param debug: Collect and append unhandled RPC errors to the `ConnectionException` raised on an unsuccessful connection test.
+        :param max_message_size: The maximum allowable message size for protobuf messages.
 
         :return: A gRPC channel resulting from this builder.
         """
@@ -50,10 +53,11 @@ class GrpcChannelBuilder(ABC):
             self._test_connection(channel, debug=debug)
             channel.close()
 
+        options = (("grpc.max_receive_message_length", max_message_size), ("grpc.grpc.max_send_message_length", max_message_size))
         if self._channel_credentials:
-            return grpc.aio.secure_channel(self._socket_address, self._channel_credentials)
+            return grpc.aio.secure_channel(self._socket_address, self._channel_credentials, options=options)
 
-        return grpc.aio.insecure_channel(self._socket_address)
+        return grpc.aio.insecure_channel(self._socket_address, options=options)
 
     def _test_connection(self, channel: grpc.Channel, debug: bool):
         stubs: List = [
