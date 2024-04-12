@@ -3,48 +3,91 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-from datetime import datetime
 from typing import Callable, Optional
 
-from zepben.evolve import BaseCIMReader, TableCableInfo, ResultSet, CableInfo, TableNoLoadTests, NoLoadTest, TableOpenCircuitTests, \
-    OpenCircuitTest, TableOverheadWireInfo, OverheadWireInfo, TablePowerTransformerInfo, PowerTransformerInfo, TableShortCircuitTests, ShortCircuitTest, \
+from zepben.evolve import BaseCIMReader, TableCableInfo, ResultSet, CableInfo, TableNoLoadTests, NoLoadTest, TableOpenCircuitTests, OpenCircuitTest, \
+    TableOverheadWireInfo, OverheadWireInfo, TablePowerTransformerInfo, PowerTransformerInfo, TableShortCircuitTests, ShortCircuitTest, \
     TableShuntCompensatorInfo, ShuntCompensatorInfo, TableTransformerEndInfo, TransformerEndInfo, WindingConnection, TransformerTankInfo, \
     TableTransformerTankInfo, TransformerTest, TableTransformerTest, WireInfo, TableWireInfo, WireMaterialKind, Asset, TableAssets, Location, AssetContainer, \
     TableAssetContainers, AssetInfo, TableAssetInfo, AssetOrganisationRole, TableAssetOrganisationRoles, Structure, TableStructures, TableAssetOwners, \
     AssetOwner, TablePoles, Pole, TableStreetlights, Streetlight, StreetlightLampKind, TableLocations, TableLocationStreetAddresses, \
     TableLocationStreetAddressField, TablePositionPoints, PositionPoint, TableStreetAddresses, StreetAddress, TableTownDetails, TownDetail, StreetDetail, \
-    TransformerConstructionKind, TransformerFunctionKind, EndDevice, TableEndDevices, TableMeters, Meter, TableUsagePoints, \
-    UsagePoint, TableOperationalRestrictions, OperationalRestriction, AuxiliaryEquipment, TableAuxiliaryEquipment, Terminal, TableFaultIndicators, \
-    FaultIndicator, AcDcTerminal, TableAcDcTerminals, TableBaseVoltages, BaseVoltage, ConductingEquipment, TableConductingEquipment, TableConnectivityNodes, \
-    ConnectivityNode, ConnectivityNodeContainer, TableConnectivityNodeContainers, Equipment, TableEquipment, EquipmentContainer, TableEquipmentContainers, \
-    TableFeeders, Feeder, Substation, GeographicalRegion, TableGeographicalRegions, PowerSystemResource, TablePowerSystemResources, TableSites, Site, \
-    TableSubGeographicalRegions, SubGeographicalRegion, TableSubstations, TableTerminals, PhaseCode, TableEquivalentBranches, EquivalentBranch, \
-    EquivalentEquipment, TableEquivalentEquipment, TableAccumulators, Accumulator, TableAnalogs, Analog, TableControls, Control, TableDiscretes, Discrete, \
-    IoPoint, TableIoPoints, Measurement, TableMeasurements, RemoteSource, UnitSymbol, TableRemoteControls, RemoteControl, RemotePoint, TableRemotePoints, \
-    TableRemoteSources, TableBatteryUnit, BatteryUnit, BatteryStateKind, TablePhotoVoltaicUnit, PhotoVoltaicUnit, PowerElectronicsUnit, \
-    TablePowerElectronicsUnit, PowerElectronicsConnection, TablePowerElectronicsWindUnit, PowerElectronicsWindUnit, TableAcLineSegments, AcLineSegment, \
-    PerLengthSequenceImpedance, TableBreakers, Breaker, TableLoadBreakSwitches, LoadBreakSwitch, TableBusbarSections, BusbarSection, Conductor, \
-    TableConductors, Connector, TableConnectors, TableDisconnectors, Disconnector, EnergyConnection, TableEnergyConnections, TableEnergyConsumers, \
-    EnergyConsumer, PhaseShuntConnectionKind, TableEnergyConsumerPhases, EnergyConsumerPhase, SinglePhaseKind, TableEnergySources, EnergySource, \
-    TableEnergySourcePhases, EnergySourcePhase, TableFuses, Fuse, TableJumpers, Jumper, TableJunctions, Junction, Line, TableLines, \
-    TableLinearShuntCompensators, LinearShuntCompensator, PerLengthImpedance, TablePerLengthImpedances, PerLengthLineParameter, TablePerLengthLineParameters, \
-    TablePerLengthSequenceImpedances, TablePowerElectronicsConnection, TablePowerElectronicsConnectionPhases, PowerElectronicsConnectionPhase, \
-    TablePowerTransformers, PowerTransformer, VectorGroup, TablePowerTransformerEnds, PowerTransformerEnd, ProtectedSwitch, TableProtectedSwitches, \
-    TableRatioTapChangers, RatioTapChanger, TransformerEnd, TableReclosers, Recloser, RegulatingCondEq, TableRegulatingCondEq, ShuntCompensator, \
-    TableShuntCompensators, Switch, TableSwitches, TapChanger, TableTapChangers, TableTransformerEnds, TransformerStarImpedance, \
-    TableTransformerStarImpedance, TableCircuits, Circuit, Loop, TableLoops, TableAssetOrganisationRolesAssets, TableEquipmentEquipmentContainers, \
-    TableEquipmentOperationalRestrictions, TableEquipmentUsagePoints, TableUsagePointsEndDevices, TableCircuitsSubstations, TableCircuitsTerminals, \
-    TablePotentialTransformers, PotentialTransformer, PotentialTransformerKind, PotentialTransformerInfo, Sensor, TableSensors, TableCurrentTransformers, \
-    CurrentTransformer, CurrentTransformerInfo, TableCurrentTransformerInfo, TablePotentialTransformerInfo, TableLoopsSubstations, LoopSubstationRelationship, \
-    LvFeeder, TableLvFeeders, RelayInfo, TableRelayInfo, SwitchInfo, TableSwitchInfo, TableProtectionRelayFunctions, \
-    ProtectionKind, PowerDirectionKind, TableCurrentRelays, CurrentRelay, TableProtectionRelayFunctionsProtectedSwitches, TableRecloseDelays, \
-    TableEvChargingUnits, EvChargingUnit, RegulatingControl, TableRegulatingControls, RegulatingControlModeKind, TapChangerControl, TableTapChangerControls, \
-    TablePowerTransformerEndRatings, TransformerCoolingType, TableProtectionRelayFunctionThresholds, TableDistanceRelays, \
-    TableVoltageRelays, TableProtectionRelayFunctionTimeLimits, TableProtectionRelaySystems, TableProtectionRelaySchemes, TableGrounds, \
-    TableGroundDisconnectors, TableSeriesCompensators, TableProtectionRelayFunctionsSensors, TableProtectionRelaySchemesProtectionRelayFunctions, \
-    ProtectionRelayScheme, ProtectionRelaySystem, RelaySetting, DistanceRelay, ProtectionRelayFunction, VoltageRelay, Ground, GroundDisconnector, \
-    SeriesCompensator
-
+    TransformerConstructionKind, TransformerFunctionKind, EndDevice, TableEndDevices, TableMeters, Meter, TableUsagePoints, UsagePoint, \
+    TableOperationalRestrictions, OperationalRestriction, AuxiliaryEquipment, TableAuxiliaryEquipment, Terminal, TableFaultIndicators, FaultIndicator, \
+    AcDcTerminal, TableAcDcTerminals, TableBaseVoltages, BaseVoltage, ConductingEquipment, TableConductingEquipment, TableConnectivityNodes, ConnectivityNode, \
+    ConnectivityNodeContainer, TableConnectivityNodeContainers, Equipment, TableEquipment, EquipmentContainer, TableEquipmentContainers, TableFeeders, Feeder, \
+    Substation, GeographicalRegion, TableGeographicalRegions, PowerSystemResource, TablePowerSystemResources, TableSites, Site, TableSubGeographicalRegions, \
+    SubGeographicalRegion, TableSubstations, TableTerminals, PhaseCode, TableEquivalentBranches, EquivalentBranch, EquivalentEquipment, \
+    TableEquivalentEquipment, TableAccumulators, Accumulator, TableAnalogs, Analog, TableControls, Control, TableDiscretes, Discrete, IoPoint, TableIoPoints, \
+    Measurement, TableMeasurements, RemoteSource, UnitSymbol, TableRemoteControls, RemoteControl, RemotePoint, TableRemotePoints, TableRemoteSources, \
+    BatteryUnit, BatteryStateKind, TablePhotoVoltaicUnit, PhotoVoltaicUnit, PowerElectronicsUnit, TablePowerElectronicsUnits, \
+    PowerElectronicsConnection, TablePowerElectronicsWindUnit, PowerElectronicsWindUnit, AcLineSegment, PerLengthSequenceImpedance, Breaker, LoadBreakSwitch, \
+    BusbarSection, Conductor, Connector, Disconnector, EnergyConnection, EnergyConsumer, PhaseShuntConnectionKind, EnergyConsumerPhase, SinglePhaseKind, \
+    EnergySource, EnergySourcePhase, Fuse, Jumper, Junction, Line, LinearShuntCompensator, PerLengthImpedance, PerLengthLineParameter, \
+    PowerElectronicsConnectionPhase, PowerTransformer, VectorGroup, PowerTransformerEnd, ProtectedSwitch, RatioTapChanger, TransformerEnd, Recloser, \
+    RegulatingCondEq, ShuntCompensator, Switch, TapChanger, TransformerStarImpedance, TableCircuits, Circuit, Loop, TableLoops, TablePotentialTransformers, \
+    PotentialTransformer, PotentialTransformerKind, PotentialTransformerInfo, Sensor, TableSensors, TableCurrentTransformers, CurrentTransformer, \
+    CurrentTransformerInfo, LvFeeder, TableLvFeeders, RelayInfo, SwitchInfo, TableSwitchInfo, TableProtectionRelayFunctions, ProtectionKind, PowerDirectionKind, \
+    TableCurrentRelays, CurrentRelay, TableEvChargingUnits, EvChargingUnit, RegulatingControl, RegulatingControlModeKind, TapChangerControl, \
+    TransformerCoolingType, TableProtectionRelayFunctionThresholds, TableDistanceRelays, TableVoltageRelays, TableProtectionRelayFunctionTimeLimits, \
+    TableProtectionRelaySystems, TableProtectionRelaySchemes, ProtectionRelayScheme, ProtectionRelaySystem, RelaySetting, DistanceRelay, \
+    ProtectionRelayFunction, VoltageRelay, Ground, GroundDisconnector, SeriesCompensator, TableBatteryUnits
+from zepben.evolve.database.sqlite.tables.associations.loop_substation_relationship import LoopSubstationRelationship
+from zepben.evolve.database.sqlite.tables.associations.table_asset_organisation_roles_assets import TableAssetOrganisationRolesAssets
+from zepben.evolve.database.sqlite.tables.associations.table_circuits_substations import TableCircuitsSubstations
+from zepben.evolve.database.sqlite.tables.associations.table_circuits_terminals import TableCircuitsTerminals
+from zepben.evolve.database.sqlite.tables.associations.table_equipment_equipment_containers import TableEquipmentEquipmentContainers
+from zepben.evolve.database.sqlite.tables.associations.table_equipment_operational_restrictions import TableEquipmentOperationalRestrictions
+from zepben.evolve.database.sqlite.tables.associations.table_equipment_usage_points import TableEquipmentUsagePoints
+from zepben.evolve.database.sqlite.tables.associations.table_loops_substations import TableLoopsSubstations
+from zepben.evolve.database.sqlite.tables.associations.table_protection_relay_functions_protected_switches import TableProtectionRelayFunctionsProtectedSwitches
+from zepben.evolve.database.sqlite.tables.associations.table_protection_relay_functions_sensors import TableProtectionRelayFunctionsSensors
+from zepben.evolve.database.sqlite.tables.associations.table_protection_relay_schemes_protection_relay_functions import \
+    TableProtectionRelaySchemesProtectionRelayFunctions
+from zepben.evolve.database.sqlite.tables.associations.table_usage_points_end_devices import TableUsagePointsEndDevices
+from zepben.evolve.database.sqlite.tables.iec61968.infiec61968.infassetinfo.table_current_transformer_info import TableCurrentTransformerInfo
+from zepben.evolve.database.sqlite.tables.iec61968.infiec61968.infassetinfo.table_potential_transformer_info import TablePotentialTransformerInfo
+from zepben.evolve.database.sqlite.tables.iec61968.infiec61968.infassetinfo.table_reclose_delays import TableRecloseDelays
+from zepben.evolve.database.sqlite.tables.iec61968.infiec61968.infassetinfo.table_relay_info import TableRelayInfo
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_ac_line_segments import TableAcLineSegments
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_breakers import TableBreakers
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_busbar_sections import TableBusbarSections
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_conductors import TableConductors
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_connectors import TableConnectors
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_disconnectors import TableDisconnectors
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_energy_connections import TableEnergyConnections
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_energy_consumer_phases import TableEnergyConsumerPhases
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_energy_consumers import TableEnergyConsumers
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_energy_source_phases import TableEnergySourcePhases
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_energy_sources import TableEnergySources
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_fuses import TableFuses
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_ground_disconnectors import TableGroundDisconnectors
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_grounds import TableGrounds
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_jumpers import TableJumpers
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_junctions import TableJunctions
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_linear_shunt_compensators import TableLinearShuntCompensators
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_lines import TableLines
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_load_break_switches import TableLoadBreakSwitches
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_per_length_impedances import TablePerLengthImpedances
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_per_length_line_parameters import TablePerLengthLineParameters
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_per_length_sequence_impedances import TablePerLengthSequenceImpedances
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connection_phases import TablePowerElectronicsConnectionsPhases
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connections import TablePowerElectronicsConnections
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_transformer_end_ratings import TablePowerTransformerEndRatings
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_transformer_ends import TablePowerTransformerEnds
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_transformers import TablePowerTransformers
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_protected_switches import TableProtectedSwitches
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_ratio_tap_changers import TableRatioTapChangers
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_reclosers import TableReclosers
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_regulating_cond_eq import TableRegulatingCondEq
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_regulating_controls import TableRegulatingControls
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_series_compensators import TableSeriesCompensators
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_shunt_compensators import TableShuntCompensators
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_switches import TableSwitches
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_tap_changer_controls import TableTapChangerControls
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_tap_changers import TableTapChangers
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_transformer_ends import TableTransformerEnds
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_transformer_star_impedances import TableTransformerStarImpedances
 from zepben.evolve.services.common.resolver import rce_regulating_control
 
 __all__ = ["NetworkCIMReader"]
@@ -679,7 +722,7 @@ class NetworkCIMReader(BaseCIMReader):
 
     # ************ IEC61970 BASE WIRES GENERATION PRODUCTION ************
 
-    def load_battery_unit(self, table: TableBatteryUnit, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
+    def load_battery_unit(self, table: TableBatteryUnits, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         battery_unit = BatteryUnit(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
         battery_unit.battery_state = BatteryStateKind[rs.get_string(table.battery_state.query_index)]
@@ -693,7 +736,7 @@ class NetworkCIMReader(BaseCIMReader):
 
         return self._load_power_electronics_unit(photo_voltaic_unit, table, rs) and self._add_or_throw(photo_voltaic_unit)
 
-    def _load_power_electronics_unit(self, power_electronics_unit: PowerElectronicsUnit, table: TablePowerElectronicsUnit, rs: ResultSet) -> bool:
+    def _load_power_electronics_unit(self, power_electronics_unit: PowerElectronicsUnit, table: TablePowerElectronicsUnits, rs: ResultSet) -> bool:
         power_electronics_unit.power_electronics_connection = self._ensure_get(
             rs.get_string(table.power_electronics_connection_mrid.query_index, None),
             PowerElectronicsConnection
@@ -886,7 +929,7 @@ class NetworkCIMReader(BaseCIMReader):
 
         return self._load_per_length_impedance(per_length_sequence_impedance, table, rs) and self._add_or_throw(per_length_sequence_impedance)
 
-    def load_power_electronics_connection(self, table: TablePowerElectronicsConnection, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
+    def load_power_electronics_connection(self, table: TablePowerElectronicsConnections, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         power_electronics_connection = PowerElectronicsConnection(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
         power_electronics_connection.max_i_fault = rs.get_int(table.max_i_fault.query_index, None)
@@ -923,7 +966,8 @@ class NetworkCIMReader(BaseCIMReader):
 
         return self._load_regulating_cond_eq(power_electronics_connection, table, rs) and self._add_or_throw(power_electronics_connection)
 
-    def load_power_electronics_connection_phase(self, table: TablePowerElectronicsConnectionPhases, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
+    def load_power_electronics_connection_phase(self, table: TablePowerElectronicsConnectionsPhases, rs: ResultSet,
+                                                set_last_mrid: Callable[[str], str]) -> bool:
         power_electronics_connection_phase = PowerElectronicsConnectionPhase(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
         power_electronics_connection_phase.power_electronics_connection = self._ensure_get(
             rs.get_string(table.power_electronics_connection_mrid.query_index, None),
@@ -1093,7 +1137,7 @@ class NetworkCIMReader(BaseCIMReader):
 
         return self._load_identified_object(transformer_end, table, rs)
 
-    def load_transformer_star_impedance(self, table: TableTransformerStarImpedance, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
+    def load_transformer_star_impedance(self, table: TableTransformerStarImpedances, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         transformer_star_impedance = TransformerStarImpedance(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
         transformer_star_impedance.r = rs.get_double(table.r.query_index, None)
@@ -1291,7 +1335,8 @@ class NetworkCIMReader(BaseCIMReader):
         sensor.add_relay_function(protection_relay_function)  # I feel like there was a resolver for this somewhere? oh maybe for pb
         return True
 
-    def load_protection_relay_schemes_protection_relay_functions(self, table: TableProtectionRelaySchemesProtectionRelayFunctions, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
+    def load_protection_relay_schemes_protection_relay_functions(self, table: TableProtectionRelaySchemesProtectionRelayFunctions, rs: ResultSet,
+                                                                 set_last_mrid: Callable[[str], str]) -> bool:
         protection_relay_scheme_mrid = rs.get_string(table.protection_relay_scheme_mrid.query_index)
         set_last_mrid(f"{protection_relay_scheme_mrid}-to-UNKNOWN")
 

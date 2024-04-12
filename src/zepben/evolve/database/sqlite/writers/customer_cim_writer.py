@@ -4,11 +4,14 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-from zepben.evolve.database.sqlite.tables.associations.customeragreements_association_tables import TableCustomerAgreementsPricingStructures
-from zepben.evolve.database.sqlite.tables.associations.pricingstructure_association_tables import TablePricingStructuresTariffs
-from zepben.evolve.database.sqlite.tables.database_tables import PreparedStatement
-from zepben.evolve.database.sqlite.tables.iec61968.common_tables import TableAgreements
-from zepben.evolve.database.sqlite.tables.iec61968.customer_tables import TableCustomers, TableCustomerAgreements, TablePricingStructures, TableTariffs
+from zepben.evolve.database.sqlite.tables.associations.table_customer_agreements_pricing_structures import TableCustomerAgreementsPricingStructures
+from zepben.evolve.database.sqlite.tables.associations.table_pricing_structures_tariffs import TablePricingStructuresTariffs
+from zepben.evolve.database.sqlite.prepared_statement import PreparedStatement
+from zepben.evolve.database.sqlite.tables.iec61968.common.table_agreements import TableAgreements
+from zepben.evolve.database.sqlite.tables.iec61968.customers.table_customers import TableCustomers
+from zepben.evolve.database.sqlite.tables.iec61968.customers.table_customer_agreements import TableCustomerAgreements
+from zepben.evolve.database.sqlite.tables.iec61968.customers.table_pricing_structures import TablePricingStructures
+from zepben.evolve.database.sqlite.tables.iec61968.customers.table_tariffs import TableTariffs
 from zepben.evolve.database.sqlite.writers.base_cim_writer import BaseCIMWriter
 from zepben.evolve.model.cim.iec61968.common.document import Agreement
 from zepben.evolve.model.cim.iec61968.customers.customer import Customer

@@ -7,7 +7,8 @@ from sqlite3 import Cursor
 
 from dataclassy import dataclass
 
-from zepben.evolve import DatabaseTables, DataSource, TableMetadataDataSources
+from zepben.evolve import DatabaseTables, DataSource
+from zepben.evolve.database.sqlite.tables.table_metadata_data_sources import TableMetadataDataSources
 from zepben.evolve.database.sqlite.writers.utils import try_execute_single_update
 
 __all__ = ["MetadataEntryWriter"]

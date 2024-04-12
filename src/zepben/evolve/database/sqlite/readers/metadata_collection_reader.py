@@ -4,7 +4,8 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-from zepben.evolve import BaseServiceReader, MetadataEntryReader, TableMetadataDataSources
+from zepben.evolve import BaseServiceReader, MetadataEntryReader
+from zepben.evolve.database.sqlite.tables.table_metadata_data_sources import TableMetadataDataSources
 
 __all__ = ["MetadataCollectionReader"]
 

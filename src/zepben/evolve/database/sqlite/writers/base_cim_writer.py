@@ -11,11 +11,15 @@ from sqlite3 import Cursor
 from typing import Set, Optional
 
 from dataclassy import dataclass
-
 from zepben.evolve import NameType, Name
-from zepben.evolve.database.sqlite.tables.database_tables import DatabaseTables, PreparedStatement
-from zepben.evolve.database.sqlite.tables.iec61968.common_tables import TableDocuments, TableOrganisations, TableOrganisationRoles
-from zepben.evolve.database.sqlite.tables.iec61970.base.core_tables import TableIdentifiedObjects, TableNameTypes, TableNames
+from zepben.evolve.database.sqlite.common.database_tables import DatabaseTables
+from zepben.evolve.database.sqlite.prepared_statement import PreparedStatement
+from zepben.evolve.database.sqlite.tables.iec61968.common.table_documents import TableDocuments
+from zepben.evolve.database.sqlite.tables.iec61968.common.table_organisation_roles import TableOrganisationRoles
+from zepben.evolve.database.sqlite.tables.iec61968.common.table_organisations import TableOrganisations
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_identified_objects import TableIdentifiedObjects
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_name_types import TableNameTypes
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_names import TableNames
 from zepben.evolve.database.sqlite.writers.utils import try_execute_single_update
 from zepben.evolve.model.cim.iec61968.common.document import Document
 from zepben.evolve.model.cim.iec61968.common.organisation import Organisation

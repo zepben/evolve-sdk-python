@@ -63,7 +63,7 @@ class BaseServiceReader(object):
 
                 return count
             except Exception as e:
-                logger.error(f"Failed to load '{last_identifier}' from '{db_table.name()}': {str(e)}")
+                logger.error(f"Failed to load '{last_identifier}' from '{db_table.name}': {str(e)}")
                 raise e
 
         return self._load_table(table_type, description, process_rows)
@@ -79,11 +79,11 @@ class BaseServiceReader(object):
         table = self._database_tables.get_table(table_type)
         try:
             cur = self._get_cursor()
-            cur.execute(table.select_sql())
+            cur.execute(table.select_sql)
             count = process_rows(table, ResultSet(cur.fetchall()))
 
             logger.info(f"Successfully loaded {count} {description}.")
             return True
         except Exception as e:
-            logger.error(f"Failed to read the {description} from '{table.name()}': {str(e)}", exc_info=e)
+            logger.error(f"Failed to read the {description} from '{table.name}': {str(e)}", exc_info=e)
             return False

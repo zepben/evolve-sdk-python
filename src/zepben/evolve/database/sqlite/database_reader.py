@@ -9,7 +9,8 @@ from sqlite3 import Connection, Cursor
 from typing import Callable, Optional
 
 from zepben.evolve import MetadataCollection, NetworkService, DiagramService, CustomerService, MetadataEntryReader, DiagramCIMReader, CustomerCIMReader, \
-    TableVersion, MetadataCollectionReader, DiagramServiceReader, CustomerServiceReader, Feeder, EnergySource, ConductingEquipment, connected_equipment
+    MetadataCollectionReader, DiagramServiceReader, CustomerServiceReader, Feeder, EnergySource, ConductingEquipment, connected_equipment
+from zepben.evolve.database.sqlite.tables.table_version import TableVersion
 from zepben.evolve.database.sqlite.readers.network_cim_reader import NetworkCIMReader
 from zepben.evolve.database.sqlite.readers.network_service_reader import NetworkServiceReader
 from zepben.evolve.services.network.tracing import tracing

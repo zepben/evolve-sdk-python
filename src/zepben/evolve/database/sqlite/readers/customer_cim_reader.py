@@ -6,8 +6,9 @@
 from typing import Callable
 
 from zepben.evolve import BaseCIMReader, CustomerService, Agreement, TableAgreements, ResultSet, TableCustomers, Customer, CustomerKind, \
-    TableCustomerAgreements, CustomerAgreement, TablePricingStructures, PricingStructure, TableTariffs, Tariff, TableCustomerAgreementsPricingStructures, \
-    TablePricingStructuresTariffs
+    TableCustomerAgreements, CustomerAgreement, TablePricingStructures, PricingStructure, TableTariffs, Tariff
+from zepben.evolve.database.sqlite.tables.associations.table_customer_agreements_pricing_structures import TableCustomerAgreementsPricingStructures
+from zepben.evolve.database.sqlite.tables.associations.table_pricing_structures_tariffs import TablePricingStructuresTariffs
 
 __all__ = ["CustomerCIMReader"]
 

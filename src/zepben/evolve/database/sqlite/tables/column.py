@@ -9,6 +9,8 @@ from dataclassy import dataclass
 
 from zepben.evolve.util import require
 
+__all__ = ["Nullable", "Column"]
+
 
 class Nullable(Enum):
     NONE = ""

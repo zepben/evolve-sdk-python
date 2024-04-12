@@ -11,8 +11,9 @@ from typing import Generator, Set, List
 
 from dataclassy import dataclass
 
-from zepben.evolve import DatabaseTables, MetadataCollection, BaseService, TableVersion, MetadataCollectionWriter, MetadataEntryWriter, NetworkService, \
+from zepben.evolve import DatabaseTables, MetadataCollection, BaseService, MetadataCollectionWriter, MetadataEntryWriter, NetworkService, \
     NetworkServiceWriter, NetworkCIMWriter, DiagramService, CustomerService, CustomerCIMWriter
+from zepben.evolve.database.sqlite.tables.table_version import TableVersion
 from zepben.evolve.database.sqlite.writers.customer_service_writer import CustomerServiceWriter
 from zepben.evolve.database.sqlite.writers.diagram_cim_writer import DiagramCIMWriter
 from zepben.evolve.database.sqlite.writers.diagram_service_writer import DiagramServiceWriter
@@ -125,9 +126,9 @@ class DatabaseWriter(object):
 
             with cursor(conn) as c:
                 for table in self._database_tables.tables:
-                    c.execute(table.create_table_sql())
+                    c.execute(table.create_table_sql)
 
-                c.execute(version_table.prepared_insert_sql(), (version_table.SUPPORTED_VERSION,))
+                c.execute(version_table.prepared_insert_sql, (version_table.SUPPORTED_VERSION,))
 
             conn.commit()
             logger.info("Schema created.")
@@ -142,7 +143,7 @@ class DatabaseWriter(object):
 
             with cursor(conn) as c:
                 for table in self._database_tables.tables:
-                    for index_sql in table.create_indexes_sql():
+                    for index_sql in table.create_indexes_sql:
                         c.execute(index_sql)
 
             logger.info("Indexes added.")

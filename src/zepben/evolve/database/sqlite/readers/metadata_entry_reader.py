@@ -6,7 +6,8 @@
 import datetime
 from typing import Callable
 
-from zepben.evolve import MetadataCollection, TableMetadataDataSources, ResultSet, DataSource
+from zepben.evolve import MetadataCollection, ResultSet, DataSource
+from zepben.evolve.database.sqlite.tables.table_metadata_data_sources import TableMetadataDataSources
 
 __all__ = ["MetadataEntryReader"]
 

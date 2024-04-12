@@ -40,10 +40,11 @@ from zepben.evolve import MetadataCollection, IdentifiedObject, AcLineSegment, C
     PhotoVoltaicUnit, PowerElectronicsConnection, PowerElectronicsConnectionPhase, PowerElectronicsWindUnit, Breaker, BusbarSection, Disconnector, \
     EnergyConsumer, EnergyConsumerPhase, EnergySource, EnergySourcePhase, Fuse, Jumper, Junction, LinearShuntCompensator, LoadBreakSwitch, \
     PerLengthSequenceImpedance, PowerTransformer, PowerTransformerEnd, RatioTapChanger, Recloser, TransformerStarImpedance, Circuit, Loop, BaseService, \
-    DatabaseWriter, TableVersion, DatabaseReader, NetworkServiceComparator, BaseServiceComparator, StreetAddress, TownDetail, StreetDetail, LvFeeder, \
+    DatabaseWriter, DatabaseReader, NetworkServiceComparator, BaseServiceComparator, StreetAddress, TownDetail, StreetDetail, LvFeeder, \
     CurrentTransformerInfo, PotentialTransformerInfo, CurrentTransformer, PotentialTransformer, SwitchInfo, RelayInfo, CurrentRelay, EvChargingUnit, \
     TapChangerControl, RegulatingControl, DistanceRelay, VoltageRelay, ProtectionRelayScheme, ProtectionRelaySystem, Ground, GroundDisconnector, \
     SeriesCompensator
+from zepben.evolve.database.sqlite.tables.table_version import TableVersion
 from zepben.evolve.services.customer.customer_service_comparator import CustomerServiceComparator
 from zepben.evolve.services.diagram.diagram_service_comparator import DiagramServiceComparator
 from zepben.evolve.services.network.tracing import tracing

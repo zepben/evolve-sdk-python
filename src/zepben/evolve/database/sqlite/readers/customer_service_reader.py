@@ -5,7 +5,9 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 from zepben.evolve import BaseServiceReader, TableOrganisations, TableCustomers, TableCustomerAgreements, TablePricingStructures, TableTariffs, \
-    TableCustomerAgreementsPricingStructures, TablePricingStructuresTariffs, CustomerCIMReader
+    CustomerCIMReader
+from zepben.evolve.database.sqlite.tables.associations.table_customer_agreements_pricing_structures import TableCustomerAgreementsPricingStructures
+from zepben.evolve.database.sqlite.tables.associations.table_pricing_structures_tariffs import TablePricingStructuresTariffs
 
 __all__ = ["CustomerServiceReader"]
 
