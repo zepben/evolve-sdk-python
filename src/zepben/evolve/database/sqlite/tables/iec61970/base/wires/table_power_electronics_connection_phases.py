@@ -9,13 +9,13 @@ from typing import List
 from zepben.evolve.database.sqlite.tables.column import Column, Nullable
 from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_power_system_resources import TablePowerSystemResources
 
-__all__ = ["TablePowerElectronicsConnectionsPhases"]
+__all__ = ["TablePowerElectronicsConnectionPhases"]
 
 
-class TablePowerElectronicsConnectionsPhases(TablePowerSystemResources):
+class TablePowerElectronicsConnectionPhases(TablePowerSystemResources):
 
     def __init__(self):
-        super(TablePowerElectronicsConnectionsPhases, self).__init__()
+        super(TablePowerElectronicsConnectionPhases, self).__init__()
         self.power_electronics_connection_mrid: Column = self._create_column("power_electronics_connection_mrid", "TEXT", Nullable.NULL)
         self.p: Column = self._create_column("p", "NUMBER", Nullable.NULL)
         self.phase: Column = self._create_column("phase", "TEXT", Nullable.NOT_NULL)
@@ -27,6 +27,6 @@ class TablePowerElectronicsConnectionsPhases(TablePowerSystemResources):
 
     @property
     def non_unique_index_columns(self) -> List[List[Column]]:
-        cols = super(TablePowerElectronicsConnectionsPhases, self).non_unique_index_columns
+        cols = super(TablePowerElectronicsConnectionPhases, self).non_unique_index_columns
         cols.append([self.power_electronics_connection_mrid])
         return cols

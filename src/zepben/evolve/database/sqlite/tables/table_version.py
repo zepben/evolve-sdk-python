@@ -16,7 +16,7 @@ __all__ = ["TableVersion"]
 
 
 class TableVersion(SqliteTable):
-    SUPPORTED_VERSION = 49
+    SUPPORTED_VERSION = 52
 
     def __init__(self):
         self.version: Column = self._create_column("version", "TEXT", Nullable.NOT_NULL)

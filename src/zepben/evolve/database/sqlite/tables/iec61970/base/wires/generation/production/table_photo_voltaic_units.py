@@ -6,11 +6,11 @@
 
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.generation.production.table_power_electronics_units import TablePowerElectronicsUnits
 
-__all__ = ["TablePowerElectronicsWindUnit"]
+__all__ = ["TablePhotoVoltaicUnits"]
 
 
-class TablePowerElectronicsWindUnit(TablePowerElectronicsUnits):
+class TablePhotoVoltaicUnits(TablePowerElectronicsUnits):
 
     @property
     def name(self) -> str:
-        return "power_electronics_wind_unit"
+        return "photo_voltaic_unit"
