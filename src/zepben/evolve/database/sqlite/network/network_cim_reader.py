@@ -71,7 +71,7 @@ from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_load_break_s
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_per_length_impedances import TablePerLengthImpedances
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_per_length_line_parameters import TablePerLengthLineParameters
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_per_length_sequence_impedances import TablePerLengthSequenceImpedances
-from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connection_phases import TablePowerElectronicsConnectionsPhases
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connection_phases import TablePowerElectronicsConnectionPhases
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connections import TablePowerElectronicsConnections
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_transformer_end_ratings import TablePowerTransformerEndRatings
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_transformer_ends import TablePowerTransformerEnds
@@ -966,7 +966,7 @@ class NetworkCIMReader(BaseCIMReader):
 
         return self._load_regulating_cond_eq(power_electronics_connection, table, rs) and self._add_or_throw(power_electronics_connection)
 
-    def load_power_electronics_connection_phase(self, table: TablePowerElectronicsConnectionsPhases, rs: ResultSet,
+    def load_power_electronics_connection_phase(self, table: TablePowerElectronicsConnectionPhases, rs: ResultSet,
                                                 set_last_mrid: Callable[[str], str]) -> bool:
         power_electronics_connection_phase = PowerElectronicsConnectionPhase(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
         power_electronics_connection_phase.power_electronics_connection = self._ensure_get(

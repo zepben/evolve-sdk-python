@@ -5,18 +5,17 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 from __future__ import annotations
+__all__ = ["IdentifiedObject", "TIdentifiedObject"]
 
 import logging
 from abc import ABCMeta
-from typing import Callable, Any, List, Generator, Optional, overload
+from typing import Callable, Any, List, Generator, Optional, overload, TypeVar
 
 from dataclassy import dataclass
 
 from zepben.evolve.model.cim.iec61970.base.core.name import Name
 from zepben.evolve.model.cim.iec61970.base.core.name_type import NameType
 from zepben.evolve.util import require, CopyableUUID, nlen, ngen, safe_remove
-
-__all__ = ["IdentifiedObject"]
 
 logger = logging.getLogger(__name__)
 
@@ -192,3 +191,9 @@ class IdentifiedObject(object, metaclass=ABCMeta):
             return True
         except IndexError:
             return False
+
+
+TIdentifiedObject = TypeVar("TIdentifiedObject", bound=IdentifiedObject)
+"""
+Generic type of IdentifiedObject which can be used for type hinting generics.
+"""

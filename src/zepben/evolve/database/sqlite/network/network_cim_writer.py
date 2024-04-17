@@ -3,6 +3,10 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+#  This Source Code Form is subject to the terms of the Mozilla Public
+#  License, v. 2.0. If a copy of the MPL was not distributed with this
+#  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 from zepben.evolve import (CableInfo, TableCableInfo, PreparedStatement, WireInfo, TableWireInfo, AssetInfo, TableOverheadWireInfo, OverheadWireInfo,
                            PowerTransformerInfo, TablePowerTransformerInfo, TableAcDcTerminals, AcDcTerminal, BaseVoltage, TableBaseVoltages,
@@ -73,7 +77,7 @@ from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_load_break_s
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_per_length_impedances import TablePerLengthImpedances
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_per_length_line_parameters import TablePerLengthLineParameters
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_per_length_sequence_impedances import TablePerLengthSequenceImpedances
-from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connection_phases import TablePowerElectronicsConnectionsPhases
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connection_phases import TablePowerElectronicsConnectionPhases
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connections import TablePowerElectronicsConnections
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_transformer_end_ratings import TablePowerTransformerEndRatings
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_transformer_ends import TablePowerTransformerEnds
@@ -958,8 +962,8 @@ class NetworkCIMWriter(BaseCIMWriter):
         return self._save_regulating_cond_eq(table, insert, power_electronics_connection, "power electronics connection")
 
     def save_power_electronics_connection_phase(self, power_electronics_connection_phase: PowerElectronicsConnectionPhase) -> bool:
-        table = self.database_tables.get_table(TablePowerElectronicsConnectionsPhases)
-        insert = self.database_tables.get_insert(TablePowerElectronicsConnectionsPhases)
+        table = self.database_tables.get_table(TablePowerElectronicsConnectionPhases)
+        insert = self.database_tables.get_insert(TablePowerElectronicsConnectionPhases)
 
         insert.add_value(table.power_electronics_connection_mrid.query_index,
                          self._mrid_or_none(power_electronics_connection_phase.power_electronics_connection))

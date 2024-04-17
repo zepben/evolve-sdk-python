@@ -17,8 +17,7 @@ __all__ = ["get_by_mrid", "contains_mrid", "safe_remove", "safe_remove_by_id", "
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from zepben.evolve import IdentifiedObject
-    TIdentifiedObject = TypeVar('TIdentifiedObject', bound=IdentifiedObject)
+    from zepben.evolve import IdentifiedObject, TIdentifiedObject
 
 T = TypeVar('T')
 

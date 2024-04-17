@@ -34,7 +34,7 @@ def validate_service_translations(service_type: Type[BaseService], comparator: B
     except BaseException as e:
         print("###########################")
         print(f"Processing {processing}:")
-        print(f"Exception [{type(e).__name__}: {e}")
+        print(f"Exception [{type(e).__name__}: {e}", e)
         print_exc()
         print("---------------------------")
         print(diffs)

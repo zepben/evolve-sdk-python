@@ -3,6 +3,10 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+#  This Source Code Form is subject to the terms of the Mozilla Public
+#  License, v. 2.0. If a copy of the MPL was not distributed with this
+#  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 from datetime import datetime
 from typing import Any, Optional, Union, Type, TypeVar, List
 
@@ -123,7 +127,7 @@ class ResultSet:
         if value is None:
             return self._value_or_raise(on_none)
         else:
-            # TODO: JVM seems to use Z as TZ offset (for UTC+0?) while python uses +HH:mm format. Need to investigate here
+            # The timestamp in the database uses Z for UTC while python uses +HH:mm format, so convert between them.
             return datetime.fromisoformat(value.rstrip('Z'))
 
     def get_ratio(self, numerator_column_index: int, denominator_column_index: int, on_none: Union[Optional[bool], Type[Exception]] = ValueError):

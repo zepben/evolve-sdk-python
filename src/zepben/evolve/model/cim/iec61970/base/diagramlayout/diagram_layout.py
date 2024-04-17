@@ -6,9 +6,8 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import List, Optional, Dict, Generator
-
-from dataclassy import dataclass
 
 from zepben.evolve.model.cim.iec61970.base.core.identified_object import IdentifiedObject
 from zepben.evolve.model.cim.iec61970.base.diagramlayout.diagram_style import DiagramStyle

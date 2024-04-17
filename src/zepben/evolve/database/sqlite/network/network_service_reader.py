@@ -3,6 +3,10 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+#  This Source Code Form is subject to the terms of the Mozilla Public
+#  License, v. 2.0. If a copy of the MPL was not distributed with this
+#  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 from zepben.evolve import BaseServiceReader, TableCableInfo, TableOverheadWireInfo, TablePowerTransformerInfo, TableTransformerTankInfo, TableNoLoadTests, \
     TableOpenCircuitTests, TableShortCircuitTests, TableShuntCompensatorInfo, TableTransformerEndInfo, TableLocations, TableOrganisations, TableAssetOwners, \
@@ -45,7 +49,7 @@ from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_junctions im
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_linear_shunt_compensators import TableLinearShuntCompensators
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_load_break_switches import TableLoadBreakSwitches
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_per_length_sequence_impedances import TablePerLengthSequenceImpedances
-from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connection_phases import TablePowerElectronicsConnectionsPhases
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connection_phases import TablePowerElectronicsConnectionPhases
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_electronics_connections import TablePowerElectronicsConnections
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_transformer_end_ratings import TablePowerTransformerEndRatings
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_power_transformer_ends import TablePowerTransformerEnds
@@ -127,7 +131,7 @@ class NetworkServiceReader(BaseServiceReader):
         status = status and self._load_each(TablePowerElectronicsConnections, "power electronics connection", reader.load_power_electronics_connection)
         status = status and self._load_each(TableTerminals, "terminals", reader.load_terminal)
         status = status and self._load_each(TableTapChangerControls, "tap changer controls", reader.load_tap_changer_control)
-        status = status and self._load_each(TablePowerElectronicsConnectionsPhases, "power electronics connection phases",
+        status = status and self._load_each(TablePowerElectronicsConnectionPhases, "power electronics connection phases",
                                             reader.load_power_electronics_connection_phase)
         status = status and self._load_each(TableBatteryUnits, "battery unit", reader.load_battery_unit)
         status = status and self._load_each(TablePhotoVoltaicUnit, "photo voltaic unit", reader.load_photo_voltaic_unit)

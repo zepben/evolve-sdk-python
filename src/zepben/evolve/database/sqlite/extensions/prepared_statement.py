@@ -3,26 +3,35 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-
+#
+#  This Source Code Form is subject to the terms of the Mozilla Public
+#  License, v. 2.0. If a copy of the MPL was not distributed with this
+#  file, You can obtain one at https://mozilla.org/MPL/2.0/.
+from logging import Logger
 from sqlite3 import Cursor
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Callable
 
-from dataclassy import dataclass
-from zepben.evolve import Ratio
+from zepben.evolve.model.cim.iec61968.infiec61968.infcommon.ratio import Ratio
 
 
 class SqlException(Exception):
     pass
 
 
-@dataclass(slots=True)
 class PreparedStatement(object):
-    statement: str
-    _values: Dict[int, Any] = dict()
-    _num_cols: int = None
+    """
+    A class giving the same functionality as the JVM PreparedStatement with the JVM SDK extensions added.
+    """
 
-    def __init__(self):
-        self._num_cols = self.statement.count('?')
+    def __init__(self, sql: str, cursor: Cursor):
+        self.sql: str = sql
+        self._cursor: Cursor = cursor
+
+        self._num_cols: int = self.sql.count('?')
+        self._values: Dict[int, Any] = dict()
+
+    def __str__(self):
+        return f"PreparedStatement[sql={self.sql}, values={self._values}]"
 
     @property
     def num_columns(self):
@@ -45,11 +54,11 @@ class PreparedStatement(object):
                 pm.append("(unset)")
         return ", ".join(pm)
 
-    def execute(self, cursor: Cursor):
+    def execute(self):
         """
         Execute this PreparedStatement using the given `cursor`.
 
-        Throws any exception possible from cursor.execute, typically `sqlite3.DatabaseError`
+        Throws any exception possible from `cursor.execute`, typically `sqlite3.DatabaseError`
         """
         parameters = []
         missing = []
@@ -62,7 +71,7 @@ class PreparedStatement(object):
         if missing:
             raise SqlException(f"Missing values for indices {', '.join(missing)}. Ensure all ?'s have a corresponding value in the prepared statement.")
 
-        cursor.execute(self.statement, parameters)
+        self._cursor.execute(self.sql, parameters)
 
     def add_value(self, index: int, value: Any):
         if 0 < index <= self._num_cols:
@@ -77,3 +86,27 @@ class PreparedStatement(object):
         else:
             self.add_value(numerator_index, value.numerator)
             self.add_value(denominator_index, value.denominator)
+
+    def try_execute_single_update(self, on_error: Optional[Callable[[Exception], None]] = None) -> bool:
+        """
+        Execute an update on the database with the given `query`.
+        Failures will be logged as warnings.
+        `query` The PreparedStatement to execute.
+        `id` The mRID of the relevant object that is being saved
+        `description` A description of the type of object (e.g. AcLineSegment)
+        Returns True if the `execute` was successful, False otherwise.
+        """
+        try:
+            self.execute()
+            return True
+        except Exception as ex:
+            if on_error:
+                on_error(ex)
+            return False
+
+    def log_failure(self, logger: Logger, description: str):
+        logger.warning(
+            f"Failed to save {description}.\n" +
+            f"SQL: {self}\n" +
+            f"Fields: {self.parameters}"
+        )
