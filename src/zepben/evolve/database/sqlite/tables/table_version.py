@@ -8,7 +8,9 @@ import sqlite3
 from sqlite3 import Cursor
 from typing import Optional
 
-from zepben.evolve import SqliteTable, Column, Nullable
+from zepben.evolve.database.sqlite.tables.column import Column, Nullable
+from zepben.evolve.database.sqlite.tables.sqlite_table import SqliteTable
+
 
 __all__ = ["TableVersion"]
 

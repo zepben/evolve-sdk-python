@@ -5,7 +5,7 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 from abc import ABC
 
-from zepben.evolve import Column, Nullable
+from zepben.evolve.database.sqlite.tables.column import Column, Nullable
 from zepben.evolve.database.sqlite.tables.iec61968.assets.table_asset_info import TableAssetInfo
 
 __all__ = ["TableTransformerTest"]

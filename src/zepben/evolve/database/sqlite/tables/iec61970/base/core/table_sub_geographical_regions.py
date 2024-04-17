@@ -6,7 +6,7 @@
 
 from typing import List
 
-from zepben.evolve import Column, Nullable
+from zepben.evolve.database.sqlite.tables.column import Column, Nullable
 from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_identified_objects import TableIdentifiedObjects
 
 __all__ = ["TableSubGeographicalRegions"]

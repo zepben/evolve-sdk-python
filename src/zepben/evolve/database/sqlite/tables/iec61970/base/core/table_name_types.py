@@ -6,9 +6,10 @@
 
 from typing import List
 
-from zepben.evolve import SqliteTable, Column, Nullable
-
 __all__ = ["TableNameTypes"]
+
+from zepben.evolve.database.sqlite.tables.column import Column, Nullable
+from zepben.evolve.database.sqlite.tables.sqlite_table import SqliteTable
 
 
 class TableNameTypes(SqliteTable):

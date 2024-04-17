@@ -5,7 +5,9 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 from abc import ABC
 
-from zepben.evolve import SqliteTable, Column, Nullable
+from zepben.evolve.database.sqlite.tables.column import Column, Nullable
+from zepben.evolve.database.sqlite.tables.sqlite_table import SqliteTable
+
 
 __all__ = ["TableTownDetails"]
 

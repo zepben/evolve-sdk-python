@@ -6,7 +6,9 @@
 from abc import ABC
 from typing import List
 
-from zepben.evolve import SqliteTable, Column, Nullable
+from zepben.evolve.database.sqlite.tables.column import Column, Nullable
+from zepben.evolve.database.sqlite.tables.sqlite_table import SqliteTable
+
 
 __all__ = ["TableIdentifiedObjects"]
 

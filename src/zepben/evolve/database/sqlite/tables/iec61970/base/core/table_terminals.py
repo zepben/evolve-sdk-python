@@ -6,7 +6,7 @@
 
 from typing import List
 
-from zepben.evolve import Column, Nullable
+from zepben.evolve.database.sqlite.tables.column import Column, Nullable
 from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_ac_dc_terminals import TableAcDcTerminals
 
 __all__ = ["TableTerminals"]
