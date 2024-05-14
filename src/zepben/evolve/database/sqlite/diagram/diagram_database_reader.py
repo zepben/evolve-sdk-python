@@ -3,67 +3,46 @@
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
-from typing import Callable
+__all__ = ["DiagramDatabaseReader"]
 
-from zepben.evolve import BaseCIMReader, TableDiagrams, ResultSet, Diagram, DiagramStyle, OrientationKind, TableDiagramObjects, DiagramObject, \
-    TableDiagramObjectPoints, DiagramObjectPoint, DiagramService
+from sqlite3 import Connection
 
-__all__ = ["DiagramCIMReader"]
+from zepben.evolve.database.sqlite.common.base_database_reader import BaseDatabaseReader
+from zepben.evolve.database.sqlite.common.metadata_collection_reader import MetadataCollectionReader
+from zepben.evolve.database.sqlite.diagram.diagram_database_tables import DiagramDatabaseTables
+from zepben.evolve.database.sqlite.diagram.diagram_service_reader import DiagramServiceReader
+from zepben.evolve.database.sqlite.tables.table_version import TableVersion
+from zepben.evolve.services.common.meta.metadata_collection import MetadataCollection
+from zepben.evolve.services.diagram.diagrams import DiagramService
 
-from zepben.evolve.database.sqlite.readers.base_cim_reader import DuplicateMRIDException
 
+class DiagramDatabaseReader(BaseDatabaseReader):
+    """
+    A class for reading the `DiagramService` objects and `MetadataCollection` from our diagram database.
 
-class DiagramCIMReader(BaseCIMReader):
-    _diagram_service: DiagramService
+    :param connection: The connection to the database.
+    :param metadata: The `MetadataCollection` to populate with metadata from the database.
+    :param service: The `DiagramService` to populate with CIM objects from the database.
+    :param database_description: The description of the database for logging (e.g. filename).
+    """
 
-    def __init__(self, diagram_service: DiagramService):
-        super().__init__(diagram_service)
-
-    # ************ IEC61970 DIAGRAM LAYOUT ************
-
-    def load_diagram(self, table: TableDiagrams, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
-        diagram = Diagram(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
-
-        diagram.diagram_style = DiagramStyle[rs.get_string(table.diagram_style.query_index)]
-        diagram.orientation_kind = OrientationKind[rs.get_string(table.orientation_kind.query_index)]
-
-        return self._load_identified_object(diagram, table, rs) and self._add_or_throw(diagram)
-
-    def load_diagram_object(self, table: TableDiagramObjects, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
-        diagram_object = DiagramObject(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
-
-        diagram = self._ensure_get(rs.get_string(table.diagram_mrid.query_index, None), Diagram)
-        if diagram is not None:
-            diagram.add_diagram_object(diagram_object)
-
-        diagram_object.identified_object_mrid = rs.get_string(table.identified_object_mrid.query_index, None)
-        diagram_object.style = rs.get_string(table.style.query_index, None)
-        diagram_object.rotation = rs.get_double(table.rotation.query_index)
-
-        if not self._load_identified_object(diagram_object, table, rs):
-            return False
-
-        # noinspection PyUnresolvedReferences
-        if self._base_service.add_diagram_object(diagram_object):
-            return True
-        else:
-            raise DuplicateMRIDException(
-                f"Failed to load {diagram_object}. Unable to add to service '{self._base_service.name}': duplicate MRID ({self._base_service.get(diagram_object.mrid)})"
-            )
-
-    def load_diagram_object_point(self, table: TableDiagramObjectPoints, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
-        diagram_object_mrid = set_last_mrid(rs.get_string(table.diagram_object_mrid.query_index))
-        sequence_number = rs.get_int(table.sequence_number.query_index)
-
-        set_last_mrid(f"{diagram_object_mrid}-point{sequence_number}")
-
-        # noinspection PyArgumentList
-        diagram_object_point = DiagramObjectPoint(
-            rs.get_double(table.x_position.query_index),
-            rs.get_double(table.y_position.query_index)
+    def __init__(
+        self,
+        connection: Connection,
+        metadata: MetadataCollection,
+        service: DiagramService,
+        database_description: str,
+        tables: DiagramDatabaseTables = None,
+        metadata_reader: MetadataCollectionReader = None,
+        service_reader: DiagramServiceReader = None,
+        table_version: TableVersion = None
+    ):
+        tables = tables if tables is not None else DiagramDatabaseTables()
+        super().__init__(
+            connection,
+            metadata_reader if metadata_reader is not None else MetadataCollectionReader(metadata, tables, connection),
+            service_reader if service_reader is not None else DiagramServiceReader(service, tables, connection),
+            service,
+            database_description,
+            table_version if table_version is not None else TableVersion()
         )
-
-        diagram_object = self._base_service.get(diagram_object_mrid, DiagramObject)
-        diagram_object.insert_point(diagram_object_point, sequence_number)
-
-        return True

@@ -47,7 +47,7 @@ class CustomerServiceReader(BaseServiceReader):
 
         # This is not strictly necessary, it is just to update the type of the reader. It could be done with a generic
         # on the base class which looks like it works, but that actually silently breaks code insight and completion
-        self._reader: CustomerCimReader = reader
+        self._reader = reader
 
     def _do_load(self) -> bool:
         return all([

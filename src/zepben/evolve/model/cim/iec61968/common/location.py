@@ -6,9 +6,8 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import List, Optional, Generator
-
-from dataclassy import dataclass
 
 from zepben.evolve.model.cim.iec61970.base.core.identified_object import IdentifiedObject
 from zepben.evolve.util import require, nlen, ngen, safe_remove
@@ -21,7 +20,7 @@ class PositionPoint(object):
     """
     Set of spatial coordinates that determine a point, defined in WGS84 (latitudes and longitudes).
 
-    Use a single position point instance to desribe a point-oriented location.
+    Use a single position point instance to describe a point-oriented location.
     Use a sequence of position points to describe a line-oriented object (physical location of non-point oriented
     objects like cables or lines), or area of an object (like a substation or a geographical zone - in this case,
     have first and last position point with the same values).
@@ -32,11 +31,13 @@ class PositionPoint(object):
     y_position: float
     """Y axis position - latitude"""
 
-    def __init__(self):
+    def __init__(self, x_position: float, y_position: float):
         require(-90.0 <= self.y_position <= 90.0,
                 lambda: f"Latitude is out of range. Expected -90 to 90, got {self.y_position}.")
         require(-180.0 <= self.x_position <= 180.0,
                 lambda: f"Longitude is out of range. Expected -180 to 180, got {self.x_position}.")
+        self.x_position = x_position
+        self.y_position = y_position
 
     def __str__(self):
         return f"{self.x_position}:{self.y_position}"
