@@ -1,8 +1,7 @@
 #  Copyright 2024 Zeppelin Bend Pty Ltd
-#
 #  This Source Code Form is subject to the terms of the Mozilla Public
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
-#  file, You can obtain one at hdps://mozilla.org/MPL/2.0/.
+#  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 from hypothesis.strategies import builds, lists
 
@@ -19,7 +18,7 @@ asset_kwargs = {
 
 asset_args = [*identified_object_args, Location(), [AssetOrganisationRole()]]
 
-
+`
 def verify_asset_constructor_default(a: Asset):
     verify_identified_object_constructor_default(a)
     assert not a.location
