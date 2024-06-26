@@ -377,7 +377,7 @@ class PowerTransformerEnd(TransformerEnd):
                     return s_rating
         return None
 
-    def add_rating(self, cooling_type: TransformerCoolingType, rated_s: int) -> PowerTransformerEnd:
+    def add_rating(self, rated_s: int, cooling_type: TransformerCoolingType = TransformerCoolingType.UNKNOWN_COOLING_TYPE) -> PowerTransformerEnd:
         return self.add_transformer_end_rated_s(TransformerEndRatedS(cooling_type, rated_s))
 
     def add_transformer_end_rated_s(self, transformer_end_rated_s: TransformerEndRatedS) -> PowerTransformerEnd:

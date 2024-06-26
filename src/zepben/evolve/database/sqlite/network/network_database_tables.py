@@ -109,7 +109,7 @@ class NetworkDatabaseTables(BaseDatabaseTables):
     """
 
     @property
-    def _included_tables(self) -> Generator[SqliteTable]:
+    def _included_tables(self) -> Generator[SqliteTable, None, None]:
         for table in super()._included_tables:
             yield table
 

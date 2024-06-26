@@ -68,7 +68,7 @@ class DiagramCimReader(BaseCimReader):
 
         diagram_object.identified_object_mrid = result_set.get_string(table.identified_object_mrid.query_index, on_none=None)
         diagram_object.style = result_set.get_string(table.style.query_index, on_none=None)
-        diagram_object.rotation = result_set.get_double(table.rotation.query_index)
+        diagram_object.rotation = result_set.get_float(table.rotation.query_index)
 
         return self._load_identified_object(diagram_object, table, result_set) and self._add_or_throw(diagram_object)
 
@@ -90,8 +90,8 @@ class DiagramCimReader(BaseCimReader):
 
         self._service.get(diagram_object_mrid, DiagramObject).insert_point(
             DiagramObjectPoint(
-                result_set.get_double(table.x_position.query_index),
-                result_set.get_double(table.y_position.query_index)
+                result_set.get_float(table.x_position.query_index),
+                result_set.get_float(table.y_position.query_index)
             ),
             sequence_number
         )

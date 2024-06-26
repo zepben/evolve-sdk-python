@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from datetime import datetime
 
 
-@dataclass(slots=True)
+@dataclass
 class DataSource(object):
     source: str
     version: str

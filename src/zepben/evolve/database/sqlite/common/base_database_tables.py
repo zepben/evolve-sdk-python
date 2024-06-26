@@ -29,7 +29,7 @@ class BaseDatabaseTables(ABC):
     _insert_statements: Optional[Dict[Type[TSqliteTable], PreparedStatement]]
 
     @property
-    def tables(self) -> Generator[SqliteTable]:
+    def tables(self) -> Generator[SqliteTable, None, None]:
         """
         The tables that are available in this database, keyed on the table class. You should use `get_table` to access individual tables.
         """
@@ -40,7 +40,7 @@ class BaseDatabaseTables(ABC):
             yield t
 
     @property
-    def insert_statements(self) -> Generator[PreparedStatement]:
+    def insert_statements(self) -> Generator[PreparedStatement, None, None]:
         """
         A collection of `PreparedStatement` for each table. You should use `get_insert` to access individual inserts.
         """
@@ -49,7 +49,7 @@ class BaseDatabaseTables(ABC):
                 yield s
 
     @property
-    def _included_tables(self) -> Generator[SqliteTable]:
+    def _included_tables(self) -> Generator[SqliteTable, None, None]:
         """
         A sequence of `SqliteTable` indicating which tables are included in this database, which will be consumed to build the `tables` collection.
 

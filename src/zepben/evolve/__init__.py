@@ -1,5 +1,4 @@
 # #  Copyright 2024 Zeppelin Bend Pty Ltd
-# #
 # #  This Source Code Form is subject to the terms of the Mozilla Public
 # #  License, v. 2.0. If a copy of the MPL was not distributed with this
 # #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
@@ -318,9 +317,9 @@
 # from zepben.evolve.database.sqlite.tables.iec61970.base.scada.table_remote_points import *
 # from zepben.evolve.database.sqlite.tables.iec61970.base.scada.table_remote_sources import *
 # from zepben.evolve.database.sqlite.tables.iec61970.base.wires.generation.production.table_battery_units import *
-# from zepben.evolve.database.sqlite.tables.iec61970.base.wires.generation.production.table_photo_voltaic_unit import *
+# from zepben.evolve.database.sqlite.tables.iec61970.base.wires.generation.production.table_photo_voltaic_units import *
 # from zepben.evolve.database.sqlite.tables.iec61970.base.wires.generation.production.table_power_electronics_units import *
-# from zepben.evolve.database.sqlite.tables.iec61970.base.wires.generation.production.table_power_electronics_wind_unit import *
+# from zepben.evolve.database.sqlite.tables.iec61970.base.wires.generation.production.table_power_electronics_wind_units import *
 # from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_ac_line_segments import *
 # from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_breakers import *
 # from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_busbar_sections import *
@@ -364,32 +363,38 @@
 # from zepben.evolve.database.sqlite.tables.iec61970.infiec61970.feeder.table_loops import *
 # from zepben.evolve.database.sqlite.tables.iec61970.infiec61970.feeder.table_lv_feeders import *
 # from zepben.evolve.database.sqlite.tables.iec61970.infiec61970.wires.generation.production.table_ev_charging_units import *
-# from zepben.evolve.database.sqlite.common.database_tables import *
-# from zepben.evolve.database.sqlite.prepared_statement import *
+# from zepben.evolve.database.sqlite.customer.customer_database_tables import *
+# from zepben.evolve.database.sqlite.diagram.diagram_database_tables import *
+# from zepben.evolve.database.sqlite.network.network_database_tables import *
+# from zepben.evolve.database.sqlite.extensions.prepared_statement import *
 # from zepben.evolve.database.sqlite.tables.exceptions import *
-# from zepben.evolve.database.sqlite.writers.base_cim_writer import *
-# from zepben.evolve.database.sqlite.writers.network_cim_writer import *
-# from zepben.evolve.database.sqlite.writers.customer_cim_writer import *
-# from zepben.evolve.database.sqlite.writers.diagram_cim_writer import *
-# from zepben.evolve.database.sqlite.writers.metadata_entry_writer import *
-# from zepben.evolve.database.sqlite.writers.metadata_collection_writer import *
-# from zepben.evolve.database.sqlite.writers.base_service_writer import *
-# from zepben.evolve.database.sqlite.writers.network_service_writer import *
-# from zepben.evolve.database.sqlite.writers.customer_service_writer import *
-# from zepben.evolve.database.sqlite.writers.diagram_service_writer import *
-# from zepben.evolve.database.sqlite.database_writer import *
-# from zepben.evolve.database.sqlite.readers.result_set import ResultSet
-# from zepben.evolve.database.sqlite.readers.base_cim_reader import *
-# from zepben.evolve.database.sqlite.readers.base_service_reader import *
-# from zepben.evolve.database.sqlite.readers.customer_cim_reader import *
-# from zepben.evolve.database.sqlite.readers.customer_service_reader import *
-# from zepben.evolve.database.sqlite.readers.diagram_cim_reader import *
-# from zepben.evolve.database.sqlite.readers.diagram_service_reader import *
-# from zepben.evolve.database.sqlite.readers.metadata_entry_reader import *
-# from zepben.evolve.database.sqlite.readers.metadata_collection_reader import *
-# from zepben.evolve.database.sqlite.readers.network_cim_reader import *
-# from zepben.evolve.database.sqlite.readers.network_service_reader import *
-# from zepben.evolve.database.sqlite.database_reader import *
+# from zepben.evolve.database.sqlite.common.base_cim_writer import *
+# from zepben.evolve.database.sqlite.common.base_service_writer import *
+# from zepben.evolve.database.sqlite.common.metadata_entry_writer import *
+# from zepben.evolve.database.sqlite.common.metadata_collection_writer import *
+# from zepben.evolve.database.sqlite.customer.customer_cim_writer import *
+# from zepben.evolve.database.sqlite.customer.customer_database_writer import *
+# from zepben.evolve.database.sqlite.customer.customer_service_writer import *
+# from zepben.evolve.database.sqlite.diagram.diagram_cim_writer import *
+# from zepben.evolve.database.sqlite.diagram.diagram_database_writer import *
+# from zepben.evolve.database.sqlite.diagram.diagram_service_writer import *
+# from zepben.evolve.database.sqlite.network.network_cim_writer import *
+# from zepben.evolve.database.sqlite.network.network_database_writer import *
+# from zepben.evolve.database.sqlite.network.network_service_writer import *
+# from zepben.evolve.database.sqlite.extensions.result_set import ResultSet
+# from zepben.evolve.database.sqlite.common.base_cim_reader import *
+# from zepben.evolve.database.sqlite.common.base_service_reader import *
+# from zepben.evolve.database.sqlite.common.metadata_entry_reader import *
+# from zepben.evolve.database.sqlite.common.metadata_collection_reader import *
+# from zepben.evolve.database.sqlite.customer.customer_cim_reader import *
+# from zepben.evolve.database.sqlite.customer.customer_database_reader import *
+# from zepben.evolve.database.sqlite.customer.customer_service_reader import *
+# from zepben.evolve.database.sqlite.diagram.diagram_cim_reader import *
+# from zepben.evolve.database.sqlite.diagram.diagram_database_reader import *
+# from zepben.evolve.database.sqlite.diagram.diagram_service_reader import *
+# from zepben.evolve.database.sqlite.network.network_cim_reader import *
+# from zepben.evolve.database.sqlite.network.network_database_reader import *
+# from zepben.evolve.database.sqlite.network.network_service_reader import *
 #
 # from zepben.evolve.testing.test_network_builder import *
 # from zepben.evolve.testing.test_traversal import *

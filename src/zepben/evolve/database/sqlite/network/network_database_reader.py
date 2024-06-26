@@ -105,8 +105,8 @@ class NetworkCIMReader(BaseCIMReader):
         no_load_test = NoLoadTest(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
         no_load_test.energised_end_voltage = rs.get_int(table.energised_end_voltage.query_index, None)
-        no_load_test.exciting_current = rs.get_double(table.exciting_current.query_index, None)
-        no_load_test.exciting_current_zero = rs.get_double(table.exciting_current_zero.query_index, None)
+        no_load_test.exciting_current = rs.get_float(table.exciting_current.query_index, None)
+        no_load_test.exciting_current_zero = rs.get_float(table.exciting_current_zero.query_index, None)
         no_load_test.loss = rs.get_int(table.loss.query_index, None)
         no_load_test.loss_zero = rs.get_int(table.loss_zero.query_index, None)
 
@@ -119,7 +119,7 @@ class NetworkCIMReader(BaseCIMReader):
         open_circuit_test.energised_end_voltage = rs.get_int(table.energised_end_voltage.query_index, None)
         open_circuit_test.open_end_step = rs.get_int(table.open_end_step.query_index, None)
         open_circuit_test.open_end_voltage = rs.get_int(table.open_end_voltage.query_index, None)
-        open_circuit_test.phase_shift = rs.get_double(table.phase_shift.query_index, None)
+        open_circuit_test.phase_shift = rs.get_float(table.phase_shift.query_index, None)
 
         return self._load_transformer_test(open_circuit_test, table, rs) and self._add_or_throw(open_circuit_test)
 
@@ -136,16 +136,16 @@ class NetworkCIMReader(BaseCIMReader):
     def load_short_circuit_test(self, table: TableShortCircuitTests, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         short_circuit_test = ShortCircuitTest(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        short_circuit_test.current = rs.get_double(table.current.query_index, None)
+        short_circuit_test.current = rs.get_float(table.current.query_index, None)
         short_circuit_test.energised_end_step = rs.get_int(table.energised_end_step.query_index, None)
         short_circuit_test.grounded_end_step = rs.get_int(table.grounded_end_step.query_index, None)
-        short_circuit_test.leakage_impedance = rs.get_double(table.leakage_impedance.query_index, None)
-        short_circuit_test.leakage_impedance_zero = rs.get_double(table.leakage_impedance_zero.query_index, None)
+        short_circuit_test.leakage_impedance = rs.get_float(table.leakage_impedance.query_index, None)
+        short_circuit_test.leakage_impedance_zero = rs.get_float(table.leakage_impedance_zero.query_index, None)
         short_circuit_test.loss = rs.get_int(table.loss.query_index, None)
         short_circuit_test.loss_zero = rs.get_int(table.loss_zero.query_index, None)
         short_circuit_test.power = rs.get_int(table.power.query_index, None)
-        short_circuit_test.voltage = rs.get_double(table.voltage.query_index, None)
-        short_circuit_test.voltage_ohmic_part = rs.get_double(table.voltage_ohmic_part.query_index, None)
+        short_circuit_test.voltage = rs.get_float(table.voltage.query_index, None)
+        short_circuit_test.voltage_ohmic_part = rs.get_float(table.voltage_ohmic_part.query_index, None)
 
         return self._load_transformer_test(short_circuit_test, table, rs) and self._add_or_throw(short_circuit_test)
 
@@ -162,7 +162,7 @@ class NetworkCIMReader(BaseCIMReader):
     def load_switch_info(self, table: TableSwitchInfo, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         switch_info = SwitchInfo(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        switch_info.rated_interrupting_time = rs.get_double(table.rated_interrupting_time.query_index, None)
+        switch_info.rated_interrupting_time = rs.get_float(table.rated_interrupting_time.query_index, None)
 
         return self._load_asset_info(switch_info, table, rs) and self._add_or_throw(switch_info)
 
@@ -174,7 +174,7 @@ class NetworkCIMReader(BaseCIMReader):
         transformer_end_info.end_number = rs.get_int(table.end_number.query_index)
         transformer_end_info.insulation_u = rs.get_int(table.insulation_u.query_index, None)
         transformer_end_info.phase_angle_clock = rs.get_int(table.phase_angle_clock.query_index, None)
-        transformer_end_info.r = rs.get_double(table.r.query_index, None)
+        transformer_end_info.r = rs.get_float(table.r.query_index, None)
         transformer_end_info.rated_s = rs.get_int(table.rated_s.query_index, None)
         transformer_end_info.rated_u = rs.get_int(table.rated_u.query_index, None)
         transformer_end_info.short_term_s = rs.get_int(table.short_term_s.query_index, None)
@@ -206,7 +206,7 @@ class NetworkCIMReader(BaseCIMReader):
 
     def _load_transformer_test(self, transformer_test: TransformerTest, table: TableTransformerTest, rs: ResultSet) -> bool:
         transformer_test.base_power = rs.get_int(table.base_power.query_index, None)
-        transformer_test.temperature = rs.get_double(table.temperature.query_index, None)
+        transformer_test.temperature = rs.get_float(table.temperature.query_index, None)
 
         return self._load_identified_object(transformer_test, table, rs)
 
@@ -286,8 +286,8 @@ class NetworkCIMReader(BaseCIMReader):
 
         # noinspection PyArgumentList
         position_point = PositionPoint(
-            rs.get_double(table.x_position.query_index),
-            rs.get_double(table.y_position.query_index)
+            rs.get_float(table.x_position.query_index),
+            rs.get_float(table.y_position.query_index)
         )
 
         location.insert_point(position_point, sequence_number)
@@ -342,16 +342,16 @@ class NetworkCIMReader(BaseCIMReader):
         current_transformer_info = CurrentTransformerInfo(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
         current_transformer_info.accuracy_class = rs.get_string(table.accuracy_class.query_index, None)
-        current_transformer_info.accuracy_limit = rs.get_double(table.accuracy_limit.query_index, None)
+        current_transformer_info.accuracy_limit = rs.get_float(table.accuracy_limit.query_index, None)
         current_transformer_info.core_count = rs.get_int(table.core_count.query_index, None)
         current_transformer_info.ct_class = rs.get_string(table.ct_class.query_index, None)
         current_transformer_info.knee_point_voltage = rs.get_int(table.knee_point_voltage.query_index, None)
         current_transformer_info.max_ratio = rs.get_ratio(table.max_ratio_numerator.query_index, table.max_ratio_denominator.query_index, None)
         current_transformer_info.nominal_ratio = rs.get_ratio(table.nominal_ratio_numerator.query_index, table.nominal_ratio_denominator.query_index, None)
-        current_transformer_info.primary_ratio = rs.get_double(table.primary_ratio.query_index, None)
+        current_transformer_info.primary_ratio = rs.get_float(table.primary_ratio.query_index, None)
         current_transformer_info.rated_current = rs.get_int(table.rated_current.query_index, None)
         current_transformer_info.secondary_fls_rating = rs.get_int(table.secondary_fls_rating.query_index, None)
-        current_transformer_info.secondary_ratio = rs.get_double(table.secondary_ratio.query_index, None)
+        current_transformer_info.secondary_ratio = rs.get_float(table.secondary_ratio.query_index, None)
         current_transformer_info.usage = rs.get_string(table.usage.query_index, None)
 
         return self._load_asset_info(current_transformer_info, table, rs) and self._add_or_throw(current_transformer_info)
@@ -361,17 +361,17 @@ class NetworkCIMReader(BaseCIMReader):
 
         potential_transformer_info.accuracy_class = rs.get_string(table.accuracy_class.query_index, None)
         potential_transformer_info.nominal_ratio = rs.get_ratio(table.nominal_ratio_numerator.query_index, table.nominal_ratio_denominator.query_index, None)
-        potential_transformer_info.primary_ratio = rs.get_double(table.primary_ratio.query_index, None)
+        potential_transformer_info.primary_ratio = rs.get_float(table.primary_ratio.query_index, None)
         potential_transformer_info.pt_class = rs.get_string(table.pt_class.query_index, None)
         potential_transformer_info.rated_voltage = rs.get_int(table.rated_voltage.query_index, None)
-        potential_transformer_info.secondary_ratio = rs.get_double(table.secondary_ratio.query_index, None)
+        potential_transformer_info.secondary_ratio = rs.get_float(table.secondary_ratio.query_index, None)
 
         return self._load_asset_info(potential_transformer_info, table, rs) and self._add_or_throw(potential_transformer_info)
 
     def load_reclose_delays(self, table: TableRecloseDelays, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         # Note TableRecloseDelays.selectSql ensures we process ratings in the correct order.
         relay_info_mrid = rs.get_string(table.relay_info_mrid.query_index)
-        reclose_delay = rs.get_double(table.reclose_delay.query_index)
+        reclose_delay = rs.get_float(table.reclose_delay.query_index)
         set_last_mrid(f"{relay_info_mrid}.s{reclose_delay}")
         ri = self._ensure_get(relay_info_mrid, RelayInfo)
         ri.add_delay(reclose_delay)
@@ -549,22 +549,22 @@ class NetworkCIMReader(BaseCIMReader):
     def load_equivalent_branch(self, table: TableEquivalentBranches, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         equivalent_branch = EquivalentBranch(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        equivalent_branch.negative_r12 = rs.get_double(table.negative_r12.query_index, None)
-        equivalent_branch.negative_r21 = rs.get_double(table.negative_r21.query_index, None)
-        equivalent_branch.negative_x12 = rs.get_double(table.negative_x12.query_index, None)
-        equivalent_branch.negative_x21 = rs.get_double(table.negative_x21.query_index, None)
-        equivalent_branch.positive_r12 = rs.get_double(table.positive_r12.query_index, None)
-        equivalent_branch.positive_r21 = rs.get_double(table.positive_r21.query_index, None)
-        equivalent_branch.positive_x12 = rs.get_double(table.positive_x12.query_index, None)
-        equivalent_branch.positive_x21 = rs.get_double(table.positive_x21.query_index, None)
-        equivalent_branch.r = rs.get_double(table.r.query_index, None)
-        equivalent_branch.r21 = rs.get_double(table.r21.query_index, None)
-        equivalent_branch.x = rs.get_double(table.x.query_index, None)
-        equivalent_branch.x21 = rs.get_double(table.x21.query_index, None)
-        equivalent_branch.zero_r12 = rs.get_double(table.zero_r12.query_index, None)
-        equivalent_branch.zero_r21 = rs.get_double(table.zero_r21.query_index, None)
-        equivalent_branch.zero_x12 = rs.get_double(table.zero_x12.query_index, None)
-        equivalent_branch.zero_x21 = rs.get_double(table.zero_x21.query_index, None)
+        equivalent_branch.negative_r12 = rs.get_float(table.negative_r12.query_index, None)
+        equivalent_branch.negative_r21 = rs.get_float(table.negative_r21.query_index, None)
+        equivalent_branch.negative_x12 = rs.get_float(table.negative_x12.query_index, None)
+        equivalent_branch.negative_x21 = rs.get_float(table.negative_x21.query_index, None)
+        equivalent_branch.positive_r12 = rs.get_float(table.positive_r12.query_index, None)
+        equivalent_branch.positive_r21 = rs.get_float(table.positive_r21.query_index, None)
+        equivalent_branch.positive_x12 = rs.get_float(table.positive_x12.query_index, None)
+        equivalent_branch.positive_x21 = rs.get_float(table.positive_x21.query_index, None)
+        equivalent_branch.r = rs.get_float(table.r.query_index, None)
+        equivalent_branch.r21 = rs.get_float(table.r21.query_index, None)
+        equivalent_branch.x = rs.get_float(table.x.query_index, None)
+        equivalent_branch.x21 = rs.get_float(table.x21.query_index, None)
+        equivalent_branch.zero_r12 = rs.get_float(table.zero_r12.query_index, None)
+        equivalent_branch.zero_r21 = rs.get_float(table.zero_r21.query_index, None)
+        equivalent_branch.zero_x12 = rs.get_float(table.zero_x12.query_index, None)
+        equivalent_branch.zero_x21 = rs.get_float(table.zero_x21.query_index, None)
 
         return self._load_equivalent_equipment(equivalent_branch, table, rs) and self._add_or_throw(equivalent_branch)
 
@@ -616,24 +616,24 @@ class NetworkCIMReader(BaseCIMReader):
     def load_current_relay(self, table: TableCurrentRelays, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         current_relay = CurrentRelay(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        current_relay.current_limit_1 = rs.get_double(table.current_limit_1.query_index, None)
+        current_relay.current_limit_1 = rs.get_float(table.current_limit_1.query_index, None)
         current_relay.inverse_time_flag = rs.get_boolean(table.inverse_time_flag.query_index, None)
-        current_relay.time_delay_1 = rs.get_double(table.time_delay_1.query_index, None)
+        current_relay.time_delay_1 = rs.get_float(table.time_delay_1.query_index, None)
 
         return self._load_protection_relay_function(current_relay, table, rs) and self._add_or_throw(current_relay)
 
     def load_distance_relay(self, table: TableDistanceRelays, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         distance_relay = DistanceRelay(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        distance_relay.backward_blind = rs.get_double(table.backward_blind.query_index, None)
-        distance_relay.backward_reach = rs.get_double(table.backward_reach.query_index, None)
-        distance_relay.backward_reactance = rs.get_double(table.backward_reactance.query_index, None)
-        distance_relay.forward_blind = rs.get_double(table.forward_blind.query_index, None)
-        distance_relay.forward_reach = rs.get_double(table.forward_reach.query_index, None)
-        distance_relay.forward_reactance = rs.get_double(table.forward_reactance.query_index, None)
-        distance_relay.operation_phase_angle1 = rs.get_double(table.operation_phase_angle1.query_index, None)
-        distance_relay.operation_phase_angle2 = rs.get_double(table.operation_phase_angle2.query_index, None)
-        distance_relay.operation_phase_angle3 = rs.get_double(table.operation_phase_angle3.query_index, None)
+        distance_relay.backward_blind = rs.get_float(table.backward_blind.query_index, None)
+        distance_relay.backward_reach = rs.get_float(table.backward_reach.query_index, None)
+        distance_relay.backward_reactance = rs.get_float(table.backward_reactance.query_index, None)
+        distance_relay.forward_blind = rs.get_float(table.forward_blind.query_index, None)
+        distance_relay.forward_reach = rs.get_float(table.forward_reach.query_index, None)
+        distance_relay.forward_reactance = rs.get_float(table.forward_reactance.query_index, None)
+        distance_relay.operation_phase_angle1 = rs.get_float(table.operation_phase_angle1.query_index, None)
+        distance_relay.operation_phase_angle2 = rs.get_float(table.operation_phase_angle2.query_index, None)
+        distance_relay.operation_phase_angle3 = rs.get_float(table.operation_phase_angle3.query_index, None)
 
         return self._load_protection_relay_function(distance_relay, table, rs) and self._add_or_throw(distance_relay)
 
@@ -641,7 +641,7 @@ class NetworkCIMReader(BaseCIMReader):
         protection_relay_function.asset_info = self._ensure_get(rs.get_string(table.relay_info_mrid.query_index, None), RelayInfo)
         protection_relay_function.model = rs.get_string(table.model.query_index, None)
         protection_relay_function.reclosing = rs.get_boolean(table.reclosing.query_index, None)
-        protection_relay_function.relay_delay_time = rs.get_double(table.relay_delay_time.query_index, None)
+        protection_relay_function.relay_delay_time = rs.get_float(table.relay_delay_time.query_index, None)
         protection_relay_function.protection_kind = ProtectionKind[rs.get_string(table.protection_kind.query_index)]
         protection_relay_function.directable = rs.get_boolean(table.directable.query_index, None)
         protection_relay_function.power_direction = PowerDirectionKind[rs.get_string(table.power_direction.query_index)]
@@ -656,7 +656,7 @@ class NetworkCIMReader(BaseCIMReader):
 
         sequence_number = rs.get_int(table.sequence_number.query_index)
         unit_symbol = UnitSymbol[rs.get_string(table.unit_symbol.query_index)]
-        value = rs.get_double(table.value.query_index)
+        value = rs.get_float(table.value.query_index)
         name = rs.get_string(table.name_.query_index, None)
 
         set_last_mrid(f"{protection_relay_function_mrid}.s{sequence_number}")
@@ -674,7 +674,7 @@ class NetworkCIMReader(BaseCIMReader):
         protection_relay_function = self._ensure_get(protection_relay_function_mrid, ProtectionRelayFunction)
 
         sequence_number = rs.get_int(table.sequence_number.query_index)
-        time_limit = rs.get_double(table.time_limit.query_index)
+        time_limit = rs.get_float(table.time_limit.query_index)
 
         set_last_mrid(f"{protection_relay_function_mrid} time limit {sequence_number}")
 
@@ -768,7 +768,7 @@ class NetworkCIMReader(BaseCIMReader):
     def load_breaker(self, table: TableBreakers, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         breaker = Breaker(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        breaker.in_transit_time = rs.get_double(table.in_transit_time.query_index, None)
+        breaker.in_transit_time = rs.get_float(table.in_transit_time.query_index, None)
 
         return self._load_protected_switch(breaker, table, rs) and self._add_or_throw(breaker)
 
@@ -783,7 +783,7 @@ class NetworkCIMReader(BaseCIMReader):
         return self._load_connector(busbar_section, table, rs) and self._add_or_throw(busbar_section)
 
     def _load_conductor(self, conductor: Conductor, table: TableConductors, rs: ResultSet) -> bool:
-        conductor.length = rs.get_double(table.length.query_index, None)
+        conductor.length = rs.get_float(table.length.query_index, None)
         conductor.asset_info = self._ensure_get(rs.get_string(table.wire_info_mrid.query_index, None), WireInfo)
 
         return self._load_conducting_equipment(conductor, table, rs)
@@ -804,10 +804,10 @@ class NetworkCIMReader(BaseCIMReader):
 
         energy_consumer.customer_count = rs.get_int(table.customer_count.query_index, None)
         energy_consumer.grounded = rs.get_boolean(table.grounded.query_index)
-        energy_consumer.p = rs.get_double(table.p.query_index, None)
-        energy_consumer.q = rs.get_double(table.q.query_index, None)
-        energy_consumer.p_fixed = rs.get_double(table.p_fixed.query_index, None)
-        energy_consumer.q_fixed = rs.get_double(table.q_fixed.query_index, None)
+        energy_consumer.p = rs.get_float(table.p.query_index, None)
+        energy_consumer.q = rs.get_float(table.q.query_index, None)
+        energy_consumer.p_fixed = rs.get_float(table.p_fixed.query_index, None)
+        energy_consumer.q_fixed = rs.get_float(table.q_fixed.query_index, None)
         energy_consumer.phase_connection = PhaseShuntConnectionKind[rs.get_string(table.phase_connection.query_index)]
 
         return self._load_energy_connection(energy_consumer, table, rs) and self._add_or_throw(energy_consumer)
@@ -820,41 +820,41 @@ class NetworkCIMReader(BaseCIMReader):
             energy_consumer_phase.energy_consumer.add_phase(energy_consumer_phase)
 
         energy_consumer_phase.phase = SinglePhaseKind[rs.get_string(table.phase.query_index)]
-        energy_consumer_phase.p = rs.get_double(table.p.query_index, None)
-        energy_consumer_phase.q = rs.get_double(table.q.query_index, None)
-        energy_consumer_phase.p_fixed = rs.get_double(table.p_fixed.query_index, None)
-        energy_consumer_phase.q_fixed = rs.get_double(table.q_fixed.query_index, None)
+        energy_consumer_phase.p = rs.get_float(table.p.query_index, None)
+        energy_consumer_phase.q = rs.get_float(table.q.query_index, None)
+        energy_consumer_phase.p_fixed = rs.get_float(table.p_fixed.query_index, None)
+        energy_consumer_phase.q_fixed = rs.get_float(table.q_fixed.query_index, None)
 
         return self._load_power_system_resource(energy_consumer_phase, table, rs) and self._add_or_throw(energy_consumer_phase)
 
     def load_energy_source(self, table: TableEnergySources, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         energy_source = EnergySource(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        energy_source.active_power = rs.get_double(table.active_power.query_index, None)
-        energy_source.reactive_power = rs.get_double(table.reactive_power.query_index, None)
-        energy_source.voltage_angle = rs.get_double(table.voltage_angle.query_index, None)
-        energy_source.voltage_magnitude = rs.get_double(table.voltage_magnitude.query_index, None)
-        energy_source.p_max = rs.get_double(table.p_max.query_index, None)
-        energy_source.p_min = rs.get_double(table.p_min.query_index, None)
-        energy_source.r = rs.get_double(table.r.query_index, None)
-        energy_source.r0 = rs.get_double(table.r0.query_index, None)
-        energy_source.rn = rs.get_double(table.rn.query_index, None)
-        energy_source.x = rs.get_double(table.x.query_index, None)
-        energy_source.x0 = rs.get_double(table.x0.query_index, None)
-        energy_source.xn = rs.get_double(table.xn.query_index, None)
+        energy_source.active_power = rs.get_float(table.active_power.query_index, None)
+        energy_source.reactive_power = rs.get_float(table.reactive_power.query_index, None)
+        energy_source.voltage_angle = rs.get_float(table.voltage_angle.query_index, None)
+        energy_source.voltage_magnitude = rs.get_float(table.voltage_magnitude.query_index, None)
+        energy_source.p_max = rs.get_float(table.p_max.query_index, None)
+        energy_source.p_min = rs.get_float(table.p_min.query_index, None)
+        energy_source.r = rs.get_float(table.r.query_index, None)
+        energy_source.r0 = rs.get_float(table.r0.query_index, None)
+        energy_source.rn = rs.get_float(table.rn.query_index, None)
+        energy_source.x = rs.get_float(table.x.query_index, None)
+        energy_source.x0 = rs.get_float(table.x0.query_index, None)
+        energy_source.xn = rs.get_float(table.xn.query_index, None)
         energy_source.is_external_grid = rs.get_boolean(table.is_external_grid.query_index)
-        energy_source.r_min = rs.get_double(table.r_min.query_index, None)
-        energy_source.rn_min = rs.get_double(table.rn_min.query_index, None)
-        energy_source.r0_min = rs.get_double(table.r0_min.query_index, None)
-        energy_source.x_min = rs.get_double(table.x_min.query_index, None)
-        energy_source.xn_min = rs.get_double(table.xn_min.query_index, None)
-        energy_source.x0_min = rs.get_double(table.x0_min.query_index, None)
-        energy_source.r_max = rs.get_double(table.r_max.query_index, None)
-        energy_source.rn_max = rs.get_double(table.rn_max.query_index, None)
-        energy_source.r0_max = rs.get_double(table.r0_max.query_index, None)
-        energy_source.x_max = rs.get_double(table.x_max.query_index, None)
-        energy_source.xn_max = rs.get_double(table.xn_max.query_index, None)
-        energy_source.x0_max = rs.get_double(table.x0_max.query_index, None)
+        energy_source.r_min = rs.get_float(table.r_min.query_index, None)
+        energy_source.rn_min = rs.get_float(table.rn_min.query_index, None)
+        energy_source.r0_min = rs.get_float(table.r0_min.query_index, None)
+        energy_source.x_min = rs.get_float(table.x_min.query_index, None)
+        energy_source.xn_min = rs.get_float(table.xn_min.query_index, None)
+        energy_source.x0_min = rs.get_float(table.x0_min.query_index, None)
+        energy_source.r_max = rs.get_float(table.r_max.query_index, None)
+        energy_source.rn_max = rs.get_float(table.rn_max.query_index, None)
+        energy_source.r0_max = rs.get_float(table.r0_max.query_index, None)
+        energy_source.x_max = rs.get_float(table.x_max.query_index, None)
+        energy_source.xn_max = rs.get_float(table.xn_max.query_index, None)
+        energy_source.x0_max = rs.get_float(table.x0_max.query_index, None)
 
         return self._load_energy_connection(energy_source, table, rs) and self._add_or_throw(energy_source)
 
@@ -901,10 +901,10 @@ class NetworkCIMReader(BaseCIMReader):
     def load_linear_shunt_compensator(self, table: TableLinearShuntCompensators, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         linear_shunt_compensator = LinearShuntCompensator(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        linear_shunt_compensator.b0_per_section = rs.get_double(table.b0_per_section.query_index, None)
-        linear_shunt_compensator.b_per_section = rs.get_double(table.b_per_section.query_index, None)
-        linear_shunt_compensator.g0_per_section = rs.get_double(table.g0_per_section.query_index, None)
-        linear_shunt_compensator.g_per_section = rs.get_double(table.g_per_section.query_index, None)
+        linear_shunt_compensator.b0_per_section = rs.get_float(table.b0_per_section.query_index, None)
+        linear_shunt_compensator.b_per_section = rs.get_float(table.b_per_section.query_index, None)
+        linear_shunt_compensator.g0_per_section = rs.get_float(table.g0_per_section.query_index, None)
+        linear_shunt_compensator.g_per_section = rs.get_float(table.g_per_section.query_index, None)
 
         return self._load_shunt_compensator(linear_shunt_compensator, table, rs) and self._add_or_throw(linear_shunt_compensator)
 
@@ -917,14 +917,14 @@ class NetworkCIMReader(BaseCIMReader):
     def load_per_length_sequence_impedance(self, table: TablePerLengthSequenceImpedances, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         per_length_sequence_impedance = PerLengthSequenceImpedance(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        per_length_sequence_impedance.r = rs.get_double(table.r.query_index, None)
-        per_length_sequence_impedance.x = rs.get_double(table.x.query_index, None)
-        per_length_sequence_impedance.r0 = rs.get_double(table.r0.query_index, None)
-        per_length_sequence_impedance.x0 = rs.get_double(table.x0.query_index, None)
-        per_length_sequence_impedance.bch = rs.get_double(table.bch.query_index, None)
-        per_length_sequence_impedance.gch = rs.get_double(table.gch.query_index, None)
-        per_length_sequence_impedance.b0ch = rs.get_double(table.b0ch.query_index, None)
-        per_length_sequence_impedance.g0ch = rs.get_double(table.g0ch.query_index, None)
+        per_length_sequence_impedance.r = rs.get_float(table.r.query_index, None)
+        per_length_sequence_impedance.x = rs.get_float(table.x.query_index, None)
+        per_length_sequence_impedance.r0 = rs.get_float(table.r0.query_index, None)
+        per_length_sequence_impedance.x0 = rs.get_float(table.x0.query_index, None)
+        per_length_sequence_impedance.bch = rs.get_float(table.bch.query_index, None)
+        per_length_sequence_impedance.gch = rs.get_float(table.gch.query_index, None)
+        per_length_sequence_impedance.b0ch = rs.get_float(table.b0ch.query_index, None)
+        per_length_sequence_impedance.g0ch = rs.get_float(table.g0ch.query_index, None)
 
         return self._load_per_length_impedance(per_length_sequence_impedance, table, rs) and self._add_or_throw(per_length_sequence_impedance)
 
@@ -932,36 +932,36 @@ class NetworkCIMReader(BaseCIMReader):
         power_electronics_connection = PowerElectronicsConnection(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
         power_electronics_connection.max_i_fault = rs.get_int(table.max_i_fault.query_index, None)
-        power_electronics_connection.max_q = rs.get_double(table.max_q.query_index, None)
-        power_electronics_connection.min_q = rs.get_double(table.min_q.query_index, None)
-        power_electronics_connection.p = rs.get_double(table.p.query_index, None)
-        power_electronics_connection.q = rs.get_double(table.q.query_index, None)
+        power_electronics_connection.max_q = rs.get_float(table.max_q.query_index, None)
+        power_electronics_connection.min_q = rs.get_float(table.min_q.query_index, None)
+        power_electronics_connection.p = rs.get_float(table.p.query_index, None)
+        power_electronics_connection.q = rs.get_float(table.q.query_index, None)
         power_electronics_connection.rated_u = rs.get_int(table.rated_u.query_index, None)
         power_electronics_connection.rated_s = rs.get_int(table.rated_s.query_index, None)
         power_electronics_connection.inverter_standard = rs.get_string(table.inverter_standard.query_index, None)
         power_electronics_connection.sustain_op_overvolt_limit = rs.get_int(table.sustain_op_overvolt_limit.query_index, None)
-        power_electronics_connection.stop_at_over_freq = rs.get_double(table.stop_at_over_freq.query_index, None)
-        power_electronics_connection.stop_at_under_freq = rs.get_double(table.stop_at_under_freq.query_index, None)
+        power_electronics_connection.stop_at_over_freq = rs.get_float(table.stop_at_over_freq.query_index, None)
+        power_electronics_connection.stop_at_under_freq = rs.get_float(table.stop_at_under_freq.query_index, None)
         power_electronics_connection.inv_volt_watt_resp_mode = rs.get_boolean(table.inv_volt_watt_resp_mode.query_index, None)
         power_electronics_connection.inv_watt_resp_v1 = rs.get_int(table.inv_watt_resp_v1.query_index, None)
         power_electronics_connection.inv_watt_resp_v2 = rs.get_int(table.inv_watt_resp_v2.query_index, None)
         power_electronics_connection.inv_watt_resp_v3 = rs.get_int(table.inv_watt_resp_v3.query_index, None)
         power_electronics_connection.inv_watt_resp_v4 = rs.get_int(table.inv_watt_resp_v4.query_index, None)
-        power_electronics_connection.inv_watt_resp_p_at_v1 = rs.get_double(table.inv_watt_resp_p_at_v1.query_index, None)
-        power_electronics_connection.inv_watt_resp_p_at_v2 = rs.get_double(table.inv_watt_resp_p_at_v2.query_index, None)
-        power_electronics_connection.inv_watt_resp_p_at_v3 = rs.get_double(table.inv_watt_resp_p_at_v3.query_index, None)
-        power_electronics_connection.inv_watt_resp_p_at_v4 = rs.get_double(table.inv_watt_resp_p_at_v4.query_index, None)
+        power_electronics_connection.inv_watt_resp_p_at_v1 = rs.get_float(table.inv_watt_resp_p_at_v1.query_index, None)
+        power_electronics_connection.inv_watt_resp_p_at_v2 = rs.get_float(table.inv_watt_resp_p_at_v2.query_index, None)
+        power_electronics_connection.inv_watt_resp_p_at_v3 = rs.get_float(table.inv_watt_resp_p_at_v3.query_index, None)
+        power_electronics_connection.inv_watt_resp_p_at_v4 = rs.get_float(table.inv_watt_resp_p_at_v4.query_index, None)
         power_electronics_connection.inv_volt_var_resp_mode = rs.get_boolean(table.inv_volt_var_resp_mode.query_index, None)
         power_electronics_connection.inv_var_resp_v1 = rs.get_int(table.inv_var_resp_v1.query_index, None)
         power_electronics_connection.inv_var_resp_v2 = rs.get_int(table.inv_var_resp_v2.query_index, None)
         power_electronics_connection.inv_var_resp_v3 = rs.get_int(table.inv_var_resp_v3.query_index, None)
         power_electronics_connection.inv_var_resp_v4 = rs.get_int(table.inv_var_resp_v4.query_index, None)
-        power_electronics_connection.inv_var_resp_q_at_v1 = rs.get_double(table.inv_var_resp_q_at_v1.query_index, None)
-        power_electronics_connection.inv_var_resp_q_at_v2 = rs.get_double(table.inv_var_resp_q_at_v2.query_index, None)
-        power_electronics_connection.inv_var_resp_q_at_v3 = rs.get_double(table.inv_var_resp_q_at_v3.query_index, None)
-        power_electronics_connection.inv_var_resp_q_at_v4 = rs.get_double(table.inv_var_resp_q_at_v4.query_index, None)
+        power_electronics_connection.inv_var_resp_q_at_v1 = rs.get_float(table.inv_var_resp_q_at_v1.query_index, None)
+        power_electronics_connection.inv_var_resp_q_at_v2 = rs.get_float(table.inv_var_resp_q_at_v2.query_index, None)
+        power_electronics_connection.inv_var_resp_q_at_v3 = rs.get_float(table.inv_var_resp_q_at_v3.query_index, None)
+        power_electronics_connection.inv_var_resp_q_at_v4 = rs.get_float(table.inv_var_resp_q_at_v4.query_index, None)
         power_electronics_connection.inv_reactive_power_mode = rs.get_boolean(table.inv_reactive_power_mode.query_index, None)
-        power_electronics_connection.inv_fix_reactive_power = rs.get_double(table.inv_fix_reactive_power.query_index, None)
+        power_electronics_connection.inv_fix_reactive_power = rs.get_float(table.inv_fix_reactive_power.query_index, None)
 
         return self._load_regulating_cond_eq(power_electronics_connection, table, rs) and self._add_or_throw(power_electronics_connection)
 
@@ -976,9 +976,9 @@ class NetworkCIMReader(BaseCIMReader):
             power_electronics_connection_phase.power_electronics_connection.add_phase(power_electronics_connection_phase)
 
         power_electronics_connection_phase.phase = SinglePhaseKind[rs.get_string(table.phase.query_index)]
-        power_electronics_connection_phase.p = rs.get_double(table.p.query_index, None)
+        power_electronics_connection_phase.p = rs.get_float(table.p.query_index, None)
         power_electronics_connection_phase.phase = SinglePhaseKind[rs.get_string(table.phase.query_index)]
-        power_electronics_connection_phase.q = rs.get_double(table.q.query_index, None)
+        power_electronics_connection_phase.q = rs.get_float(table.q.query_index, None)
 
         return self._load_power_system_resource(power_electronics_connection_phase, table, rs) and self._add_or_throw(power_electronics_connection_phase)
 
@@ -986,7 +986,7 @@ class NetworkCIMReader(BaseCIMReader):
         power_transformer = PowerTransformer(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
         power_transformer.vector_group = VectorGroup[rs.get_string(table.vector_group.query_index)]
-        power_transformer.transformer_utilisation = rs.get_double(table.transformer_utilisation.query_index, None)
+        power_transformer.transformer_utilisation = rs.get_float(table.transformer_utilisation.query_index, None)
         power_transformer.construction_kind = TransformerConstructionKind[rs.get_string(table.construction_kind.query_index)]
         power_transformer.function = TransformerFunctionKind[rs.get_string(table.function.query_index)]
         power_transformer.asset_info = self._ensure_get(rs.get_string(table.power_transformer_info_mrid.query_index, None), PowerTransformerInfo)
@@ -1003,15 +1003,15 @@ class NetworkCIMReader(BaseCIMReader):
 
         power_transformer_end.connection_kind = WindingConnection[rs.get_string(table.connection_kind.query_index)]
         power_transformer_end.phase_angle_clock = rs.get_int(table.phase_angle_clock.query_index, None)
-        power_transformer_end.b = rs.get_double(table.b.query_index, None)
-        power_transformer_end.b0 = rs.get_double(table.b0.query_index, None)
-        power_transformer_end.g = rs.get_double(table.g.query_index, None)
-        power_transformer_end.g0 = rs.get_double(table.g0.query_index, None)
-        power_transformer_end.r = rs.get_double(table.r.query_index, None)
-        power_transformer_end.r0 = rs.get_double(table.r0.query_index, None)
+        power_transformer_end.b = rs.get_float(table.b.query_index, None)
+        power_transformer_end.b0 = rs.get_float(table.b0.query_index, None)
+        power_transformer_end.g = rs.get_float(table.g.query_index, None)
+        power_transformer_end.g0 = rs.get_float(table.g0.query_index, None)
+        power_transformer_end.r = rs.get_float(table.r.query_index, None)
+        power_transformer_end.r0 = rs.get_float(table.r0.query_index, None)
         power_transformer_end.rated_u = rs.get_int(table.rated_u.query_index, None)
-        power_transformer_end.x = rs.get_double(table.x.query_index, None)
-        power_transformer_end.x0 = rs.get_double(table.x0.query_index, None)
+        power_transformer_end.x = rs.get_float(table.x.query_index, None)
+        power_transformer_end.x0 = rs.get_float(table.x0.query_index, None)
 
         return self._load_transformer_end(power_transformer_end, table, rs) and self._add_or_throw(power_transformer_end)
 
@@ -1038,7 +1038,7 @@ class NetworkCIMReader(BaseCIMReader):
         if ratio_tap_changer.transformer_end is not None:
             ratio_tap_changer.transformer_end.ratio_tap_changer = ratio_tap_changer
 
-        ratio_tap_changer.step_voltage_increment = rs.get_double(table.step_voltage_increment.query_index, None)
+        ratio_tap_changer.step_voltage_increment = rs.get_float(table.step_voltage_increment.query_index, None)
 
         return self._load_tap_changer(ratio_tap_changer, table, rs) and self._add_or_throw(ratio_tap_changer)
 
@@ -1059,12 +1059,12 @@ class NetworkCIMReader(BaseCIMReader):
         regulating_control.discrete = rs.get_boolean(table.discrete.query_index, None)
         regulating_control.mode = RegulatingControlModeKind[rs.get_string(table.mode.query_index)]
         regulating_control.monitored_phase = PhaseCode[rs.get_string(table.monitored_phase.query_index)]
-        regulating_control.target_deadband = rs.get_double(table.target_deadband.query_index, None)
-        regulating_control.target_value = rs.get_double(table.target_value.query_index, None)
+        regulating_control.target_deadband = rs.get_float(table.target_deadband.query_index, None)
+        regulating_control.target_value = rs.get_float(table.target_value.query_index, None)
         regulating_control.enabled = rs.get_boolean(table.enabled.query_index, None)
-        regulating_control.max_allowed_target_value = rs.get_double(table.max_allowed_target_value.query_index, None)
-        regulating_control.min_allowed_target_value = rs.get_double(table.min_allowed_target_value.query_index, None)
-        regulating_control.rated_current = rs.get_double(table.rated_current.query_index, None)
+        regulating_control.max_allowed_target_value = rs.get_float(table.max_allowed_target_value.query_index, None)
+        regulating_control.min_allowed_target_value = rs.get_float(table.min_allowed_target_value.query_index, None)
+        regulating_control.rated_current = rs.get_float(table.rated_current.query_index, None)
         regulating_control.terminal = self._ensure_get(rs.get_string(table.terminal_mrid.query_index, None), Terminal)
 
         return self._load_power_system_resource(regulating_control, table, rs)
@@ -1072,10 +1072,10 @@ class NetworkCIMReader(BaseCIMReader):
     def load_series_compensator(self, table: TableSeriesCompensators, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         series_compensator = SeriesCompensator(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        series_compensator.r = rs.get_double(table.r.query_index, None)
-        series_compensator.r0 = rs.get_double(table.r0.query_index, None)
-        series_compensator.x = rs.get_double(table.x.query_index, None)
-        series_compensator.x0 = rs.get_double(table.x0.query_index, None)
+        series_compensator.r = rs.get_float(table.r.query_index, None)
+        series_compensator.r0 = rs.get_float(table.r0.query_index, None)
+        series_compensator.x = rs.get_float(table.x.query_index, None)
+        series_compensator.x0 = rs.get_float(table.x0.query_index, None)
         series_compensator.varistor_rated_current = rs.get_int(table.varistor_rated_current.query_index, None)
         series_compensator.varistor_voltage_threshold = rs.get_int(table.varistor_voltage_threshold.query_index, None)
 
@@ -1087,7 +1087,7 @@ class NetworkCIMReader(BaseCIMReader):
         shunt_compensator.grounded = rs.get_boolean(table.grounded.query_index)
         shunt_compensator.nom_u = rs.get_int(table.nom_u.query_index, None)
         shunt_compensator.phase_connection = PhaseShuntConnectionKind[rs.get_string(table.phase_connection.query_index)]
-        shunt_compensator.sections = rs.get_double(table.sections.query_index, None)
+        shunt_compensator.sections = rs.get_float(table.sections.query_index, None)
 
         return self._load_regulating_cond_eq(shunt_compensator, table, rs)
 
@@ -1107,7 +1107,7 @@ class NetworkCIMReader(BaseCIMReader):
         tap_changer.neutral_step = rs.get_int(table.neutral_step.query_index, None)
         tap_changer.neutral_u = rs.get_int(table.neutral_u.query_index, None)
         tap_changer.normal_step = rs.get_int(table.normal_step.query_index, None)
-        tap_changer.step = rs.get_double(table.step.query_index, None)
+        tap_changer.step = rs.get_float(table.step.query_index, None)
         tap_changer.tap_changer_control = self._ensure_get(rs.get_string(table.tap_changer_control_mrid.query_index, None), TapChangerControl)
 
         return self._load_power_system_resource(tap_changer, table, rs)
@@ -1117,12 +1117,12 @@ class NetworkCIMReader(BaseCIMReader):
 
         tap_changer_control.limit_voltage = rs.get_int(table.limit_voltage.query_index, None)
         tap_changer_control.line_drop_compensation = rs.get_boolean(table.line_drop_compensation.query_index, None)
-        tap_changer_control.line_drop_r = rs.get_double(table.line_drop_r.query_index, None)
-        tap_changer_control.line_drop_x = rs.get_double(table.line_drop_x.query_index, None)
-        tap_changer_control.reverse_line_drop_r = rs.get_double(table.reverse_line_drop_r.query_index, None)
-        tap_changer_control.reverse_line_drop_x = rs.get_double(table.reverse_line_drop_x.query_index, None)
+        tap_changer_control.line_drop_r = rs.get_float(table.line_drop_r.query_index, None)
+        tap_changer_control.line_drop_x = rs.get_float(table.line_drop_x.query_index, None)
+        tap_changer_control.reverse_line_drop_r = rs.get_float(table.reverse_line_drop_r.query_index, None)
+        tap_changer_control.reverse_line_drop_x = rs.get_float(table.reverse_line_drop_x.query_index, None)
         tap_changer_control.forward_ldc_blocking = rs.get_boolean(table.forward_ldc_blocking.query_index, None)
-        tap_changer_control.time_delay = rs.get_double(table.time_delay.query_index, None)
+        tap_changer_control.time_delay = rs.get_float(table.time_delay.query_index, None)
         tap_changer_control.co_generation_enabled = rs.get_boolean(table.co_generation_enabled.query_index, None)
         return self._load_regulating_control(tap_changer_control, table, rs) and self._add_or_throw(tap_changer_control)
 
@@ -1130,8 +1130,8 @@ class NetworkCIMReader(BaseCIMReader):
         transformer_end.terminal = self._ensure_get(rs.get_string(table.terminal_mrid.query_index, None), Terminal)
         transformer_end.base_voltage = self._ensure_get(rs.get_string(table.base_voltage_mrid.query_index, None), BaseVoltage)
         transformer_end.grounded = rs.get_boolean(table.grounded.query_index)
-        transformer_end.r_ground = rs.get_double(table.r_ground.query_index, None)
-        transformer_end.x_ground = rs.get_double(table.x_ground.query_index, None)
+        transformer_end.r_ground = rs.get_float(table.r_ground.query_index, None)
+        transformer_end.x_ground = rs.get_float(table.x_ground.query_index, None)
         transformer_end.star_impedance = self._ensure_get(rs.get_string(table.star_impedance_mrid.query_index, None), TransformerStarImpedance)
 
         return self._load_identified_object(transformer_end, table, rs)
@@ -1139,10 +1139,10 @@ class NetworkCIMReader(BaseCIMReader):
     def load_transformer_star_impedance(self, table: TableTransformerStarImpedances, rs: ResultSet, set_last_mrid: Callable[[str], str]) -> bool:
         transformer_star_impedance = TransformerStarImpedance(mrid=set_last_mrid(rs.get_string(table.mrid.query_index)))
 
-        transformer_star_impedance.r = rs.get_double(table.r.query_index, None)
-        transformer_star_impedance.r0 = rs.get_double(table.r0.query_index, None)
-        transformer_star_impedance.x = rs.get_double(table.x.query_index, None)
-        transformer_star_impedance.x0 = rs.get_double(table.x0.query_index, None)
+        transformer_star_impedance.r = rs.get_float(table.r.query_index, None)
+        transformer_star_impedance.r0 = rs.get_float(table.r0.query_index, None)
+        transformer_star_impedance.x = rs.get_float(table.x.query_index, None)
+        transformer_star_impedance.x0 = rs.get_float(table.x0.query_index, None)
 
         transformer_star_impedance.transformer_end_info = self._ensure_get(rs.get_string(table.transformer_end_info_mrid.query_index, None), TransformerEndInfo)
         if transformer_star_impedance.transformer_end_info is not None:

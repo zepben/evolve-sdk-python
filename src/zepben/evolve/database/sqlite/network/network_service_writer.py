@@ -3,17 +3,8 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-from zepben.evolve import NetworkService, CableInfo, OverheadWireInfo, PowerTransformerInfo, TransformerTankInfo, NoLoadTest, OpenCircuitTest, \
-    ShortCircuitTest, ShuntCompensatorInfo, TransformerEndInfo, AssetOwner, Pole, Streetlight, Location, Organisation, Meter, UsagePoint, \
-    OperationalRestriction, FaultIndicator, BaseVoltage, ConnectivityNode, Feeder, GeographicalRegion, Site, SubGeographicalRegion, Substation, Terminal, \
-    EquivalentBranch, PhotoVoltaicUnit, AcLineSegment, Breaker, LoadBreakSwitch, BusbarSection, Disconnector, EnergyConsumer, EnergyConsumerPhase, \
-    EnergySource, EnergySourcePhase, Fuse, Jumper, Junction, LinearShuntCompensator, PerLengthSequenceImpedance, PowerElectronicsConnection, \
-    PowerElectronicsConnectionPhase, PowerTransformer, PowerTransformerEnd, RatioTapChanger, Recloser, TransformerStarImpedance, Circuit, Loop, Analog, \
-    Accumulator, Discrete, Control, RemoteControl, RemoteSource, BatteryUnit, PowerElectronicsWindUnit, LvFeeder, CurrentTransformerInfo, \
-    PotentialTransformerInfo, CurrentTransformer, PotentialTransformer, RelayInfo, CurrentRelay, SwitchInfo, EvChargingUnit, TapChangerControl, \
-    SeriesCompensator
-from zepben.evolve.database.sqlite.writers.base_service_writer import BaseServiceWriter
-from zepben.evolve.database.sqlite.writers.network_cim_writer import NetworkCIMWriter
+from zepben.evolve.database.sqlite.common.base_service_writer import BaseServiceWriter
+from zepben.evolve.database.sqlite.network.network_cim_writer import NetworkCimWriter
 
 __all__ = ["NetworkServiceWriter"]
 
@@ -23,11 +14,14 @@ from zepben.evolve.model.cim.iec61970.base.protection.protection_relay_system im
 from zepben.evolve.model.cim.iec61970.base.protection.voltage_relay import VoltageRelay
 from zepben.evolve.model.cim.iec61970.base.wires.ground import Ground
 from zepben.evolve.model.cim.iec61970.base.wires.ground_disconnector import GroundDisconnector
+from zepben.evolve.services.network.network_service import NetworkService
 
 
 class NetworkServiceWriter(BaseServiceWriter):
 
-    def save(self, service: NetworkService, writer: NetworkCIMWriter) -> bool:
+    service: NetworkService, writer: NetworkCimWriter
+
+    def _do_save(self) -> bool:
         status = super(NetworkServiceWriter, self).save(service, writer)
 
         status = status and self._save_all(service, CableInfo, writer.save_cable_info)

@@ -77,7 +77,7 @@ class ResultSet:
         else:
             raise ValueError
 
-    def get_double(self, column_index: int, on_none: Union[Optional[float], Type[Exception]] = ValueError) -> Optional[float]:
+    def get_float(self, column_index: int, on_none: Union[Optional[float], Type[Exception]] = ValueError) -> Optional[float]:
         """
         Get the value in the specified `column_index` as a float.
         :param column_index: The column to read the value from. This uses 1 based indexes.
@@ -134,8 +134,8 @@ class ResultSet:
         :param on_none: The value to use if a null is read from the database, or an exception to raise if a null value is not supported.
         :return: The Ratio read from the column, or the `on_none` value if there was no value.
         """
-        numerator = self.get_double(numerator_column_index, None)
-        denominator = self.get_double(denominator_column_index, None)
+        numerator = self.get_float(numerator_column_index, None)
+        denominator = self.get_float(denominator_column_index, None)
 
         if numerator is None or denominator is None:
             return self._value_or_raise(on_none)

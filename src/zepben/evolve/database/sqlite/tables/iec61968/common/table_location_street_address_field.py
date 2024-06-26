@@ -11,3 +11,7 @@ __all__ = ["TableLocationStreetAddressField"]
 class TableLocationStreetAddressField(Enum):
     mainAddress = 0
 #     secondaryAddress = 1
+
+    @property
+    def short_name(self):
+        return str(self)[32:]

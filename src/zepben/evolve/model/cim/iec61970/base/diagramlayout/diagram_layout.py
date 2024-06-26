@@ -16,7 +16,7 @@ from zepben.evolve.util import nlen, require, ngen, safe_remove, safe_remove_by_
 __all__ = ["DiagramObjectPoint", "Diagram", "DiagramObject"]
 
 
-@dataclass(slots=True)
+@dataclass
 class DiagramObjectPoint(object):
     """
     A point in a given space defined by 3 coordinates and associated to a diagram object.  The coordinates may be positive

@@ -14,7 +14,7 @@ from zepben.evolve.util import require, nlen, ngen, safe_remove
 __all__ = ["PositionPoint", "Location", "StreetAddress", "TownDetail", "StreetDetail"]
 
 
-@dataclass(slots=True, frozen=True)
+@dataclass
 class PositionPoint(object):
     """
     Set of spatial coordinates that determine a point, defined in WGS84 (latitudes and longitudes).
@@ -30,13 +30,11 @@ class PositionPoint(object):
     y_position: float
     """Y axis position - latitude"""
 
-    def __init__(self, x_position: float, y_position: float):
+    def __post_init__(self):
         require(-90.0 <= self.y_position <= 90.0,
                 lambda: f"Latitude is out of range. Expected -90 to 90, got {self.y_position}.")
         require(-180.0 <= self.x_position <= 180.0,
                 lambda: f"Longitude is out of range. Expected -180 to 180, got {self.x_position}.")
-        self.x_position = x_position
-        self.y_position = y_position
 
     def __str__(self):
         return f"{self.x_position}:{self.y_position}"
@@ -50,7 +48,7 @@ class PositionPoint(object):
         return self.y_position
 
 
-@dataclass(slots=True)
+@dataclass
 class TownDetail(object):
     """
     Town details, in the context of address.
@@ -66,7 +64,7 @@ class TownDetail(object):
         return not (self.name or self.state_or_province)
 
 
-@dataclass(slots=True)
+@dataclass
 class StreetDetail(object):
     """
     Street details, in the context of address.
@@ -103,7 +101,7 @@ class StreetDetail(object):
         )
 
 
-@dataclass(slots=True)
+@dataclass
 class StreetAddress(object):
     """
     General purpose street and postal address information.
