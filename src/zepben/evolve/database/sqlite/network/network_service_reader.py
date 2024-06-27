@@ -11,7 +11,7 @@ from zepben.evolve import BaseServiceReader, TableCableInfo, TableOverheadWireIn
     TableLocationStreetAddresses, TableControls, TableRemoteControls, TableRemoteSources, TableAnalogs, TableAccumulators, TableDiscretes, TableLvFeeders, \
     TableCurrentTransformers, TablePotentialTransformers, TableCurrentRelays, TableSwitchInfo, TableEvChargingUnits, TableProtectionRelayFunctionThresholds, \
     TableDistanceRelays, TableVoltageRelays, TableProtectionRelayFunctionTimeLimits, TableProtectionRelaySystems, TableProtectionRelaySchemes
-from zepben.evolve.database.sqlite.readers.network_cim_reader import NetworkCIMReader
+from zepben.evolve.database.sqlite.readers.network_cim_reader import NetworkCimReader
 from zepben.evolve.database.sqlite.tables.associations.table_asset_organisation_roles_assets import TableAssetOrganisationRolesAssets
 from zepben.evolve.database.sqlite.tables.associations.table_circuits_substations import TableCircuitsSubstations
 from zepben.evolve.database.sqlite.tables.associations.table_circuits_terminals import TableCircuitsTerminals
@@ -63,7 +63,7 @@ class NetworkServiceReader(BaseServiceReader):
     Class for reading a `NetworkService` from the database.
     """
 
-    def load(self, reader: NetworkCIMReader) -> bool:
+    def load(self, reader: NetworkCimReader) -> bool:
         status = self.load_name_types(reader)
 
         status = status and self._load_each(TableCableInfo, "cable info", reader.load_cable_info)

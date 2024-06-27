@@ -4,7 +4,7 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 from typing import Callable, Optional
 
-from zepben.evolve import BaseCIMReader, TableCableInfo, ResultSet, CableInfo, TableNoLoadTests, NoLoadTest, TableOpenCircuitTests, OpenCircuitTest, \
+from zepben.evolve import BaseCimReader, TableCableInfo, ResultSet, CableInfo, TableNoLoadTests, NoLoadTest, TableOpenCircuitTests, OpenCircuitTest, \
     TableOverheadWireInfo, OverheadWireInfo, TablePowerTransformerInfo, PowerTransformerInfo, TableShortCircuitTests, ShortCircuitTest, \
     TableShuntCompensatorInfo, ShuntCompensatorInfo, TableTransformerEndInfo, TransformerEndInfo, WindingConnection, TransformerTankInfo, \
     TableTransformerTankInfo, TransformerTest, TableTransformerTest, WireInfo, TableWireInfo, WireMaterialKind, Asset, TableAssets, Location, AssetContainer, \
@@ -89,10 +89,10 @@ from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_transformer_
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_transformer_star_impedances import TableTransformerStarImpedances
 from zepben.evolve.services.common.resolver import rce_regulating_control
 
-__all__ = ["NetworkCIMReader"]
+__all__ = ["NetworkCimReader"]
 
 
-class NetworkCIMReader(BaseCIMReader):
+class NetworkCimReader(BaseCimReader):
 
     # ************ IEC61968 ASSET INFO ************
 
