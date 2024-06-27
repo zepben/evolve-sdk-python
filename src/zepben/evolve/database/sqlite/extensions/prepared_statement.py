@@ -105,3 +105,7 @@ class PreparedStatement(object):
             f"SQL: {self}\n" +
             f"Fields: {self.parameters}"
         )
+
+    def close(self):
+        """Unused function on the Python side. Kept for compatibility with JVM side."""
+        pass

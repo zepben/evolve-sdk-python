@@ -8,9 +8,8 @@ from __future__ import annotations
 import warnings
 from typing import List, Optional, Generator
 
-from dataclassy import dataclass, Internal
+from dataclassy import dataclass
 
-from zepben.evolve.model.resistance_reactance import ResistanceReactance
 from zepben.evolve.model.cim.iec61968.assetinfo.power_transformer_info import PowerTransformerInfo
 from zepben.evolve.model.cim.iec61968.infiec61968.infassetinfo.transformer_construction_kind import TransformerConstructionKind
 from zepben.evolve.model.cim.iec61968.infiec61968.infassetinfo.transformer_function_kind import TransformerFunctionKind
@@ -24,6 +23,7 @@ from zepben.evolve.model.cim.iec61970.base.wires.transformer_cooling_type import
 from zepben.evolve.model.cim.iec61970.base.wires.transformer_star_impedance import TransformerStarImpedance
 from zepben.evolve.model.cim.iec61970.base.wires.vector_group import VectorGroup
 from zepben.evolve.model.cim.iec61970.base.wires.winding_connection import WindingConnection
+from zepben.evolve.model.resistance_reactance import ResistanceReactance
 from zepben.evolve.util import require, nlen, get_by_mrid, ngen, safe_remove
 
 __all__ = ["TapChanger", "RatioTapChanger", "PowerTransformer", "PowerTransformerEnd", "TransformerEnd", "TransformerEndRatedS"]
@@ -415,8 +415,6 @@ class PowerTransformerEnd(TransformerEnd):
         self._s_ratings = None
         return self
 
-    # noinspection PyUnusedLocal
-    # pylint: disable=unused-argument
     def resistance_reactance(self):
         """
         Get the `ResistanceReactance` for this `PowerTransformerEnd` from either:
@@ -430,9 +428,9 @@ class PowerTransformerEnd(TransformerEnd):
         ResistanceReactance(self.r, self.x, self.r0, self.x0).merge_if_incomplete(
             lambda: self.star_impedance.resistance_reactance() if self.star_impedance is not None else None
         ).merge_if_incomplete(
-            lambda: self.power_transformer.asset_info.resistance_reactance(self.end_number) if self.power_transformer.asset_info is not None else None
+            lambda: self.power_transformer.power_transformer_info.resistance_reactance(self.end_number) if self.power_transformer.asset_info is not None
+            else None
         )
-    # pylint: enable=unused-argument
 
 
 class PowerTransformer(ConductingEquipment):

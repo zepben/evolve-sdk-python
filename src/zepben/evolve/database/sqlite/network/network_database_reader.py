@@ -32,15 +32,15 @@ logger = logging.getLogger(__name__)
 
 class NetworkDatabaseReader(BaseDatabaseReader):
     """
-    A class for reading the [NetworkService] objects and [MetadataCollection] from our network database.
+    A class for reading the `NetworkService` objects and `MetadataCollection` from our network database.
 
     NOTE: The network database must be loaded first if you are using a pre-split database you wish to upgrade as it was the only database at the time
       and will create the other databases as part of the upgrade. This warning can be removed once we set a new minimum version of the database and
-      remove the split database logic - Check [UpgradeRunner] to see if this is still required.
+      remove the split database logic - Check `UpgradeRunner` to see if this is still required.
 
     :param connection: The connection to the database.
-    :param metadata: The [MetadataCollection] to populate with metadata from the database.
-    :param service: The [NetworkService] to populate with CIM objects from the database.
+    :param metadata: The `MetadataCollection` to populate with metadata from the database.
+    :param service: The `NetworkService` to populate with CIM objects from the database.
     :param database_description: The description of the database for logging (e.g. filename).
     """
 

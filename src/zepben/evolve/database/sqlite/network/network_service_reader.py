@@ -3,15 +3,13 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-from zepben.evolve import BaseServiceReader, TableCableInfo, TableOverheadWireInfo, TablePowerTransformerInfo, TableTransformerTankInfo, TableNoLoadTests, \
-    TableOpenCircuitTests, TableShortCircuitTests, TableShuntCompensatorInfo, TableTransformerEndInfo, TableLocations, TableOrganisations, TableAssetOwners, \
-    TablePoles, TableStreetlights, TableMeters, TableUsagePoints, TableOperationalRestrictions, TableBaseVoltages, TableConnectivityNodes, \
-    TableGeographicalRegions, TableSubGeographicalRegions, TableSubstations, TableSites, TableEquivalentBranches, TableBatteryUnits, TablePhotoVoltaicUnit, \
-    TablePowerElectronicsWindUnit, TableTerminals, TableFaultIndicators, TableFeeders, TableLoops, TableCircuits, TablePositionPoints, \
-    TableLocationStreetAddresses, TableControls, TableRemoteControls, TableRemoteSources, TableAnalogs, TableAccumulators, TableDiscretes, TableLvFeeders, \
-    TableCurrentTransformers, TablePotentialTransformers, TableCurrentRelays, TableSwitchInfo, TableEvChargingUnits, TableProtectionRelayFunctionThresholds, \
-    TableDistanceRelays, TableVoltageRelays, TableProtectionRelayFunctionTimeLimits, TableProtectionRelaySystems, TableProtectionRelaySchemes
-from zepben.evolve.database.sqlite.readers.network_cim_reader import NetworkCimReader
+__all__ = ["NetworkServiceReader"]
+
+from sqlite3 import Connection
+
+from zepben.evolve.database.sqlite.common.base_service_reader import BaseServiceReader
+from zepben.evolve.database.sqlite.network.network_cim_reader import NetworkCimReader
+from zepben.evolve.database.sqlite.network.network_database_tables import NetworkDatabaseTables
 from zepben.evolve.database.sqlite.tables.associations.table_asset_organisation_roles_assets import TableAssetOrganisationRolesAssets
 from zepben.evolve.database.sqlite.tables.associations.table_circuits_substations import TableCircuitsSubstations
 from zepben.evolve.database.sqlite.tables.associations.table_circuits_terminals import TableCircuitsTerminals
@@ -24,10 +22,58 @@ from zepben.evolve.database.sqlite.tables.associations.table_protection_relay_fu
 from zepben.evolve.database.sqlite.tables.associations.table_protection_relay_schemes_protection_relay_functions import \
     TableProtectionRelaySchemesProtectionRelayFunctions
 from zepben.evolve.database.sqlite.tables.associations.table_usage_points_end_devices import TableUsagePointsEndDevices
+from zepben.evolve.database.sqlite.tables.iec61968.assetinfo.table_cable_info import TableCableInfo
+from zepben.evolve.database.sqlite.tables.iec61968.assetinfo.table_no_load_tests import TableNoLoadTests
+from zepben.evolve.database.sqlite.tables.iec61968.assetinfo.table_open_circuit_tests import TableOpenCircuitTests
+from zepben.evolve.database.sqlite.tables.iec61968.assetinfo.table_overhead_wire_info import TableOverheadWireInfo
+from zepben.evolve.database.sqlite.tables.iec61968.assetinfo.table_power_transformer_info import TablePowerTransformerInfo
+from zepben.evolve.database.sqlite.tables.iec61968.assetinfo.table_short_circuit_tests import TableShortCircuitTests
+from zepben.evolve.database.sqlite.tables.iec61968.assetinfo.table_shunt_compensator_info import TableShuntCompensatorInfo
+from zepben.evolve.database.sqlite.tables.iec61968.assetinfo.table_switch_info import TableSwitchInfo
+from zepben.evolve.database.sqlite.tables.iec61968.assetinfo.table_transformer_end_info import TableTransformerEndInfo
+from zepben.evolve.database.sqlite.tables.iec61968.assetinfo.table_transformer_tank_info import TableTransformerTankInfo
+from zepben.evolve.database.sqlite.tables.iec61968.assets.table_asset_owners import TableAssetOwners
+from zepben.evolve.database.sqlite.tables.iec61968.assets.table_poles import TablePoles
+from zepben.evolve.database.sqlite.tables.iec61968.assets.table_streetlights import TableStreetlights
+from zepben.evolve.database.sqlite.tables.iec61968.common.table_location_street_addresses import TableLocationStreetAddresses
+from zepben.evolve.database.sqlite.tables.iec61968.common.table_locations import TableLocations
+from zepben.evolve.database.sqlite.tables.iec61968.common.table_organisations import TableOrganisations
+from zepben.evolve.database.sqlite.tables.iec61968.common.table_position_points import TablePositionPoints
 from zepben.evolve.database.sqlite.tables.iec61968.infiec61968.infassetinfo.table_current_transformer_info import TableCurrentTransformerInfo
 from zepben.evolve.database.sqlite.tables.iec61968.infiec61968.infassetinfo.table_potential_transformer_info import TablePotentialTransformerInfo
 from zepben.evolve.database.sqlite.tables.iec61968.infiec61968.infassetinfo.table_reclose_delays import TableRecloseDelays
 from zepben.evolve.database.sqlite.tables.iec61968.infiec61968.infassetinfo.table_relay_info import TableRelayInfo
+from zepben.evolve.database.sqlite.tables.iec61968.metering.table_meters import TableMeters
+from zepben.evolve.database.sqlite.tables.iec61968.metering.table_usage_points import TableUsagePoints
+from zepben.evolve.database.sqlite.tables.iec61968.operations.table_operational_restrictions import TableOperationalRestrictions
+from zepben.evolve.database.sqlite.tables.iec61970.base.auxiliaryequipment.table_current_transformers import TableCurrentTransformers
+from zepben.evolve.database.sqlite.tables.iec61970.base.auxiliaryequipment.table_fault_indicators import TableFaultIndicators
+from zepben.evolve.database.sqlite.tables.iec61970.base.auxiliaryequipment.table_potential_transformers import TablePotentialTransformers
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_base_voltages import TableBaseVoltages
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_connectivity_nodes import TableConnectivityNodes
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_feeders import TableFeeders
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_geographical_regions import TableGeographicalRegions
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_sites import TableSites
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_sub_geographical_regions import TableSubGeographicalRegions
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_substations import TableSubstations
+from zepben.evolve.database.sqlite.tables.iec61970.base.core.table_terminals import TableTerminals
+from zepben.evolve.database.sqlite.tables.iec61970.base.equivalents.table_equivalent_branches import TableEquivalentBranches
+from zepben.evolve.database.sqlite.tables.iec61970.base.meas.table_accumulators import TableAccumulators
+from zepben.evolve.database.sqlite.tables.iec61970.base.meas.table_analogs import TableAnalogs
+from zepben.evolve.database.sqlite.tables.iec61970.base.meas.table_controls import TableControls
+from zepben.evolve.database.sqlite.tables.iec61970.base.meas.table_discretes import TableDiscretes
+from zepben.evolve.database.sqlite.tables.iec61970.base.protection.table_current_relays import TableCurrentRelays
+from zepben.evolve.database.sqlite.tables.iec61970.base.protection.table_distance_relays import TableDistanceRelays
+from zepben.evolve.database.sqlite.tables.iec61970.base.protection.table_protection_relay_function_thresholds import TableProtectionRelayFunctionThresholds
+from zepben.evolve.database.sqlite.tables.iec61970.base.protection.table_protection_relay_function_time_limits import TableProtectionRelayFunctionTimeLimits
+from zepben.evolve.database.sqlite.tables.iec61970.base.protection.table_protection_relay_schemes import TableProtectionRelaySchemes
+from zepben.evolve.database.sqlite.tables.iec61970.base.protection.table_protection_relay_systems import TableProtectionRelaySystems
+from zepben.evolve.database.sqlite.tables.iec61970.base.protection.table_voltage_relays import TableVoltageRelays
+from zepben.evolve.database.sqlite.tables.iec61970.base.scada.table_remote_controls import TableRemoteControls
+from zepben.evolve.database.sqlite.tables.iec61970.base.scada.table_remote_sources import TableRemoteSources
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.generation.production.table_battery_units import TableBatteryUnits
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.generation.production.table_photo_voltaic_units import TablePhotoVoltaicUnits
+from zepben.evolve.database.sqlite.tables.iec61970.base.wires.generation.production.table_power_electronics_wind_units import TablePowerElectronicsWindUnits
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_ac_line_segments import TableAcLineSegments
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_breakers import TableBreakers
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_busbar_sections import TableBusbarSections
@@ -54,139 +100,131 @@ from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_reclosers im
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_series_compensators import TableSeriesCompensators
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_tap_changer_controls import TableTapChangerControls
 from zepben.evolve.database.sqlite.tables.iec61970.base.wires.table_transformer_star_impedances import TableTransformerStarImpedances
-
-__all__ = ["NetworkServiceReader"]
+from zepben.evolve.database.sqlite.tables.iec61970.infiec61970.feeder.table_circuits import TableCircuits
+from zepben.evolve.database.sqlite.tables.iec61970.infiec61970.feeder.table_loops import TableLoops
+from zepben.evolve.database.sqlite.tables.iec61970.infiec61970.feeder.table_lv_feeders import TableLvFeeders
+from zepben.evolve.database.sqlite.tables.iec61970.infiec61970.wires.generation.production.table_ev_charging_units import TableEvChargingUnits
+from zepben.evolve.services.network.network_service import NetworkService
 
 
 class NetworkServiceReader(BaseServiceReader):
     """
-    Class for reading a `NetworkService` from the database.
+    A class for reading a `NetworkService` from the database.
+
+    :param service: The `NetworkService` to populate from the database.
+    :param database_tables: The tables available in the database.
+    :param connection: A connection to the database.
+
+    :param reader: The `NetworkCimReader` used to load the objects from the database.
     """
 
-    def load(self, reader: NetworkCimReader) -> bool:
-        status = self.load_name_types(reader)
+    def __init__(
+        self,
+        service: NetworkService,
+        database_tables: NetworkDatabaseTables,
+        connection: Connection,
+        reader: NetworkCimReader = None
+    ):
+        reader = reader if reader else NetworkCimReader(service)
+        super().__init__(database_tables, connection, reader)
 
-        status = status and self._load_each(TableCableInfo, "cable info", reader.load_cable_info)
-        status = status and self._load_each(TableOverheadWireInfo, "overhead wire info", reader.load_overhead_wire_info)
-        status = status and self._load_each(TablePowerTransformerInfo, "power transformer info", reader.load_power_transformer_info)
-        status = status and self._load_each(TableTransformerTankInfo, "transformer tank info", reader.load_transformer_tank_info)
-        status = status and self._load_each(TableNoLoadTests, "no load tests", reader.load_no_load_test)
-        status = status and self._load_each(TableOpenCircuitTests, "open circuit tests", reader.load_open_circuit_test)
-        status = status and self._load_each(TableShortCircuitTests, "short circuit tests", reader.load_short_circuit_test)
-        status = status and self._load_each(TableShuntCompensatorInfo, "shunt compensator info", reader.load_shunt_compensator_info)
-        status = status and self._load_each(TableSwitchInfo, "switch info", reader.load_switch_info)
-        status = status and self._load_each(TableTransformerEndInfo, "transformer end info", reader.load_transformer_end_info)
-        status = status and self._load_each(TableCurrentTransformerInfo, "current transformer info", reader.load_current_transformer_info)
-        status = status and self._load_each(TablePotentialTransformerInfo, "potential transformer info", reader.load_potential_transformer_info)
-        status = status and self._load_each(TableRelayInfo, "relay info", reader.load_relay_info)
-        status = status and self._load_each(TableRecloseDelays, "reclose delays", reader.load_reclose_delays)
-        status = status and self._load_each(TableLocations, "locations", reader.load_location)
-        status = status and self._load_each(TableOrganisations, "organisations", reader.load_organisation)
-        status = status and self._load_each(TableAssetOwners, "asset owners", reader.load_asset_owner)
-        status = status and self._load_each(TablePoles, "poles", reader.load_pole)
-        status = status and self._load_each(TableStreetlights, "streetlights", reader.load_streetlight)
-        status = status and self._load_each(TableMeters, "meters", reader.load_meter)
-        status = status and self._load_each(TableUsagePoints, "usage points", reader.load_usage_point)
-        status = status and self._load_each(TableOperationalRestrictions, "operational restrictions", reader.load_operational_restriction)
-        status = status and self._load_each(TableBaseVoltages, "base voltages", reader.load_base_voltage)
-        status = status and self._load_each(TableConnectivityNodes, "connectivity nodes", reader.load_connectivity_node)
-        status = status and self._load_each(TableGeographicalRegions, "geographical regions", reader.load_geographical_region)
-        status = status and self._load_each(TableSubGeographicalRegions, "sub-geographical regions", reader.load_sub_geographical_region)
-        status = status and self._load_each(TableSubstations, "substations", reader.load_substation)
-        status = status and self._load_each(TableSites, "sites", reader.load_site)
-        status = status and self._load_each(TablePerLengthSequenceImpedances, "per length sequence impedances", reader.load_per_length_sequence_impedance)
-        status = status and self._load_each(TableEquivalentBranches, "equivalent branches", reader.load_equivalent_branch)
-        status = status and self._load_each(TableAcLineSegments, "AC line segments", reader.load_ac_line_segment)
-        status = status and self._load_each(TableBreakers, "breakers", reader.load_breaker)
-        status = status and self._load_each(TableLoadBreakSwitches, "load break switches", reader.load_load_break_switch)
-        status = status and self._load_each(TableBusbarSections, "busbar sections", reader.load_busbar_section)
-        status = status and self._load_each(TableCurrentRelays, "current relays", reader.load_current_relay)
-        status = status and self._load_each(TableDistanceRelays, "distance relays", reader.load_distance_relay)
-        status = status and self._load_each(TableVoltageRelays, "voltage relays", reader.load_voltage_relay)
-        status = status and self._load_each(TableProtectionRelayFunctionThresholds, "protection relay function thresholds",
-                                            reader.load_protection_relay_function_thresholds)
-        status = status and self._load_each(TableProtectionRelayFunctionTimeLimits, "protection relay function time limits",
-                                            reader.load_protection_relay_function_time_limits)
-        status = status and self._load_each(TableProtectionRelaySystems, "protection relay system", reader.load_protection_relay_system)
-        status = status and self._load_each(TableProtectionRelaySchemes, "protection relay scheme", reader.load_protection_relay_scheme)
-        status = status and self._load_each(TableDisconnectors, "disconnectors", reader.load_disconnector)
-        status = status and self._load_each(TableEnergyConsumers, "energy consumers", reader.load_energy_consumer)
-        status = status and self._load_each(TableEnergyConsumerPhases, "energy consumer phases", reader.load_energy_consumer_phase)
-        status = status and self._load_each(TableEnergySources, "energy sources", reader.load_energy_source)
-        status = status and self._load_each(TableEnergySourcePhases, "energy source phases", reader.load_energy_source_phase)
-        status = status and self._load_each(TableFuses, "fuses", reader.load_fuse)
-        status = status and self._load_each(TableJumpers, "jumpers", reader.load_jumper)
-        status = status and self._load_each(TableJunctions, "junctions", reader.load_junction)
-        status = status and self._load_each(TableGrounds, "grounds", reader.load_ground)
-        status = status and self._load_each(TableGroundDisconnectors, "ground disconnectors", reader.load_ground_disconnector)
-        status = status and self._load_each(TableSeriesCompensators, "series compensators", reader.load_series_compensator)
-        status = status and self._load_each(TableLinearShuntCompensators, "linear shunt compensators", reader.load_linear_shunt_compensator)
-        status = status and self._load_each(TablePowerTransformers, "power transformers", reader.load_power_transformer)
-        status = status and self._load_each(TableReclosers, "reclosers", reader.load_recloser)
-        status = status and self._load_each(TablePowerElectronicsConnections, "power electronics connection", reader.load_power_electronics_connection)
-        status = status and self._load_each(TableTerminals, "terminals", reader.load_terminal)
-        status = status and self._load_each(TableTapChangerControls, "tap changer controls", reader.load_tap_changer_control)
-        status = status and self._load_each(TablePowerElectronicsConnectionPhases, "power electronics connection phases",
-                                            reader.load_power_electronics_connection_phase)
-        status = status and self._load_each(TableBatteryUnits, "battery unit", reader.load_battery_unit)
-        status = status and self._load_each(TablePhotoVoltaicUnit, "photo voltaic unit", reader.load_photo_voltaic_unit)
-        status = status and self._load_each(TablePowerElectronicsWindUnit, "power electronics wind unit", reader.load_power_electronics_wind_unit)
-        status = status and self._load_each(TableEvChargingUnits, "ev charging units", reader.load_ev_charging_unit)
-        status = status and self._load_each(TableTransformerStarImpedances, "transformer star impedance", reader.load_transformer_star_impedance)
-        status = status and self._load_each(TablePowerTransformerEnds, "power transformer ends", reader.load_power_transformer_end)
-        status = status and self._load_each(TablePowerTransformerEndRatings, "power transformer end ratings", reader.load_power_transformer_end_ratings)
-        status = status and self._load_each(TableRatioTapChangers, "ratio tap changers", reader.load_ratio_tap_changer)
-        status = status and self._load_each(TableCurrentTransformers, "ratio tap changers", reader.load_current_transformer)
-        status = status and self._load_each(TableFaultIndicators, "fault indicators", reader.load_fault_indicator)
-        status = status and self._load_each(TablePotentialTransformers, "ratio tap changers", reader.load_potential_transformer)
-        status = status and self._load_each(TableFeeders, "feeders", reader.load_feeder)
-        status = status and self._load_each(TableLoops, "loops", reader.load_loop)
-        status = status and self._load_each(TableCircuits, "circuits", reader.load_circuit)
-        status = status and self._load_each(TableLvFeeders, "lv feeders", reader.load_lv_feeder)
-        status = status and self._load_each(TablePositionPoints, "position points", reader.load_position_point)
-        status = status and self._load_each(TableLocationStreetAddresses, "location street addresses", reader.load_location_street_address)
-        status = status and self._load_each(
-            TableAssetOrganisationRolesAssets,
-            "asset organisation role to asset associations",
-            reader.load_asset_organisation_role_asset
-        )
-        status = status and self._load_each(TableUsagePointsEndDevices, "usage point to end device associations", reader.load_usage_point_end_device)
-        status = status and self._load_each(TableEquipmentUsagePoints, "equipment to usage point associations", reader.load_equipment_usage_point)
-        status = status and self._load_each(
-            TableEquipmentOperationalRestrictions,
-            "equipment to operational restriction associations",
-            reader.load_equipment_operational_restriction
-        )
-        status = status and self._load_each(
-            TableEquipmentEquipmentContainers,
-            "equipment to equipment container associations",
-            reader.load_equipment_equipment_container
-        )
-        status = status and self._load_each(TableCircuitsSubstations, "circuit to substation associations", reader.load_circuit_substation)
-        status = status and self._load_each(TableCircuitsTerminals, "circuit to terminal associations", reader.load_circuit_terminal)
-        status = status and self._load_each(TableLoopsSubstations, "loop to substation associations", reader.load_loop_substation)
-        status = status and self._load_each(
-            TableProtectionRelayFunctionsProtectedSwitches,
-            "protection equipment to protected switch associations",
-            reader.load_protection_equipment_protected_switch
-        )
-        status = status and self._load_each(
-            TableProtectionRelayFunctionsSensors,
-            "protection equipment to sensor associations",
-            reader.load_protection_relay_functions_sensors
-        )
-        status = status and self._load_each(
-            TableProtectionRelaySchemesProtectionRelayFunctions,
-            "protection relay scheme to protection relay function associations",
-            reader.load_protection_relay_schemes_protection_relay_functions
-        )
-        status = status and self._load_each(TableControls, "controls", reader.load_control)
-        status = status and self._load_each(TableRemoteControls, "remote controls", reader.load_remote_control)
-        status = status and self._load_each(TableRemoteSources, "remote sources", reader.load_remote_source)
-        status = status and self._load_each(TableAnalogs, "analogs", reader.load_analog)
-        status = status and self._load_each(TableAccumulators, "accumulators", reader.load_accumulator)
-        status = status and self._load_each(TableDiscretes, "discretes", reader.load_discrete)
+        # This is not strictly necessary, it is just to update the type of the reader. It could be done with a generic
+        # on the base class which looks like it works, but that actually silently breaks code insight and completion
+        self._reader = reader
 
-        status = status and self.load_names(reader)
-
-        return status
+    def _do_load(self) -> bool:
+        return all([
+            self._load_each(TableCableInfo, self._reader.load_cable_info),
+            self._load_each(TableOverheadWireInfo, self._reader.load_overhead_wire_info),
+            self._load_each(TablePowerTransformerInfo, self._reader.load_power_transformer_info),
+            self._load_each(TableTransformerTankInfo, self._reader.load_transformer_tank_info),
+            self._load_each(TableNoLoadTests, self._reader.load_no_load_tests),
+            self._load_each(TableOpenCircuitTests, self._reader.load_open_circuit_tests),
+            self._load_each(TableShortCircuitTests, self._reader.load_short_circuit_tests),
+            self._load_each(TableShuntCompensatorInfo, self._reader.load_shunt_compensator_info),
+            self._load_each(TableSwitchInfo, self._reader.load_switch_info),
+            self._load_each(TableTransformerEndInfo, self._reader.load_transformer_end_info),
+            self._load_each(TableCurrentTransformerInfo, self._reader.load_current_transformer_info),
+            self._load_each(TablePotentialTransformerInfo, self._reader.load_potential_transformer_info),
+            self._load_each(TableRelayInfo, self._reader.load_relay_info),
+            self._load_each(TableRecloseDelays, self._reader.load_reclose_delays),
+            self._load_each(TableLocations, self._reader.load_locations),
+            self._load_each(TableOrganisations, self._reader.load_organisations),
+            self._load_each(TableAssetOwners, self._reader.load_asset_owners),
+            self._load_each(TablePoles, self._reader.load_poles),
+            self._load_each(TableStreetlights, self._reader.load_streetlights),
+            self._load_each(TableMeters, self._reader.load_meters),
+            self._load_each(TableUsagePoints, self._reader.load_usage_points),
+            self._load_each(TableOperationalRestrictions, self._reader.load_operational_restrictions),
+            self._load_each(TableBaseVoltages, self._reader.load_base_voltages),
+            self._load_each(TableConnectivityNodes, self._reader.load_connectivity_nodes),
+            self._load_each(TableGeographicalRegions, self._reader.load_geographical_regions),
+            self._load_each(TableSubGeographicalRegions, self._reader.load_sub_geographical_regions),
+            self._load_each(TableSubstations, self._reader.load_substations),
+            self._load_each(TableSites, self._reader.load_sites),
+            self._load_each(TablePerLengthSequenceImpedances, self._reader.load_per_length_sequence_impedances),
+            self._load_each(TableEquivalentBranches, self._reader.load_equivalent_branches),
+            self._load_each(TableAcLineSegments, self._reader.load_ac_line_segments),
+            self._load_each(TableBreakers, self._reader.load_breakers),
+            self._load_each(TableLoadBreakSwitches, self._reader.load_load_break_switches),
+            self._load_each(TableBusbarSections, self._reader.load_busbar_sections),
+            self._load_each(TableCurrentRelays, self._reader.load_current_relays),
+            self._load_each(TableDistanceRelays, self._reader.load_distance_relays),
+            self._load_each(TableVoltageRelays, self._reader.load_voltage_relays),
+            self._load_each(TableProtectionRelayFunctionThresholds, self._reader.load_protection_relay_function_thresholds),
+            self._load_each(TableProtectionRelayFunctionTimeLimits, self._reader.load_protection_relay_function_time_limits),
+            self._load_each(TableProtectionRelaySystems, self._reader.load_protection_relay_systems),
+            self._load_each(TableProtectionRelaySchemes, self._reader.load_protection_relay_schemes),
+            self._load_each(TableDisconnectors, self._reader.load_disconnectors),
+            self._load_each(TableEnergyConsumers, self._reader.load_energy_consumers),
+            self._load_each(TableEnergyConsumerPhases, self._reader.load_energy_consumer_phases),
+            self._load_each(TableEnergySources, self._reader.load_energy_sources),
+            self._load_each(TableEnergySourcePhases, self._reader.load_energy_source_phases),
+            self._load_each(TableFuses, self._reader.load_fuses),
+            self._load_each(TableJumpers, self._reader.load_jumpers),
+            self._load_each(TableJunctions, self._reader.load_junctions),
+            self._load_each(TableGrounds, self._reader.load_grounds),
+            self._load_each(TableGroundDisconnectors, self._reader.load_ground_disconnectors),
+            self._load_each(TableSeriesCompensators, self._reader.load_series_compensators),
+            self._load_each(TableLinearShuntCompensators, self._reader.load_linear_shunt_compensators),
+            self._load_each(TablePowerTransformers, self._reader.load_power_transformers),
+            self._load_each(TableReclosers, self._reader.load_reclosers),
+            self._load_each(TablePowerElectronicsConnections, self._reader.load_power_electronics_connections),
+            self._load_each(TableTerminals, self._reader.load_terminals),
+            self._load_each(TableTapChangerControls, self._reader.load_tap_changer_controls),
+            self._load_each(TablePowerElectronicsConnectionPhases, self._reader.load_power_electronics_connection_phases),
+            self._load_each(TableBatteryUnits, self._reader.load_battery_units),
+            self._load_each(TablePhotoVoltaicUnits, self._reader.load_photo_voltaic_units),
+            self._load_each(TablePowerElectronicsWindUnits, self._reader.load_power_electronics_wind_units),
+            self._load_each(TableEvChargingUnits, self._reader.load_ev_charging_units),
+            self._load_each(TableTransformerStarImpedances, self._reader.load_transformer_star_impedances),
+            self._load_each(TablePowerTransformerEnds, self._reader.load_power_transformer_ends),
+            self._load_each(TablePowerTransformerEndRatings, self._reader.load_power_transformer_end_ratings),
+            self._load_each(TableRatioTapChangers, self._reader.load_ratio_tap_changers),
+            self._load_each(TableCurrentTransformers, self._reader.load_current_transformers),
+            self._load_each(TableFaultIndicators, self._reader.load_fault_indicators),
+            self._load_each(TablePotentialTransformers, self._reader.load_potential_transformers),
+            self._load_each(TableFeeders, self._reader.load_feeders),
+            self._load_each(TableLoops, self._reader.load_loops),
+            self._load_each(TableLvFeeders, self._reader.load_lv_feeders),
+            self._load_each(TableCircuits, self._reader.load_circuits),
+            self._load_each(TablePositionPoints, self._reader.load_position_points),
+            self._load_each(TableLocationStreetAddresses, self._reader.load_location_street_addresses),
+            self._load_each(TableAssetOrganisationRolesAssets, self._reader.load_asset_organisation_roles_assets),
+            self._load_each(TableUsagePointsEndDevices, self._reader.load_usage_points_end_devices),
+            self._load_each(TableEquipmentUsagePoints, self._reader.load_equipment_usage_points),
+            self._load_each(TableEquipmentOperationalRestrictions, self._reader.load_equipment_operational_restrictions),
+            self._load_each(TableEquipmentEquipmentContainers, self._reader.load_equipment_equipment_containers),
+            self._load_each(TableCircuitsSubstations, self._reader.load_circuits_substations),
+            self._load_each(TableCircuitsTerminals, self._reader.load_circuits_terminals),
+            self._load_each(TableLoopsSubstations, self._reader.load_loops_substations),
+            self._load_each(TableProtectionRelayFunctionsProtectedSwitches, self._reader.load_protection_relay_functions_protected_switches),
+            self._load_each(TableProtectionRelayFunctionsSensors, self._reader.load_protection_relay_functions_sensors),
+            self._load_each(TableProtectionRelaySchemesProtectionRelayFunctions, self._reader.load_protection_relay_schemes_protection_relay_functions),
+            self._load_each(TableControls, self._reader.load_controls),
+            self._load_each(TableRemoteControls, self._reader.load_remote_controls),
+            self._load_each(TableRemoteSources, self._reader.load_remote_sources),
+            self._load_each(TableAnalogs, self._reader.load_analogs),
+            self._load_each(TableAccumulators, self._reader.load_accumulators),
+            self._load_each(TableDiscretes, self._reader.load_discretes),
+        ])

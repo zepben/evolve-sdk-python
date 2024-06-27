@@ -227,7 +227,7 @@ __all__ = ["NetworkCimWriter"]
 
 class NetworkCimWriter(BaseCimWriter):
     """
-     A class for writing the [NetworkService] tables to the database.
+     A class for writing the `NetworkService` tables to the database.
     
      :param database_tables: The tables available in the database.
     """
@@ -241,10 +241,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_cable_info(self, cable_info: CableInfo) -> bool:
         """
-        Save the [CableInfo] fields to [TableCableInfo].
+        Save the `CableInfo` fields to `TableCableInfo`.
 
-        :param cable_info: The [CableInfo] instance to write to the database.
-        :return: True if the [CableInfo] was successfully written to the database, otherwise false.
+        :param cable_info: The `CableInfo` instance to write to the database.
+        :return: True if the `CableInfo` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableCableInfo)
         insert = self._database_tables.get_insert(TableCableInfo)
@@ -253,10 +253,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_no_load_test(self, no_load_test: NoLoadTest) -> bool:
         """
-        Save the [NoLoadTest] fields to [TableNoLoadTests].
+        Save the `NoLoadTest` fields to `TableNoLoadTests`.
 
-        :param no_load_test: The [NoLoadTest] instance to write to the database.
-        :return: True if the [NoLoadTest] was successfully written to the database, otherwise false.
+        :param no_load_test: The `NoLoadTest` instance to write to the database.
+        :return: True if the `NoLoadTest` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableNoLoadTests)
         insert = self._database_tables.get_insert(TableNoLoadTests)
@@ -271,10 +271,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_open_circuit_test(self, open_circuit_test: OpenCircuitTest) -> bool:
         """
-        Save the [OpenCircuitTest] fields to [TableOpenCircuitTests].
+        Save the `OpenCircuitTest` fields to `TableOpenCircuitTests`.
 
-        :param open_circuit_test: The [OpenCircuitTest] instance to write to the database.
-        :return: True if the [OpenCircuitTest] was successfully written to the database, otherwise false.
+        :param open_circuit_test: The `OpenCircuitTest` instance to write to the database.
+        :return: True if the `OpenCircuitTest` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableOpenCircuitTests)
         insert = self._database_tables.get_insert(TableOpenCircuitTests)
@@ -289,10 +289,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_overhead_wire_info(self, overhead_wire_info: OverheadWireInfo) -> bool:
         """
-        Save the [OverheadWireInfo] fields to [TableOverheadWireInfo].
+        Save the `OverheadWireInfo` fields to `TableOverheadWireInfo`.
 
-        :param overhead_wire_info: The [OverheadWireInfo] instance to write to the database.
-        :return: True if the [OverheadWireInfo] was successfully written to the database, otherwise false.
+        :param overhead_wire_info: The `OverheadWireInfo` instance to write to the database.
+        :return: True if the `OverheadWireInfo` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableOverheadWireInfo)
         insert = self._database_tables.get_insert(TableOverheadWireInfo)
@@ -301,10 +301,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_power_transformer_info(self, power_transformer_info: PowerTransformerInfo) -> bool:
         """
-        Save the [PowerTransformerInfo] fields to [TablePowerTransformerInfo].
+        Save the `PowerTransformerInfo` fields to `TablePowerTransformerInfo`.
 
-        :param power_transformer_info: The [PowerTransformerInfo] instance to write to the database.
-        :return: True if the [PowerTransformerInfo] was successfully written to the database, otherwise false.
+        :param power_transformer_info: The `PowerTransformerInfo` instance to write to the database.
+        :return: True if the `PowerTransformerInfo` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePowerTransformerInfo)
         insert = self._database_tables.get_insert(TablePowerTransformerInfo)
@@ -313,10 +313,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_short_circuit_test(self, short_circuit_test: ShortCircuitTest) -> bool:
         """
-        Save the [ShortCircuitTest] fields to [TableShortCircuitTests].
+        Save the `ShortCircuitTest` fields to `TableShortCircuitTests`.
 
-        :param short_circuit_test: The [ShortCircuitTest] instance to write to the database.
-        :return: True if the [ShortCircuitTest] was successfully written to the database, otherwise false.
+        :param short_circuit_test: The `ShortCircuitTest` instance to write to the database.
+        :return: True if the `ShortCircuitTest` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableShortCircuitTests)
         insert = self._database_tables.get_insert(TableShortCircuitTests)
@@ -336,10 +336,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_shunt_compensator_info(self, shunt_compensator_info: ShuntCompensatorInfo) -> bool:
         """
-        Save the [ShuntCompensatorInfo] fields to [TableShuntCompensatorInfo].
+        Save the `ShuntCompensatorInfo` fields to `TableShuntCompensatorInfo`.
 
-        :param shunt_compensator_info: The [ShuntCompensatorInfo] instance to write to the database.
-        :return: True if the [ShuntCompensatorInfo] was successfully written to the database, otherwise false.
+        :param shunt_compensator_info: The `ShuntCompensatorInfo` instance to write to the database.
+        :return: True if the `ShuntCompensatorInfo` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableShuntCompensatorInfo)
         insert = self._database_tables.get_insert(TableShuntCompensatorInfo)
@@ -353,10 +353,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_switch_info(self, switch_info: SwitchInfo) -> bool:
         """
-        Save the [SwitchInfo] fields to [TableSwitchInfo].
+        Save the `SwitchInfo` fields to `TableSwitchInfo`.
 
-        :param switch_info: The [SwitchInfo] instance to write to the database.
-        :return: True if the [SwitchInfo] was successfully written to the database, otherwise false.
+        :param switch_info: The `SwitchInfo` instance to write to the database.
+        :return: True if the `SwitchInfo` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableSwitchInfo)
         insert = self._database_tables.get_insert(TableSwitchInfo)
@@ -367,10 +367,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_transformer_end_info(self, transformer_end_info: TransformerEndInfo) -> bool:
         """
-        Save the [TransformerEndInfo] fields to [TableTransformerEndInfo].
+        Save the `TransformerEndInfo` fields to `TableTransformerEndInfo`.
 
-        :param transformer_end_info: The [TransformerEndInfo] instance to write to the database.
-        :return: True if the [TransformerEndInfo] was successfully written to the database, otherwise false.
+        :param transformer_end_info: The `TransformerEndInfo` instance to write to the database.
+        :return: True if the `TransformerEndInfo` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableTransformerEndInfo)
         insert = self._database_tables.get_insert(TableTransformerEndInfo)
@@ -395,10 +395,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_transformer_tank_info(self, transformer_tank_info: TransformerTankInfo) -> bool:
         """
-        Save the [TransformerTankInfo] fields to [TableTransformerTankInfo].
+        Save the `TransformerTankInfo` fields to `TableTransformerTankInfo`.
 
-        :param transformer_tank_info: The [TransformerTankInfo] instance to write to the database.
-        :return: True if the [TransformerTankInfo] was successfully written to the database, otherwise false.
+        :param transformer_tank_info: The `TransformerTankInfo` instance to write to the database.
+        :return: True if the `TransformerTankInfo` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableTransformerTankInfo)
         insert = self._database_tables.get_insert(TableTransformerTankInfo)
@@ -449,10 +449,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_asset_owner(self, asset_owner: AssetOwner) -> bool:
         """
-        Save the [AssetOwner] fields to [TableAssetOwners].
+        Save the `AssetOwner` fields to `TableAssetOwners`.
 
-        :param asset_owner: The [AssetOwner] instance to write to the database.
-        :return: True if the [AssetOwner] was successfully written to the database, otherwise false.
+        :param asset_owner: The `AssetOwner` instance to write to the database.
+        :return: True if the `AssetOwner` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableAssetOwners)
         insert = self._database_tables.get_insert(TableAssetOwners)
@@ -464,10 +464,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_pole(self, pole: Pole) -> bool:
         """
-        Save the [Pole] fields to [TablePoles].
+        Save the `Pole` fields to `TablePoles`.
 
-        :param pole: The [Pole] instance to write to the database.
-        :return: True if the [Pole] was successfully written to the database, otherwise false.
+        :param pole: The `Pole` instance to write to the database.
+        :return: True if the `Pole` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePoles)
         insert = self._database_tables.get_insert(TablePoles)
@@ -478,10 +478,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_streetlight(self, streetlight: Streetlight) -> bool:
         """
-        Save the [Streetlight] fields to [TableStreetlights].
+        Save the `Streetlight` fields to `TableStreetlights`.
 
-        :param streetlight: The [Streetlight] instance to write to the database.
-        :return: True if the [Streetlight] was successfully written to the database, otherwise false.
+        :param streetlight: The `Streetlight` instance to write to the database.
+        :return: True if the `Streetlight` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableStreetlights)
         insert = self._database_tables.get_insert(TableStreetlights)
@@ -512,10 +512,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_location(self, location: Location) -> bool:
         """
-        Save the [Location] fields to [TableLocations].
+        Save the `Location` fields to `TableLocations`.
 
-        :param location: The [Location] instance to write to the database.
-        :return: True if the [Location] was successfully written to the database, otherwise false.
+        :param location: The `Location` instance to write to the database.
+        :return: True if the `Location` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableLocations)
         insert = self._database_tables.get_insert(TableLocations)
@@ -576,10 +576,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_relay_info(self, relay_info: RelayInfo) -> bool:
         """
-        Save the [RelayInfo] fields to [TableRelayInfo].
+        Save the `RelayInfo` fields to `TableRelayInfo`.
 
-        :param relay_info: The [RelayInfo] instance to write to the database.
-        :return: True if the [RelayInfo] was successfully written to the database, otherwise false.
+        :param relay_info: The `RelayInfo` instance to write to the database.
+        :return: True if the `RelayInfo` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableRelayInfo)
         insert = self._database_tables.get_insert(TableRelayInfo)
@@ -599,10 +599,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_current_transformer_info(self, current_transformer_info: CurrentTransformerInfo) -> bool:
         """
-        Save the [CurrentTransformerInfo] fields to [TableCurrentTransformerInfo].
+        Save the `CurrentTransformerInfo` fields to `TableCurrentTransformerInfo`.
 
-        :param current_transformer_info: The [CurrentTransformerInfo] instance to write to the database.
-        :return: True if the [CurrentTransformerInfo] was successfully written to the database, otherwise false.
+        :param current_transformer_info: The `CurrentTransformerInfo` instance to write to the database.
+        :return: True if the `CurrentTransformerInfo` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableCurrentTransformerInfo)
         insert = self._database_tables.get_insert(TableCurrentTransformerInfo)
@@ -624,10 +624,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_potential_transformer_info(self, potential_transformer_info: PotentialTransformerInfo) -> bool:
         """
-        Save the [PotentialTransformerInfo] fields to [TablePotentialTransformerInfo].
+        Save the `PotentialTransformerInfo` fields to `TablePotentialTransformerInfo`.
 
-        :param potential_transformer_info: The [PotentialTransformerInfo] instance to write to the database.
-        :return: True if the [PotentialTransformerInfo] was successfully written to the database, otherwise false.
+        :param potential_transformer_info: The `PotentialTransformerInfo` instance to write to the database.
+        :return: True if the `PotentialTransformerInfo` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePotentialTransformerInfo)
         insert = self._database_tables.get_insert(TablePotentialTransformerInfo)
@@ -657,10 +657,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_meter(self, meter: Meter) -> bool:
         """
-        Save the [Meter] fields to [TableMeters].
+        Save the `Meter` fields to `TableMeters`.
 
-        :param meter: The [Meter] instance to write to the database.
-        :return: True if the [Meter] was successfully written to the database, otherwise false.
+        :param meter: The `Meter` instance to write to the database.
+        :return: True if the `Meter` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableMeters)
         insert = self._database_tables.get_insert(TableMeters)
@@ -669,10 +669,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_usage_point(self, usage_point: UsagePoint) -> bool:
         """
-        Save the [UsagePoint] fields to [TableUsagePoints].
+        Save the `UsagePoint` fields to `TableUsagePoints`.
 
-        :param usage_point: The [UsagePoint] instance to write to the database.
-        :return: True if the [UsagePoint] was successfully written to the database, otherwise false.
+        :param usage_point: The `UsagePoint` instance to write to the database.
+        :return: True if the `UsagePoint` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableUsagePoints)
         insert = self._database_tables.get_insert(TableUsagePoints)
@@ -695,10 +695,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_operational_restriction(self, operational_restriction: OperationalRestriction) -> bool:
         """
-        Save the [OperationalRestriction] fields to [TableOperationalRestrictions].
+        Save the `OperationalRestriction` fields to `TableOperationalRestrictions`.
 
-        :param operational_restriction: The [OperationalRestriction] instance to write to the database.
-        :return: True if the [OperationalRestriction] was successfully written to the database, otherwise false.
+        :param operational_restriction: The `OperationalRestriction` instance to write to the database.
+        :return: True if the `OperationalRestriction` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableOperationalRestrictions)
         insert = self._database_tables.get_insert(TableOperationalRestrictions)
@@ -726,10 +726,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_current_transformer(self, current_transformer: CurrentTransformer) -> bool:
         """
-        Save the [CurrentTransformer] fields to [TableCurrentTransformers].
+        Save the `CurrentTransformer` fields to `TableCurrentTransformers`.
 
-        :param current_transformer: The [CurrentTransformer] instance to write to the database.
-        :return: True if the [CurrentTransformer] was successfully written to the database, otherwise false.
+        :param current_transformer: The `CurrentTransformer` instance to write to the database.
+        :return: True if the `CurrentTransformer` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableCurrentTransformers)
         insert = self._database_tables.get_insert(TableCurrentTransformers)
@@ -741,10 +741,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_fault_indicator(self, fault_indicator: FaultIndicator) -> bool:
         """
-        Save the [FaultIndicator] fields to [TableFaultIndicators].
+        Save the `FaultIndicator` fields to `TableFaultIndicators`.
 
-        :param fault_indicator: The [FaultIndicator] instance to write to the database.
-        :return: True if the [FaultIndicator] was successfully written to the database, otherwise false.
+        :param fault_indicator: The `FaultIndicator` instance to write to the database.
+        :return: True if the `FaultIndicator` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableFaultIndicators)
         insert = self._database_tables.get_insert(TableFaultIndicators)
@@ -753,10 +753,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_potential_transformer(self, potential_transformer: PotentialTransformer) -> bool:
         """
-        Save the [PotentialTransformer] fields to [TablePotentialTransformers].
+        Save the `PotentialTransformer` fields to `TablePotentialTransformers`.
 
-        :param potential_transformer: The [PotentialTransformer] instance to write to the database.
-        :return: True if the [PotentialTransformer] was successfully written to the database, otherwise false.
+        :param potential_transformer: The `PotentialTransformer` instance to write to the database.
+        :return: True if the `PotentialTransformer` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePotentialTransformers)
         insert = self._database_tables.get_insert(TablePotentialTransformers)
@@ -778,10 +778,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_base_voltage(self, base_voltage: BaseVoltage) -> bool:
         """
-        Save the [BaseVoltage] fields to [TableBaseVoltages].
+        Save the `BaseVoltage` fields to `TableBaseVoltages`.
 
-        :param base_voltage: The [BaseVoltage] instance to write to the database.
-        :return: True if the [BaseVoltage] was successfully written to the database, otherwise false.
+        :param base_voltage: The `BaseVoltage` instance to write to the database.
+        :return: True if the `BaseVoltage` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableBaseVoltages)
         insert = self._database_tables.get_insert(TableBaseVoltages)
@@ -803,10 +803,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_connectivity_node(self, connectivity_node: ConnectivityNode) -> bool:
         """
-        Save the [ConnectivityNode] fields to [TableConnectivityNodes].
+        Save the `ConnectivityNode` fields to `TableConnectivityNodes`.
 
-        :param connectivity_node: The [ConnectivityNode] instance to write to the database.
-        :return: True if the [ConnectivityNode] was successfully written to the database, otherwise false.
+        :param connectivity_node: The `ConnectivityNode` instance to write to the database.
+        :return: True if the `ConnectivityNode` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableConnectivityNodes)
         insert = self._database_tables.get_insert(TableConnectivityNodes)
@@ -847,10 +847,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_feeder(self, feeder: Feeder) -> bool:
         """
-        Save the [Feeder] fields to [TableFeeders].
+        Save the `Feeder` fields to `TableFeeders`.
 
-        :param feeder: The [Feeder] instance to write to the database.
-        :return: True if the [Feeder] was successfully written to the database, otherwise false.
+        :param feeder: The `Feeder` instance to write to the database.
+        :return: True if the `Feeder` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableFeeders)
         insert = self._database_tables.get_insert(TableFeeders)
@@ -865,10 +865,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_geographical_region(self, geographical_region: GeographicalRegion) -> bool:
         """
-        Save the [GeographicalRegion] fields to [TableGeographicalRegions].
+        Save the `GeographicalRegion` fields to `TableGeographicalRegions`.
 
-        :param geographical_region: The [GeographicalRegion] instance to write to the database.
-        :return: True if the [GeographicalRegion] was successfully written to the database, otherwise false.
+        :param geographical_region: The `GeographicalRegion` instance to write to the database.
+        :return: True if the `GeographicalRegion` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableGeographicalRegions)
         insert = self._database_tables.get_insert(TableGeographicalRegions)
@@ -889,10 +889,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_site(self, site: Site) -> bool:
         """
-        Save the [Site] fields to [TableSites].
+        Save the `Site` fields to `TableSites`.
 
-        :param site: The [Site] instance to write to the database.
-        :return: True if the [Site] was successfully written to the database, otherwise false.
+        :param site: The `Site` instance to write to the database.
+        :return: True if the `Site` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableSites)
         insert = self._database_tables.get_insert(TableSites)
@@ -901,10 +901,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_sub_geographical_region(self, sub_geographical_region: SubGeographicalRegion) -> bool:
         """
-        Save the [SubGeographicalRegion] fields to [TableSubGeographicalRegions].
+        Save the `SubGeographicalRegion` fields to `TableSubGeographicalRegions`.
 
-        :param sub_geographical_region: The [SubGeographicalRegion] instance to write to the database.
-        :return: True if the [SubGeographicalRegion] was successfully written to the database, otherwise false.
+        :param sub_geographical_region: The `SubGeographicalRegion` instance to write to the database.
+        :return: True if the `SubGeographicalRegion` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableSubGeographicalRegions)
         insert = self._database_tables.get_insert(TableSubGeographicalRegions)
@@ -918,10 +918,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_substation(self, substation: Substation) -> bool:
         """
-        Save the [Substation] fields to [TableSubstations].
+        Save the `Substation` fields to `TableSubstations`.
 
-        :param substation: The [Substation] instance to write to the database.
-        :return: True if the [Substation] was successfully written to the database, otherwise false.
+        :param substation: The `Substation` instance to write to the database.
+        :return: True if the `Substation` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableSubstations)
         insert = self._database_tables.get_insert(TableSubstations)
@@ -932,10 +932,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_terminal(self, terminal: Terminal) -> bool:
         """
-        Save the [Terminal] fields to [TableTerminals].
+        Save the `Terminal` fields to `TableTerminals`.
 
-        :param terminal: The [Terminal] instance to write to the database.
-        :return: True if the [Terminal] was successfully written to the database, otherwise false.
+        :param terminal: The `Terminal` instance to write to the database.
+        :return: True if the `Terminal` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableTerminals)
         insert = self._database_tables.get_insert(TableTerminals)
@@ -953,10 +953,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_equivalent_branch(self, equivalent_branch: EquivalentBranch) -> bool:
         """
-        Save the [EquivalentBranch] fields to [TableEquivalentBranches].
+        Save the `EquivalentBranch` fields to `TableEquivalentBranches`.
 
-        :param equivalent_branch: The [EquivalentBranch] instance to write to the database.
-        :return: True if the [EquivalentBranch] was successfully written to the database, otherwise false.
+        :param equivalent_branch: The `EquivalentBranch` instance to write to the database.
+        :return: True if the `EquivalentBranch` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableEquivalentBranches)
         insert = self._database_tables.get_insert(TableEquivalentBranches)
@@ -1010,10 +1010,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_analog(self, analog: Analog) -> bool:
         """
-        Save the [Analog] fields to [TableAnalogs].
+        Save the `Analog` fields to `TableAnalogs`.
 
-        :param analog: The [Analog] instance to write to the database.
-        :return: True if the [Analog] was successfully written to the database, otherwise false.
+        :param analog: The `Analog` instance to write to the database.
+        :return: True if the `Analog` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableAnalogs)
         insert = self._database_tables.get_insert(TableAnalogs)
@@ -1024,10 +1024,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_accumulator(self, accumulator: Accumulator) -> bool:
         """
-        Save the [Accumulator] fields to [TableAccumulators].
+        Save the `Accumulator` fields to `TableAccumulators`.
 
-        :param accumulator: The [Accumulator] instance to write to the database.
-        :return: True if the [Accumulator] was successfully written to the database, otherwise false.
+        :param accumulator: The `Accumulator` instance to write to the database.
+        :return: True if the `Accumulator` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableAccumulators)
         insert = self._database_tables.get_insert(TableAccumulators)
@@ -1036,10 +1036,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_discrete(self, discrete: Discrete) -> bool:
         """
-        Save the [Discrete] fields to [TableDiscretes].
+        Save the `Discrete` fields to `TableDiscretes`.
 
-        :param discrete: The [Discrete] instance to write to the database.
-        :return: True if the [Discrete] was successfully written to the database, otherwise false.
+        :param discrete: The `Discrete` instance to write to the database.
+        :return: True if the `Discrete` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableDiscretes)
         insert = self._database_tables.get_insert(TableDiscretes)
@@ -1048,10 +1048,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_control(self, control: Control) -> bool:
         """
-        Save the [Control] fields to [TableControls].
+        Save the `Control` fields to `TableControls`.
 
-        :param control: The [Control] instance to write to the database.
-        :return: True if the [Control] was successfully written to the database, otherwise false.
+        :param control: The `Control` instance to write to the database.
+        :return: True if the `Control` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableControls)
         insert = self._database_tables.get_insert(TableControls)
@@ -1069,10 +1069,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_current_relay(self, current_relay: CurrentRelay) -> bool:
         """
-        Save the [CurrentRelay] fields to [TableCurrentRelays].
+        Save the `CurrentRelay` fields to `TableCurrentRelays`.
 
-        :param current_relay: The [CurrentRelay] instance to write to the database.
-        :return: True if the [CurrentRelay] was successfully written to the database, otherwise false.
+        :param current_relay: The `CurrentRelay` instance to write to the database.
+        :return: True if the `CurrentRelay` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableCurrentRelays)
         insert = self._database_tables.get_insert(TableCurrentRelays)
@@ -1085,10 +1085,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_distance_relay(self, distance_relay: DistanceRelay) -> bool:
         """
-        Save the [DistanceRelay] fields to [TableDistanceRelays].
+        Save the `DistanceRelay` fields to `TableDistanceRelays`.
 
-        :param distance_relay: The [DistanceRelay] instance to write to the database.
-        :return: True if the [DistanceRelay] was successfully written to the database, otherwise false.
+        :param distance_relay: The `DistanceRelay` instance to write to the database.
+        :return: True if the `DistanceRelay` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableDistanceRelays)
         insert = self._database_tables.get_insert(TableDistanceRelays)
@@ -1161,10 +1161,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_protection_relay_scheme(self, protection_relay_scheme: ProtectionRelayScheme) -> bool:
         """
-        Save the [ProtectionRelayScheme] fields to [TableProtectionRelaySchemes].
+        Save the `ProtectionRelayScheme` fields to `TableProtectionRelaySchemes`.
 
-        :param protection_relay_scheme: The [ProtectionRelayScheme] instance to write to the database.
-        :return: True if the [ProtectionRelayScheme] was successfully written to the database, otherwise false.
+        :param protection_relay_scheme: The `ProtectionRelayScheme` instance to write to the database.
+        :return: True if the `ProtectionRelayScheme` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableProtectionRelaySchemes)
         insert = self._database_tables.get_insert(TableProtectionRelaySchemes)
@@ -1179,10 +1179,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_protection_relay_system(self, protection_relay_system: ProtectionRelaySystem) -> bool:
         """
-        Save the [ProtectionRelaySystem] fields to [TableProtectionRelaySystems].
+        Save the `ProtectionRelaySystem` fields to `TableProtectionRelaySystems`.
 
-        :param protection_relay_system: The [ProtectionRelaySystem] instance to write to the database.
-        :return: True if the [ProtectionRelaySystem] was successfully written to the database, otherwise false.
+        :param protection_relay_system: The `ProtectionRelaySystem` instance to write to the database.
+        :return: True if the `ProtectionRelaySystem` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableProtectionRelaySystems)
         insert = self._database_tables.get_insert(TableProtectionRelaySystems)
@@ -1193,10 +1193,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_voltage_relay(self, voltage_relay: VoltageRelay) -> bool:
         """
-        Save the [VoltageRelay] fields to [TableVoltageRelays].
+        Save the `VoltageRelay` fields to `TableVoltageRelays`.
 
-        :param voltage_relay: The [VoltageRelay] instance to write to the database.
-        :return: True if the [VoltageRelay] was successfully written to the database, otherwise false.
+        :param voltage_relay: The `VoltageRelay` instance to write to the database.
+        :return: True if the `VoltageRelay` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableVoltageRelays)
         insert = self._database_tables.get_insert(TableVoltageRelays)
@@ -1209,10 +1209,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_remote_control(self, remote_control: RemoteControl) -> bool:
         """
-        Save the [RemoteControl] fields to [TableRemoteControls].
+        Save the `RemoteControl` fields to `TableRemoteControls`.
 
-        :param remote_control: The [RemoteControl] instance to write to the database.
-        :return: True if the [RemoteControl] was successfully written to the database, otherwise false.
+        :param remote_control: The `RemoteControl` instance to write to the database.
+        :return: True if the `RemoteControl` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableRemoteControls)
         insert = self._database_tables.get_insert(TableRemoteControls)
@@ -1226,10 +1226,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_remote_source(self, remote_source: RemoteSource) -> bool:
         """
-        Save the [RemoteSource] fields to [TableRemoteSources].
+        Save the `RemoteSource` fields to `TableRemoteSources`.
 
-        :param remote_source: The [RemoteSource] instance to write to the database.
-        :return: True if the [RemoteSource] was successfully written to the database, otherwise false.
+        :param remote_source: The `RemoteSource` instance to write to the database.
+        :return: True if the `RemoteSource` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableRemoteSources)
         insert = self._database_tables.get_insert(TableRemoteSources)
@@ -1244,10 +1244,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_battery_unit(self, battery_unit: BatteryUnit) -> bool:
         """
-        Save the [BatteryUnit] fields to [TableBatteryUnits].
+        Save the `BatteryUnit` fields to `TableBatteryUnits`.
 
-        :param battery_unit: The [BatteryUnit] instance to write to the database.
-        :return: True if the [BatteryUnit] was successfully written to the database, otherwise false.
+        :param battery_unit: The `BatteryUnit` instance to write to the database.
+        :return: True if the `BatteryUnit` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableBatteryUnits)
         insert = self._database_tables.get_insert(TableBatteryUnits)
@@ -1260,10 +1260,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_photo_voltaic_unit(self, photo_voltaic_unit: PhotoVoltaicUnit) -> bool:
         """
-        Save the [PhotoVoltaicUnit] fields to [TablePhotoVoltaicUnits].
+        Save the `PhotoVoltaicUnit` fields to `TablePhotoVoltaicUnits`.
 
-        :param photo_voltaic_unit: The [PhotoVoltaicUnit] instance to write to the database.
-        :return: True if the [PhotoVoltaicUnit] was successfully written to the database, otherwise false.
+        :param photo_voltaic_unit: The `PhotoVoltaicUnit` instance to write to the database.
+        :return: True if the `PhotoVoltaicUnit` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePhotoVoltaicUnits)
         insert = self._database_tables.get_insert(TablePhotoVoltaicUnits)
@@ -1285,10 +1285,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_power_electronics_wind_unit(self, power_electronics_wind_unit: PowerElectronicsWindUnit) -> bool:
         """
-        Save the [PowerElectronicsWindUnit] fields to [TablePowerElectronicsWindUnits].
+        Save the `PowerElectronicsWindUnit` fields to `TablePowerElectronicsWindUnits`.
 
-        :param power_electronics_wind_unit: The [PowerElectronicsWindUnit] instance to write to the database.
-        :return: True if the [PowerElectronicsWindUnit] was successfully written to the database, otherwise false.
+        :param power_electronics_wind_unit: The `PowerElectronicsWindUnit` instance to write to the database.
+        :return: True if the `PowerElectronicsWindUnit` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePowerElectronicsWindUnits)
         insert = self._database_tables.get_insert(TablePowerElectronicsWindUnits)
@@ -1301,10 +1301,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_ac_line_segment(self, ac_line_segment: AcLineSegment) -> bool:
         """
-        Save the [AcLineSegment] fields to [TableAcLineSegments].
+        Save the `AcLineSegment` fields to `TableAcLineSegments`.
 
-        :param ac_line_segment: The [AcLineSegment] instance to write to the database.
-        :return: True if the [AcLineSegment] was successfully written to the database, otherwise false.
+        :param ac_line_segment: The `AcLineSegment` instance to write to the database.
+        :return: True if the `AcLineSegment` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableAcLineSegments)
         insert = self._database_tables.get_insert(TableAcLineSegments)
@@ -1318,10 +1318,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_breaker(self, breaker: Breaker) -> bool:
         """
-        Save the [Breaker] fields to [TableBreakers].
+        Save the `Breaker` fields to `TableBreakers`.
 
-        :param breaker: The [Breaker] instance to write to the database.
-        :return: True if the [Breaker] was successfully written to the database, otherwise false.
+        :param breaker: The `Breaker` instance to write to the database.
+        :return: True if the `Breaker` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableBreakers)
         insert = self._database_tables.get_insert(TableBreakers)
@@ -1332,10 +1332,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_busbar_section(self, busbar_section: BusbarSection) -> bool:
         """
-        Save the [BusbarSection] fields to [TableBusbarSections].
+        Save the `BusbarSection` fields to `TableBusbarSections`.
 
-        :param busbar_section: The [BusbarSection] instance to write to the database.
-        :return: True if the [BusbarSection] was successfully written to the database, otherwise false.
+        :param busbar_section: The `BusbarSection` instance to write to the database.
+        :return: True if the `BusbarSection` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableBusbarSections)
         insert = self._database_tables.get_insert(TableBusbarSections)
@@ -1353,10 +1353,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_disconnector(self, disconnector: Disconnector) -> bool:
         """
-        Save the [Disconnector] fields to [TableDisconnectors].
+        Save the `Disconnector` fields to `TableDisconnectors`.
 
-        :param disconnector: The [Disconnector] instance to write to the database.
-        :return: True if the [Disconnector] was successfully written to the database, otherwise false.
+        :param disconnector: The `Disconnector` instance to write to the database.
+        :return: True if the `Disconnector` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableDisconnectors)
         insert = self._database_tables.get_insert(TableDisconnectors)
@@ -1374,10 +1374,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_energy_consumer(self, energy_consumer: EnergyConsumer) -> bool:
         """
-        Save the [EnergyConsumer] fields to [TableEnergyConsumers].
+        Save the `EnergyConsumer` fields to `TableEnergyConsumers`.
 
-        :param energy_consumer: The [EnergyConsumer] instance to write to the database.
-        :return: True if the [EnergyConsumer] was successfully written to the database, otherwise false.
+        :param energy_consumer: The `EnergyConsumer` instance to write to the database.
+        :return: True if the `EnergyConsumer` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableEnergyConsumers)
         insert = self._database_tables.get_insert(TableEnergyConsumers)
@@ -1394,10 +1394,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_energy_consumer_phase(self, energy_consumer_phase: EnergyConsumerPhase) -> bool:
         """
-        Save the [EnergyConsumerPhase] fields to [TableEnergyConsumerPhases].
+        Save the `EnergyConsumerPhase` fields to `TableEnergyConsumerPhases`.
 
-        :param energy_consumer_phase: The [EnergyConsumerPhase] instance to write to the database.
-        :return: True if the [EnergyConsumerPhase] was successfully written to the database, otherwise false.
+        :param energy_consumer_phase: The `EnergyConsumerPhase` instance to write to the database.
+        :return: True if the `EnergyConsumerPhase` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableEnergyConsumerPhases)
         insert = self._database_tables.get_insert(TableEnergyConsumerPhases)
@@ -1413,10 +1413,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_energy_source(self, energy_source: EnergySource) -> bool:
         """
-        Save the [EnergySource] fields to [TableEnergySources].
+        Save the `EnergySource` fields to `TableEnergySources`.
 
-        :param energy_source: The [EnergySource] instance to write to the database.
-        :return: True if the [EnergySource] was successfully written to the database, otherwise false.
+        :param energy_source: The `EnergySource` instance to write to the database.
+        :return: True if the `EnergySource` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableEnergySources)
         insert = self._database_tables.get_insert(TableEnergySources)
@@ -1451,10 +1451,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_energy_source_phase(self, energy_source_phase: EnergySourcePhase) -> bool:
         """
-        Save the [EnergySourcePhase] fields to [TableEnergySourcePhases].
+        Save the `EnergySourcePhase` fields to `TableEnergySourcePhases`.
 
-        :param energy_source_phase: The [EnergySourcePhase] instance to write to the database.
-        :return: True if the [EnergySourcePhase] was successfully written to the database, otherwise false.
+        :param energy_source_phase: The `EnergySourcePhase` instance to write to the database.
+        :return: True if the `EnergySourcePhase` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableEnergySourcePhases)
         insert = self._database_tables.get_insert(TableEnergySourcePhases)
@@ -1466,10 +1466,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_fuse(self, fuse: Fuse) -> bool:
         """
-        Save the [Fuse] fields to [TableFuses].
+        Save the `Fuse` fields to `TableFuses`.
 
-        :param fuse: The [Fuse] instance to write to the database.
-        :return: True if the [Fuse] was successfully written to the database, otherwise false.
+        :param fuse: The `Fuse` instance to write to the database.
+        :return: True if the `Fuse` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableFuses)
         insert = self._database_tables.get_insert(TableFuses)
@@ -1480,10 +1480,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_ground(self, ground: Ground) -> bool:
         """
-        Save the [Ground] fields to [TableGrounds].
+        Save the `Ground` fields to `TableGrounds`.
 
-        :param ground: The [Ground] instance to write to the database.
-        :return: True if the [Ground] was successfully written to the database, otherwise false.
+        :param ground: The `Ground` instance to write to the database.
+        :return: True if the `Ground` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableGrounds)
         insert = self._database_tables.get_insert(TableGrounds)
@@ -1492,10 +1492,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_ground_disconnector(self, ground_disconnector: GroundDisconnector) -> bool:
         """
-        Save the [GroundDisconnector] fields to [TableGroundDisconnectors].
+        Save the `GroundDisconnector` fields to `TableGroundDisconnectors`.
 
-        :param ground_disconnector: The [GroundDisconnector] instance to write to the database.
-        :return: True if the [GroundDisconnector] was successfully written to the database, otherwise false.
+        :param ground_disconnector: The `GroundDisconnector` instance to write to the database.
+        :return: True if the `GroundDisconnector` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableGroundDisconnectors)
         insert = self._database_tables.get_insert(TableGroundDisconnectors)
@@ -1504,10 +1504,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_jumper(self, jumper: Jumper) -> bool:
         """
-        Save the [Jumper] fields to [TableJumpers].
+        Save the `Jumper` fields to `TableJumpers`.
 
-        :param jumper: The [Jumper] instance to write to the database.
-        :return: True if the [Jumper] was successfully written to the database, otherwise false.
+        :param jumper: The `Jumper` instance to write to the database.
+        :return: True if the `Jumper` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableJumpers)
         insert = self._database_tables.get_insert(TableJumpers)
@@ -1516,10 +1516,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_junction(self, junction: Junction) -> bool:
         """
-        Save the [Junction] fields to [TableJunctions].
+        Save the `Junction` fields to `TableJunctions`.
 
-        :param junction: The [Junction] instance to write to the database.
-        :return: True if the [Junction] was successfully written to the database, otherwise false.
+        :param junction: The `Junction` instance to write to the database.
+        :return: True if the `Junction` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableJunctions)
         insert = self._database_tables.get_insert(TableJunctions)
@@ -1531,10 +1531,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_linear_shunt_compensator(self, linear_shunt_compensator: LinearShuntCompensator) -> bool:
         """
-        Save the [LinearShuntCompensator] fields to [TableLinearShuntCompensators].
+        Save the `LinearShuntCompensator` fields to `TableLinearShuntCompensators`.
 
-        :param linear_shunt_compensator: The [LinearShuntCompensator] instance to write to the database.
-        :return: True if the [LinearShuntCompensator] was successfully written to the database, otherwise false.
+        :param linear_shunt_compensator: The `LinearShuntCompensator` instance to write to the database.
+        :return: True if the `LinearShuntCompensator` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableLinearShuntCompensators)
         insert = self._database_tables.get_insert(TableLinearShuntCompensators)
@@ -1548,10 +1548,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_load_break_switch(self, load_break_switch: LoadBreakSwitch) -> bool:
         """
-        Save the [LoadBreakSwitch] fields to [TableLoadBreakSwitches].
+        Save the `LoadBreakSwitch` fields to `TableLoadBreakSwitches`.
 
-        :param load_break_switch: The [LoadBreakSwitch] instance to write to the database.
-        :return: True if the [LoadBreakSwitch] was successfully written to the database, otherwise false.
+        :param load_break_switch: The `LoadBreakSwitch` instance to write to the database.
+        :return: True if the `LoadBreakSwitch` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableLoadBreakSwitches)
         insert = self._database_tables.get_insert(TableLoadBreakSwitches)
@@ -1578,10 +1578,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_per_length_sequence_impedance(self, per_length_sequence_impedance: PerLengthSequenceImpedance) -> bool:
         """
-        Save the [PerLengthSequenceImpedance] fields to [TablePerLengthSequenceImpedances].
+        Save the `PerLengthSequenceImpedance` fields to `TablePerLengthSequenceImpedances`.
 
-        :param per_length_sequence_impedance: The [PerLengthSequenceImpedance] instance to write to the database.
-        :return: True if the [PerLengthSequenceImpedance] was successfully written to the database, otherwise false.
+        :param per_length_sequence_impedance: The `PerLengthSequenceImpedance` instance to write to the database.
+        :return: True if the `PerLengthSequenceImpedance` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePerLengthSequenceImpedances)
         insert = self._database_tables.get_insert(TablePerLengthSequenceImpedances)
@@ -1599,10 +1599,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_power_electronics_connection(self, power_electronics_connection: PowerElectronicsConnection) -> bool:
         """
-        Save the [PowerElectronicsConnection] fields to [TablePowerElectronicsConnections].
+        Save the `PowerElectronicsConnection` fields to `TablePowerElectronicsConnections`.
 
-        :param power_electronics_connection: The [PowerElectronicsConnection] instance to write to the database.
-        :return: True if the [PowerElectronicsConnection] was successfully written to the database, otherwise false.
+        :param power_electronics_connection: The `PowerElectronicsConnection` instance to write to the database.
+        :return: True if the `PowerElectronicsConnection` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePowerElectronicsConnections)
         insert = self._database_tables.get_insert(TablePowerElectronicsConnections)
@@ -1643,10 +1643,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_power_electronics_connection_phase(self, power_electronics_connection_phase: PowerElectronicsConnectionPhase) -> bool:
         """
-        Save the [PowerElectronicsConnectionPhase] fields to [TablePowerElectronicsConnectionPhases].
+        Save the `PowerElectronicsConnectionPhase` fields to `TablePowerElectronicsConnectionPhases`.
 
-        :param power_electronics_connection_phase: The [PowerElectronicsConnectionPhase] instance to write to the database.
-        :return: True if the [PowerElectronicsConnectionPhase] was successfully written to the database, otherwise false.
+        :param power_electronics_connection_phase: The `PowerElectronicsConnectionPhase` instance to write to the database.
+        :return: True if the `PowerElectronicsConnectionPhase` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePowerElectronicsConnectionPhases)
         insert = self._database_tables.get_insert(TablePowerElectronicsConnectionPhases)
@@ -1663,10 +1663,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_power_transformer(self, power_transformer: PowerTransformer) -> bool:
         """
-        Save the [PowerTransformer] fields to [TablePowerTransformers].
+        Save the `PowerTransformer` fields to `TablePowerTransformers`.
 
-        :param power_transformer: The [PowerTransformer] instance to write to the database.
-        :return: True if the [PowerTransformer] was successfully written to the database, otherwise false.
+        :param power_transformer: The `PowerTransformer` instance to write to the database.
+        :return: True if the `PowerTransformer` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePowerTransformers)
         insert = self._database_tables.get_insert(TablePowerTransformers)
@@ -1681,10 +1681,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_power_transformer_end(self, power_transformer_end: PowerTransformerEnd) -> bool:
         """
-        Save the [PowerTransformerEnd] fields to [TablePowerTransformerEnds].
+        Save the `PowerTransformerEnd` fields to `TablePowerTransformerEnds`.
 
-        :param power_transformer_end: The [PowerTransformerEnd] instance to write to the database.
-        :return: True if the [PowerTransformerEnd] was successfully written to the database, otherwise false.
+        :param power_transformer_end: The `PowerTransformerEnd` instance to write to the database.
+        :return: True if the `PowerTransformerEnd` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TablePowerTransformerEnds)
         insert = self._database_tables.get_insert(TablePowerTransformerEnds)
@@ -1719,10 +1719,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_ratio_tap_changer(self, ratio_tap_changer: RatioTapChanger) -> bool:
         """
-        Save the [RatioTapChanger] fields to [TableRatioTapChangers].
+        Save the `RatioTapChanger` fields to `TableRatioTapChangers`.
 
-        :param ratio_tap_changer: The [RatioTapChanger] instance to write to the database.
-        :return: True if the [RatioTapChanger] was successfully written to the database, otherwise false.
+        :param ratio_tap_changer: The `RatioTapChanger` instance to write to the database.
+        :return: True if the `RatioTapChanger` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableRatioTapChangers)
         insert = self._database_tables.get_insert(TableRatioTapChangers)
@@ -1734,10 +1734,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_recloser(self, recloser: Recloser) -> bool:
         """
-        Save the [Recloser] fields to [TableReclosers].
+        Save the `Recloser` fields to `TableReclosers`.
 
-        :param recloser: The [Recloser] instance to write to the database.
-        :return: True if the [Recloser] was successfully written to the database, otherwise false.
+        :param recloser: The `Recloser` instance to write to the database.
+        :return: True if the `Recloser` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableReclosers)
         insert = self._database_tables.get_insert(TableReclosers)
@@ -1778,10 +1778,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_series_compensator(self, series_compensator: SeriesCompensator) -> bool:
         """
-        Save the [SeriesCompensator] fields to [TableSeriesCompensators].
+        Save the `SeriesCompensator` fields to `TableSeriesCompensators`.
 
-        :param series_compensator: The [SeriesCompensator] instance to write to the database.
-        :return: True if the [SeriesCompensator] was successfully written to the database, otherwise false.
+        :param series_compensator: The `SeriesCompensator` instance to write to the database.
+        :return: True if the `SeriesCompensator` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableSeriesCompensators)
         insert = self._database_tables.get_insert(TableSeriesCompensators)
@@ -1834,10 +1834,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_tap_changer_control(self, tap_changer_control: TapChangerControl) -> bool:
         """
-        Save the [TapChangerControl] fields to [TableTapChangerControls].
+        Save the `TapChangerControl` fields to `TableTapChangerControls`.
 
-        :param tap_changer_control: The [TapChangerControl] instance to write to the database.
-        :return: True if the [TapChangerControl] was successfully written to the database, otherwise false.
+        :param tap_changer_control: The `TapChangerControl` instance to write to the database.
+        :return: True if the `TapChangerControl` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableTapChangerControls)
         insert = self._database_tables.get_insert(TableTapChangerControls)
@@ -1873,10 +1873,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_transformer_star_impedance(self, transformer_star_impedance: TransformerStarImpedance) -> bool:
         """
-        Save the [TransformerStarImpedance] fields to [TableTransformerStarImpedances].
+        Save the `TransformerStarImpedance` fields to `TableTransformerStarImpedances`.
 
-        :param transformer_star_impedance: The [TransformerStarImpedance] instance to write to the database.
-        :return: True if the [TransformerStarImpedance] was successfully written to the database, otherwise false.
+        :param transformer_star_impedance: The `TransformerStarImpedance` instance to write to the database.
+        :return: True if the `TransformerStarImpedance` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableTransformerStarImpedances)
         insert = self._database_tables.get_insert(TableTransformerStarImpedances)
@@ -1895,10 +1895,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_circuit(self, circuit: Circuit) -> bool:
         """
-        Save the [Circuit] fields to [TableCircuits].
+        Save the `Circuit` fields to `TableCircuits`.
 
-        :param circuit: The [Circuit] instance to write to the database.
-        :return: True if the [Circuit] was successfully written to the database, otherwise false.
+        :param circuit: The `Circuit` instance to write to the database.
+        :return: True if the `Circuit` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableCircuits)
         insert = self._database_tables.get_insert(TableCircuits)
@@ -1915,10 +1915,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_loop(self, loop: Loop) -> bool:
         """
-        Save the [Loop] fields to [TableLoops].
+        Save the `Loop` fields to `TableLoops`.
 
-        :param loop: The [Loop] instance to write to the database.
-        :return: True if the [Loop] was successfully written to the database, otherwise false.
+        :param loop: The `Loop` instance to write to the database.
+        :return: True if the `Loop` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableLoops)
         insert = self._database_tables.get_insert(TableLoops)
@@ -1933,10 +1933,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_lv_feeder(self, lv_feeder: LvFeeder) -> bool:
         """
-        Save the [LvFeeder] fields to [TableLvFeeders].
+        Save the `LvFeeder` fields to `TableLvFeeders`.
 
-        :param lv_feeder: The [LvFeeder] instance to write to the database.
-        :return: True if the [LvFeeder] was successfully written to the database, otherwise false.
+        :param lv_feeder: The `LvFeeder` instance to write to the database.
+        :return: True if the `LvFeeder` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableLvFeeders)
         insert = self._database_tables.get_insert(TableLvFeeders)
@@ -1951,10 +1951,10 @@ class NetworkCimWriter(BaseCimWriter):
 
     def save_ev_charging_unit(self, ev_charging_unit: EvChargingUnit) -> bool:
         """
-        Save the [EvChargingUnit] fields to [TableEvChargingUnits].
+        Save the `EvChargingUnit` fields to `TableEvChargingUnits`.
 
-        :param ev_charging_unit: The [EvChargingUnit] instance to write to the database.
-        :return: True if the [EvChargingUnit] was successfully written to the database, otherwise false.
+        :param ev_charging_unit: The `EvChargingUnit` instance to write to the database.
+        :return: True if the `EvChargingUnit` was successfully written to the database, otherwise false.
         """
         table = self._database_tables.get_table(TableEvChargingUnits)
         insert = self._database_tables.get_insert(TableEvChargingUnits)
