@@ -7,6 +7,7 @@ import importlib
 import importlib.util
 import importlib.util
 import pkgutil
+from abc import ABC
 
 import pytest
 from pytest import raises
@@ -16,13 +17,13 @@ from zepben.evolve.database.sqlite.tables.exceptions import MissingTableConfigEx
 from zepben.evolve.database.sqlite.tables.sqlite_table import SqliteTable
 
 
-def isabstract(object):
-    for name, value in object.__dict__.items():
+def isabstract(obj):
+    for name, value in obj.__dict__.items():
         if getattr(value, "__isabstractmethod__", False):
             return True
-    for base in object.__bases__:
+    for base in obj.__bases__:
         for name in getattr(base, "__abstractmethods__", ()):
-            value = getattr(object, name, None)
+            value = getattr(obj, name, None)
             if getattr(value, "__isabstractmethod__", False):
                 return True
     return False
@@ -74,7 +75,7 @@ def test_has_all_tables():
 
 
 def test_database_tables():
-    class NotATable(SqliteTable):
+    class NotATable(SqliteTable, ABC):
         pass
 
     d = DatabaseTables()

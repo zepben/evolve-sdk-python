@@ -33,7 +33,9 @@ class BaseDatabaseTables(ABC):
         """
         The tables that are available in this database, keyed on the table class. You should use `get_table` to access individual tables.
         """
-        if self._tables is None:
+        try:
+            self._tables
+        except AttributeError:
             self._tables = {type(it): it for it in self._included_tables}
 
         for t in self._tables.values():

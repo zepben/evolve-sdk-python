@@ -96,7 +96,7 @@ class BaseDatabaseReader(ABC):
 
             return self._pre_load() and self._load_from_readers() and self._post_load()
         except Exception as e:
-            self._logger.error(f"Unable to load database: {e}", e)
+            self._logger.exception(f"Unable to load database: {e}")
             return False
 
     def _pre_load(self) -> bool:
@@ -110,11 +110,11 @@ class BaseDatabaseReader(ABC):
                     self._logger.error(self._format_version_error(version))
                     return False
         except Exception as e:
-            self._logger.error(f"Failed to connect to the database for reading: {e}", e)
+            self._logger.exception(f"Failed to connect to the database for reading: {e}")
             return False
 
     def _load_from_readers(self):
-        self._metadata_reader.load() and self._service_reader.load()
+        return self._metadata_reader.load() and self._service_reader.load()
 
     def _format_version_error(self, version: Optional[int]) -> str:
         if version is None:
