@@ -4,7 +4,9 @@
 #  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 __all__ = ["NetworkCimReader"]
 
-from typing import Callable, Optional, assert_never
+from typing import Callable, Optional
+
+from typing_extensions import assert_never
 
 from zepben.evolve.database.sqlite.common.base_cim_reader import BaseCimReader
 from zepben.evolve.database.sqlite.extensions.result_set import ResultSet

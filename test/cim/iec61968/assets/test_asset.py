@@ -18,7 +18,7 @@ asset_kwargs = {
 
 asset_args = [*identified_object_args, Location(), [AssetOrganisationRole()]]
 
-`
+
 def verify_asset_constructor_default(a: Asset):
     verify_identified_object_constructor_default(a)
     assert not a.location
